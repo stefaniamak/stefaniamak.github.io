@@ -16,6 +16,7 @@ class LinkTree extends StatelessWidget {
       child: Container(
         width: isPhoneDiameters(context) ? 700.0 : windowWidth,
         child: ListView(
+          physics: BouncingScrollPhysics(),
           children: [
             Center(
               child: Container(
