@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
+import 'package:stefaniamak/ui_kit/styles/colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xFF1b1c1c),
+        backgroundColor: kDarkMainColor,
         body: LinkTree(),
       ),
     );
