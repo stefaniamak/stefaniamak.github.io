@@ -3,7 +3,8 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
+  "assets/AssetManifest.json": "7a6fae0ec660fe4f09ce0e2014c44cc2",
+"assets/assets/stefania_mak_icon.png": "09d6a26a833d8c45532d45679633bedf",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
 "assets/NOTICES": "a8d1d130b9909728d724354dc06becc1",
@@ -11,9 +12,9 @@ const RESOURCES = {
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"index.html": "7365df27cc7b0e15aaa1a174fa7fbec8",
-"/": "7365df27cc7b0e15aaa1a174fa7fbec8",
-"main.dart.js": "e73eaf94386d383dd89324873e8aefc7",
+"index.html": "ca1eb767f0a25abe2b2aea0f30bb366d",
+"/": "ca1eb767f0a25abe2b2aea0f30bb366d",
+"main.dart.js": "e06cc8f46d83afaaa805f1be17a0eab7",
 "manifest.json": "041c2eb4e8d16aaef1dcb923af74174b",
 "version.json": "0bad5ea5cd923871aa075a8f72866619"
 };
