@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/ui_kit/styles/colors.dart';
+import 'package:stefaniamak/view_models/button_view_model.dart';
 
 import '../link_tree.dart';
 
 class LinksList extends StatelessWidget {
-  const LinksList({Key key, @required Color lightMainColor}) : super(key: key);
+  const LinksList({@required this.buttonViewModelList, Key key})
+      : super(key: key);
+
+  final List<ButtonViewModel> buttonViewModelList;
 
   @override
   Widget build(BuildContext context) {
+    double buttonHeight = 60.0;
     return Container(
-      height: 100,
+      height: buttonViewModelList.length * (buttonHeight + 20.0),
       width:
           isPhoneDiameters(context) ? 700.0 : MediaQuery.of(context).size.width,
       child: ListView.builder(
-        itemCount: 1,
+        itemCount: buttonViewModelList.length,
         itemBuilder: (context, index) {
           return Row(
             children: [
@@ -22,10 +27,10 @@ class LinksList extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Container(
                     color: kLightMainColor,
-                    height: 45,
+                    height: buttonHeight,
                     child: Center(
                       child: Text(
-                        'Resume',
+                        buttonViewModelList[index].title,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
