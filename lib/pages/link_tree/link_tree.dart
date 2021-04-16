@@ -12,58 +12,60 @@ class LinkTree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double windowWidth = MediaQuery.of(context).size.width;
-    return Center(
-      child: Container(
-        width: isPhoneDiameters(context) ? 700.0 : windowWidth,
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          children: [
-            Center(
-              child: Container(
-                width: isPhoneDiameters(context) ? 700.0 : windowWidth,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 60),
-                    CircleAvatar(
-                      radius: 50.0,
-                      backgroundImage:
-                          AssetImage('assets/stefania_mak_icon.png'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Text(
-                        'Stefania Mak',
-                        style: TextStyle(
-                            // fontFamily: 'Grenze',
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.bold,
-                            color: kLightMainColor),
-                      ),
-                    ),
-                    Text(
-                      'Flutter App Developer',
+    return ListView(
+      physics: BouncingScrollPhysics(),
+      children: [
+        Container(
+          width: isPhoneDiameters(context) ? 700.0 : windowWidth,
+          child: Center(
+            child: Container(
+              width: isPhoneDiameters(context) ? 700.0 : windowWidth,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 60),
+                  CircleAvatar(
+                    radius: 50.0,
+                    backgroundImage: AssetImage('assets/stefania_mak_icon.png'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: Text(
+                      'Stefania Mak',
                       style: TextStyle(
-                          // fontFamily: 'Turret',
-                          fontSize: 15.0,
-                          color: kLightMainColor,
-                          letterSpacing: 2.5),
+                          // fontFamily: 'Grenze',
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                          color: kLightMainColor),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(25.0),
-                      child: SizedBox(
-                        height: 20.0,
-                        width: 10,
-                        child: Divider(
-                          color: Colors.grey[200],
-                        ),
+                  ),
+                  Text(
+                    'Flutter App Developer',
+                    style: TextStyle(
+                        // fontFamily: 'Turret',
+                        fontSize: 15.0,
+                        color: kLightMainColor,
+                        letterSpacing: 2.5),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: SizedBox(
+                      height: 20.0,
+                      width: 10,
+                      child: Divider(
+                        color: Colors.grey[200],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
             LinksList(
               buttonViewModelList: [
                 ButtonViewModel('Resume', 'https://resume.io/r/WQh2S2C0O'),
@@ -84,7 +86,8 @@ class LinkTree extends StatelessWidget {
             ),
           ],
         ),
-      ),
+        SizedBox(height: 50),
+      ],
     );
   }
 }
