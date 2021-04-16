@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stefaniamak/pages/link_tree/widgets/button_link.dart';
+import 'package:stefaniamak/pages/link_tree/widgets/links_list.dart';
 import 'package:stefaniamak/ui_kit/styles/colors.dart';
 import 'package:stefaniamak/view_models/button_view_model.dart';
 
