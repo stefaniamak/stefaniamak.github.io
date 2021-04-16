@@ -1,3 +1,6 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
+
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/ui_kit/styles/colors.dart';
 import 'package:stefaniamak/view_models/button_view_model.dart';
@@ -25,14 +28,29 @@ class LinksList extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Container(
-                    color: kLightMainColor,
-                    height: buttonHeight,
-                    child: Center(
-                      child: Text(
-                        buttonViewModelList[index].title,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                  child: Material(
+                    child: InkWell(
+                      onTap: () {
+                        // import 'dart:js' as js;
+                        // js.context.callMethod('open',
+                        //     ['https://stackoverflow.com/questions/ask']);
+
+                        // import 'dart:html' as html;
+                        // String url = 'https://flutter.dev';
+                        // if (buttonViewModelList[index].link != '')
+                        html.window.open(buttonViewModelList[index].link,
+                            '_blank'); // for new '_blank' for same '_self'
+                      },
+                      child: Container(
+                        color: kLightMainColor,
+                        height: buttonHeight,
+                        child: Center(
+                          child: Text(
+                            buttonViewModelList[index].title,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ),
                   ),
