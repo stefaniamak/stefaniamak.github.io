@@ -31,15 +31,11 @@ class LinksList extends StatelessWidget {
                     child: Material(
                       child: InkWell(
                         onTap: () {
-                          // import 'dart:js' as js;
-                          // js.context.callMethod('open',
-                          //     ['https://stackoverflow.com/questions/ask']);
-
-                          // import 'dart:html' as html;
-                          // String url = 'https://flutter.dev';
                           // if (button.link != '')
-                          html.window.open(button.link,
-                              '_blank'); // for new '_blank' for same '_self'
+                          html.window.open(
+                            button.link,
+                            '_blank',
+                          ); // for new '_blank' for same '_self'
                         },
                         child: Container(
                           color: kLightMainColor,
