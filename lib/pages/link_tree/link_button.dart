@@ -22,6 +22,7 @@ class LinkButton extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Material(
+              color: kLightMainColor,
               child: InkWell(
                 onTap: () {
                   // import 'dart:js' as js;
@@ -35,7 +36,6 @@ class LinkButton extends StatelessWidget {
                   // for new '_blank' for same '_self'
                 },
                 child: Container(
-                  color: kLightMainColor,
                   height: buttonHeight,
                   child: Center(
                     child: Text(
