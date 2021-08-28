@@ -31,8 +31,8 @@ class LinkButton extends StatelessWidget {
                   // import 'dart:html' as html;
                   // String url = 'https://flutter.dev';
                   // if (button.link != '')
-                  html.window.open(buttonVm.link,
-                      '_blank'); // for new '_blank' for same '_self'
+                  html.window.open(buttonVm.link, '_blank');
+                  // for new '_blank' for same '_self'
                 },
                 child: Container(
                   color: kLightMainColor,
