@@ -29,6 +29,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
   platform_detect: ^1.4.0
+  smooth_scroll_web: ^0.0.4
 
 dev_dependencies:
   flutter_test:
