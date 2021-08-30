@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/pages/link_tree/links_list.dart';
@@ -45,6 +46,34 @@ class LinkTree extends StatelessWidget {
                           color: kLightMainColor),
                     ),
                   ),
+                  // AnimatedTextKit(
+                  //   animatedTexts: [
+                  //     // FlickerAnimatedText(
+                  //     //   ' Flutter App Developer | Photographer',
+                  //     //   speed: Duration(milliseconds: 2600),
+                  //     //   textStyle: TextStyle(
+                  //     //       // fontFamily: 'Turret',
+                  //     //       fontSize: 15.0,
+                  //     //       color: kLightMainColor,
+                  //     //       letterSpacing: 2.5),
+                  //     //   entryEnd: 1.0,
+                  //     // ),
+                  //     TypewriterAnimatedText(
+                  //       ' Flutter App Developer | Photographer',
+                  //       textStyle: TextStyle(
+                  //           // fontFamily: 'Turret',
+                  //           fontSize: 15.0,
+                  //           color: kLightMainColor,
+                  //           letterSpacing: 2.5),
+                  //       speed: const Duration(milliseconds: 100),
+                  //     ),
+                  //   ],
+                  //   totalRepeatCount: 1,
+                  //   // repeatForever: true,
+                  //   pause: const Duration(milliseconds: 100),
+                  //   displayFullTextOnTap: true,
+                  //   stopPauseOnTap: true,
+                  // ),
                   Text(
                     'Flutter App Developer | Photographer',
                     style: TextStyle(

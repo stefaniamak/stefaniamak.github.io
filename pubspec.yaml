@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   platform_detect: ^1.4.0
   smooth_scroll_web: ^0.0.4
+  animated_text_kit: ^4.2.1
 
 dev_dependencies:
   flutter_test:

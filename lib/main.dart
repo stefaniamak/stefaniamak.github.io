@@ -36,17 +36,31 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: kDarkMainColor,
-        body: Scrollbar(
-          isAlwaysShown: kIsWeb,
-          controller: controller,
-          child: SmoothScrollWeb(
+      home: PageSetup(controller: controller),
+    );
+  }
+}
+
+class PageSetup extends StatelessWidget {
+  const PageSetup({
+    Key key,
+    @required this.controller,
+  }) : super(key: key);
+
+  final ScrollController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kDarkMainColor,
+      body: Scrollbar(
+        isAlwaysShown: kIsWeb,
+        controller: controller,
+        child: SmoothScrollWeb(
+            controller: controller,
+            child: LinkTree(
               controller: controller,
-              child: LinkTree(
-                controller: controller,
-              )),
-        ),
+            )),
       ),
     );
   }
