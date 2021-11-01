@@ -11,11 +11,8 @@ bool isPhoneDiameters(context, {double width}) =>
 
 class LinkTree extends StatelessWidget {
   static const String route = '/links';
-  //final ScrollController controller;
 
-  const LinkTree({
-    Key key, //@required this.controller
-  }) : super(key: key);
+  const LinkTree({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

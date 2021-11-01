@@ -9,25 +9,8 @@ import 'package:url_strategy/url_strategy.dart';
 void main() {
   setPathUrlStrategy();
   runApp(MyHomePage());
-  // runApp(UrlHandler());
-  // runApp(MyApp());
 }
 
-/*
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Stefania Mak',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: MyHomePage(),
-    );
-  }
-}
-*/
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
@@ -37,17 +20,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //ScrollController controller = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: MyPage.route,
       routes: {
-        MyPage.route: (context) => MyPage(),
+        MyPage.route: (context) => LinkTree(), //MyPage(),
         LinkTree.route: (context) => LinkTree(),
       },
-      // home: LinkTree(), // PageSetup(controller: controller),
     );
   }
 }
