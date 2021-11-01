@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
+import 'package:stefaniamak/pages/my_page.dart';
 import 'package:stefaniamak/ui_kit/styles/colors.dart';
 import 'package:url_strategy/url_strategy.dart';
 
@@ -36,12 +37,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  ScrollController controller = ScrollController();
+  //ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LinkTree(), // PageSetup(controller: controller),
+      initialRoute: MyPage.route,
+      routes: {
+        MyPage.route: (context) => MyPage(),
+        LinkTree.route: (context) => LinkTree(),
+      },
+      // home: LinkTree(), // PageSetup(controller: controller),
     );
   }
 }

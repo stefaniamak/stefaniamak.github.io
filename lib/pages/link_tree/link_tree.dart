@@ -10,6 +10,7 @@ bool isPhoneDiameters(context, {double width}) =>
     MediaQuery.of(context).size.width > (width ?? 700);
 
 class LinkTree extends StatelessWidget {
+  static const String route = '/links';
   //final ScrollController controller;
 
   const LinkTree({
