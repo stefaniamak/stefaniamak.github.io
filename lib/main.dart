@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_scroll_web/smooth_scroll_web.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
 import 'package:stefaniamak/pages/my_page.dart';
-import 'package:stefaniamak/ui_kit/styles/colors.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void main() {
@@ -25,35 +23,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       initialRoute: MyPage.route,
       routes: {
-        MyPage.route: (context) => LinkTree(), //MyPage(),
+        MyPage.route: (context) => MyPage(),
         LinkTree.route: (context) => LinkTree(),
       },
-    );
-  }
-}
-
-class PageSetup extends StatelessWidget {
-  const PageSetup({
-    Key key,
-    @required this.controller,
-    @required this.child,
-  }) : super(key: key);
-
-  final ScrollController controller;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kDarkMainColor,
-      body: Scrollbar(
-        isAlwaysShown: kIsWeb,
-        controller: controller,
-        child: SmoothScrollWeb(
-          controller: controller,
-          child: child,
-        ),
-      ),
     );
   }
 }
