@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:stefaniamak/pages/link_tree/link_tree.dart';
 import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
 
 class MyPage extends StatefulWidget {
@@ -114,7 +115,7 @@ class _MyPageState extends State<MyPage> {
               'Site is under construction.',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: (mdSize.width / 6).clamp(16, 46),
+                fontSize: (mdSize.width / 10).clamp(16, 46),
                 height: 0.85,
                 color: Colors.grey,
                 fontWeight: FontWeight.bold,
@@ -131,13 +132,14 @@ class _MyPageState extends State<MyPage> {
           ),
           Positioned(
             top: 200,
-            left: 150,
+            left: mdSize.width * 0.15,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FooterText('* Footer stuff. *'),
                 // SizedBox(height: 8),
-                FooterText('2022'),
+                FooterText('links', hyperlinks: LinkTree.route),
+                // FooterText('2022'),
               ],
             ),
           ),
@@ -149,22 +151,43 @@ class _MyPageState extends State<MyPage> {
 
 class FooterText extends StatelessWidget {
   final String text;
+  final String hyperlinks;
 
   const FooterText(
     this.text, {
+    this.hyperlinks,
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: (MediaQuery.of(context).size.width / 6).clamp(8, 16),
-        // height: 0.85,
-        color: Colors.grey,
-        fontWeight: FontWeight.bold,
+    bool hasHyperlink = hyperlinks != null;
+    return InkWell(
+      onTap:
+          hasHyperlink ? () => Navigator.pushNamed(context, hyperlinks) : null,
+      child: Container(
+        padding: EdgeInsets.only(
+          bottom: 0.2, // Space between underline and text
+        ),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: hasHyperlink ? Colors.grey : Colors.transparent,
+              width: 1.0,
+            ), // Underline thickness
+          ),
+        ),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: (MediaQuery.of(context).size.width / 6).clamp(8, 16),
+            height: 1.4,
+            color: Colors.grey,
+            fontWeight: FontWeight.bold,
+            // decoration: TextDecoration.underline,
+          ),
+        ),
       ),
     );
   }
