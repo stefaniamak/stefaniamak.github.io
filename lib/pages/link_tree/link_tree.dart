@@ -39,6 +39,7 @@ class LinkTree extends StatelessWidget {
                       SizedBox(height: 60),
                       CircleAvatar(
                         radius: 50.0,
+                        backgroundColor: Colors.transparent,
                         backgroundImage:
                             AssetImage('assets/stefania_mak_icon.png'),
                       ),
@@ -113,6 +114,8 @@ class LinkTree extends StatelessWidget {
                     ButtonViewModel(
                         'LinkedIn', 'http://www.linkedin.com/in/stefaniamak'),
                     ButtonViewModel('GitHub', 'https://github.com/stefaniamak'),
+                    ButtonViewModel(
+                        'TikTok', 'https://www.tiktok.com/@ste.pho'),
                     ButtonViewModel(
                         'Behance', 'https://www.behance.net/stefaniamak'),
                     ButtonViewModel('Photography Facebook Page',
