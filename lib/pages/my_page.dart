@@ -25,18 +25,17 @@ class _MyPageState extends State<MyPage> {
 
   Positioned buildStaticLetters(MediaQueryData md) {
     return Positioned(
-      right: md.size.width * 0.125,
+      right: 0, // md.size.width / 2 - (md.size.width / 4),
+      left: 0,
       top: md.size.height * 0.58 - 150,
       child: Text(
-        '''Stefania
-                  Mak'''
-            .toUpperCase(),
+        '''Stefania Mak'''.toUpperCase(),
         style: TextStyle(
-          fontSize: (md.size.width / 6).clamp(70, 150),
+          fontSize: (md.size.width / 10).clamp(70, 150),
           height: 0.85,
           fontWeight: FontWeight.bold,
         ),
-        textAlign: TextAlign.right,
+        textAlign: TextAlign.center,
       ),
     );
   }
@@ -49,8 +48,8 @@ class _MyPageState extends State<MyPage> {
           Opacity(
             opacity: 0.5,
             child: Image.network(
-              'https://scontent.fskg3-1.fna.fbcdn.net/v/t1.6435-9/223167117_4114046371964018_809327451424539040_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=730e14&_nc_ohc=vxNuTWMPk3EAX_eRCP9&_nc_ht=scontent.fskg3-1.fna&oh=56682216b2d11bb2c32d1af6b2f5f27d&oe=619D8840',
-              height: md.size.height * 0.58,
+              'https://scontent.fskg3-1.fna.fbcdn.net/v/t39.30808-6/227504455_4114046375297351_5138609006307839989_n.jpg?_nc_cat=107&ccb=1-6&_nc_sid=730e14&_nc_ohc=JusT-4op9j4AX91Vkuv&_nc_ht=scontent.fskg3-1.fna&oh=00_AT-jGtZd-ZKjDaYE7TdX0TEmVEH-F1CRf5parzUzehMOIQ&oe=627DCA4E',
+              height: md.size.height * 0.48,
               width: md.size.width,
               fit: BoxFit.cover,
             ),
@@ -67,11 +66,7 @@ class _MyPageState extends State<MyPage> {
                   ),
                   Text(
                     '''
-We are Dynamic;
-a photography & design
-studio that prides itself on
-high contrast works from all walks of culture,
-background, and life.''',
+Site is under construction.''',
                     style: TextStyle(
                       fontSize: (md.size.width / 6).clamp(16, 46),
                       height: 0.85,
@@ -96,7 +91,7 @@ background, and life.''',
       Container(
         height: mdSize.height * 0.8,
         child: Image.network(
-          'https://scontent.fskg3-1.fna.fbcdn.net/v/t1.6435-9/227779153_4114045565297432_1171332811753549550_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=730e14&_nc_ohc=s8bOaB5GmmoAX9WzQiE&tn=kMVdjguRRGkPK8CN&_nc_ht=scontent.fskg3-1.fna&oh=25fd5ca17911c0f783b316ee32a04889&oe=619F6CC2',
+          'https://scontent.fskg3-1.fna.fbcdn.net/v/t39.30808-6/273589685_1359490084481321_3750682639863942078_n.jpg?_nc_cat=104&ccb=1-6&_nc_sid=0debeb&_nc_ohc=L55xDC2Kj3EAX-ehLHh&_nc_ht=scontent.fskg3-1.fna&oh=00_AT8td-qpFLF8GH25CsFJxnO6bmo1ATFHQ9NrgUw-UEu7OA&oe=627DD0CF',
           height: mdSize.height * 0.45,
           width: mdSize.width,
           fit: BoxFit.cover,
