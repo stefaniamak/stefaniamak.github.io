@@ -19,6 +19,7 @@ class LinkTree extends StatelessWidget {
     double windowWidth = MediaQuery.of(context).size.width;
     var controller = ScrollController();
     return Scaffold(
+      backgroundColor: Colors.black.withOpacity(0.85),
       body: SmoothScrolling(
         controller: controller,
         child: ListView(
