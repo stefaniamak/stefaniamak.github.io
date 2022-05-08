@@ -29,7 +29,7 @@ class _MyPageState extends State<MyPage> {
       left: 0,
       top: md.size.height * 0.58 - 150,
       child: Text(
-        '''Stefania Mak'''.toUpperCase(),
+        'Stefania Mak'.toUpperCase(),
         style: TextStyle(
           fontSize: (md.size.width / 10).clamp(70, 150),
           height: 0.85,
@@ -61,17 +61,19 @@ class _MyPageState extends State<MyPage> {
             child: Center(
               child: Row(
                 children: [
-                  SizedBox(
-                    width: md.size.width * 0.1,
-                  ),
-                  Text(
-                    '''
-Site is under construction.''',
-                    style: TextStyle(
-                      fontSize: (md.size.width / 6).clamp(16, 46),
-                      height: 0.85,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
+                  // SizedBox(
+                  //   width: md.size.width * 0.1,
+                  // ),
+                  Expanded(
+                    child: Text(
+                      '* software dev & photographer *',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: (md.size.width / 10).clamp(16, 46),
+                        height: 0.85,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -97,15 +99,74 @@ Site is under construction.''',
           fit: BoxFit.cover,
         ),
       ),
-      Container(
-        height: mdSize.height * 0.4,
-        color: Colors.white.withOpacity(0.7),
+      Stack(
+        children: [
+          Container(
+            height: mdSize.height * 0.4,
+            color: Colors.white.withOpacity(0.9),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            // top: 0,
+            bottom: 0,
+            child: Text(
+              'Site is under construction.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: (mdSize.width / 6).clamp(16, 46),
+                height: 0.85,
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
-      Container(
-        height: mdSize.height * 5,
-        color: Colors.white,
+      Stack(
+        children: [
+          Container(
+            height: mdSize.height * 0.5,
+            color: Colors.white,
+          ),
+          Positioned(
+            top: 200,
+            left: 150,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FooterText('* Footer stuff. *'),
+                // SizedBox(height: 8),
+                FooterText('2022'),
+              ],
+            ),
+          ),
+        ],
       ),
     ];
+  }
+}
+
+class FooterText extends StatelessWidget {
+  final String text;
+
+  const FooterText(
+    this.text, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: (MediaQuery.of(context).size.width / 6).clamp(8, 16),
+        // height: 0.85,
+        color: Colors.grey,
+        fontWeight: FontWeight.bold,
+      ),
+    );
   }
 }
 
