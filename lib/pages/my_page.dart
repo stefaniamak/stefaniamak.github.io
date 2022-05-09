@@ -47,14 +47,24 @@ class _MyPageState extends State<MyPage> {
       child: Column(
         children: [
           Opacity(
-            opacity: 0.5,
-            child: Image.network(
-              'https://scontent.fskg3-1.fna.fbcdn.net/v/t39.30808-6/227504455_4114046375297351_5138609006307839989_n.jpg?_nc_cat=107&ccb=1-6&_nc_sid=730e14&_nc_ohc=JusT-4op9j4AX91Vkuv&_nc_ht=scontent.fskg3-1.fna&oh=00_AT-jGtZd-ZKjDaYE7TdX0TEmVEH-F1CRf5parzUzehMOIQ&oe=627DCA4E',
-              height: md.size.height * 0.48,
-              width: md.size.width,
-              fit: BoxFit.cover,
-            ),
-          ),
+              opacity: 0.5,
+              child:
+                  // Image.network(
+                  //   'https://scontent.fskg3-1.fna.fbcdn.net/v/t39.30808-6/227504455_4114046375297351_5138609006307839989_n.jpg?_nc_cat=107&ccb=1-6&_nc_sid=730e14&_nc_ohc=JusT-4op9j4AX91Vkuv&_nc_ht=scontent.fskg3-1.fna&oh=00_AT-jGtZd-ZKjDaYE7TdX0TEmVEH-F1CRf5parzUzehMOIQ&oe=627DCA4E',
+                  //   height: md.size.height * 0.48,
+                  //   width: md.size.width,
+                  //   fit: BoxFit.cover,
+                  // ),
+                  Image.asset(
+                'escalators.jpg',
+                height: md.size.height * 0.48,
+                width: md.size.width,
+                fit: BoxFit.cover,
+              )
+              //     AssetImage(
+              //   'assets/stefania_mak_icon.png',
+              // ),
+              ),
           Container(
             height: md.size.height * 1.2,
             width: md.size.width,
@@ -93,10 +103,17 @@ class _MyPageState extends State<MyPage> {
       ),
       Container(
         height: mdSize.height * 0.8,
-        child: Image.network(
-          'https://scontent.fskg3-1.fna.fbcdn.net/v/t39.30808-6/273589685_1359490084481321_3750682639863942078_n.jpg?_nc_cat=104&ccb=1-6&_nc_sid=0debeb&_nc_ohc=L55xDC2Kj3EAX-ehLHh&_nc_ht=scontent.fskg3-1.fna&oh=00_AT8td-qpFLF8GH25CsFJxnO6bmo1ATFHQ9NrgUw-UEu7OA&oe=627DD0CF',
-          height: mdSize.height * 0.45,
-          width: mdSize.width,
+        child:
+            // Image.network(
+            //   'https://scontent.fskg3-1.fna.fbcdn.net/v/t39.30808-6/273589685_1359490084481321_3750682639863942078_n.jpg?_nc_cat=104&ccb=1-6&_nc_sid=0debeb&_nc_ohc=L55xDC2Kj3EAX-ehLHh&_nc_ht=scontent.fskg3-1.fna&oh=00_AT8td-qpFLF8GH25CsFJxnO6bmo1ATFHQ9NrgUw-UEu7OA&oe=627DD0CF',
+            //   height: mdSize.height * 0.45,
+            //   width: mdSize.width,
+            //   fit: BoxFit.cover,
+            // ),
+            Image.asset(
+          'vi.jpg',
+          height: MediaQuery.of(context).size.height * 0.48,
+          width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
         ),
       ),
