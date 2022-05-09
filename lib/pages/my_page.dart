@@ -148,7 +148,7 @@ class _MyPageState extends State<MyPage> {
             color: Colors.white,
           ),
           Positioned(
-            top: 200,
+            top: mdSize.height * 0.15,
             left: mdSize.width * 0.15,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
