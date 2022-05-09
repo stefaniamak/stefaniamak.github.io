@@ -21,27 +21,32 @@ class LinkButton extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Material(
-              child: InkWell(
-                onTap: () {
-                  // import 'dart:js' as js;
-                  // js.context.callMethod('open',
-                  //     ['https://stackoverflow.com/questions/ask']);
+            child: Listener(
+              onPointerSignal: (pointerSignal) {
+                print('pointer signal $pointerSignal');
+              },
+              child: Material(
+                color: kLightMainColor,
+                child: InkWell(
+                  onTap: () {
+                    // import 'dart:js' as js;
+                    // js.context.callMethod('open',
+                    //     ['https://stackoverflow.com/questions/ask']);
 
-                  // import 'dart:html' as html;
-                  // String url = 'https://flutter.dev';
-                  // if (button.link != '')
-                  html.window.open(buttonVm.link,
-                      '_blank'); // for new '_blank' for same '_self'
-                },
-                child: Container(
-                  color: kLightMainColor,
-                  height: buttonHeight,
-                  child: Center(
-                    child: Text(
-                      buttonVm.title,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    // import 'dart:html' as html;
+                    // String url = 'https://flutter.dev';
+                    // if (button.link != '')
+                    html.window.open(buttonVm.link, '_blank');
+                    // for new '_blank' for same '_self'
+                  },
+                  child: Container(
+                    height: buttonHeight,
+                    child: Center(
+                      child: Text(
+                        buttonVm.title,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),

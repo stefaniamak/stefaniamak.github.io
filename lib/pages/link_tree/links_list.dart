@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:stefaniamak/constants/constants.dart';
 import 'package:stefaniamak/view_models/button_view_model.dart';
 
-import '../link_button.dart';
-import '../link_tree.dart';
+import 'link_button.dart';
+import 'link_tree.dart';
 
 class LinksList extends StatelessWidget {
   const LinksList({@required this.buttonViewModelList, Key key})
