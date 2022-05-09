@@ -1,23 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
-import 'package:stefaniamak/ui_kit/styles/colors.dart';
+import 'package:stefaniamak/pages/my_page.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Stefania Mak',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: MyHomePage(title: 'Stefania Mak'),
-    );
-  }
+  setPathUrlStrategy();
+  runApp(MyHomePage());
 }
 
 class MyHomePage extends StatefulWidget {
@@ -32,10 +21,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: kDarkMainColor,
-        body: LinkTree(),
-      ),
+      initialRoute: MyPage.route,
+      routes: {
+        MyPage.route: (context) => MyPage(),
+        LinkTree.route: (context) => LinkTree(),
+      },
     );
   }
 }
