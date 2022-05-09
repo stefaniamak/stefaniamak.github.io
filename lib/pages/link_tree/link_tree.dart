@@ -111,22 +111,42 @@ class LinkTree extends StatelessWidget {
               children: [
                 LinksList(
                   buttonViewModelList: [
-                    ButtonViewModel('Resume', 'https://resume.io/r/WQh2S2C0O'),
                     ButtonViewModel(
-                        'LinkedIn', 'http://www.linkedin.com/in/stefaniamak'),
-                    ButtonViewModel('GitHub', 'https://github.com/stefaniamak'),
+                      'Resume',
+                      'https://resume.io/r/WQh2S2C0O',
+                    ),
                     ButtonViewModel(
-                        'TikTok', 'https://www.tiktok.com/@ste.pho'),
+                      'LinkedIn',
+                      'http://www.linkedin.com/in/stefaniamak',
+                    ),
                     ButtonViewModel(
-                        'Behance', 'https://www.behance.net/stefaniamak'),
-                    ButtonViewModel('Photography Facebook Page',
-                        'https://www.facebook.com/stefania.mak.project/'),
-                    ButtonViewModel('Instagram (Photography)',
-                        'https://www.instagram.com/ste.pho/'),
-                    ButtonViewModel('Instagram (Cosplay)',
-                        'https://www.instagram.com/stefania_sky/'),
-                    ButtonViewModel('WorldCosplay',
-                        'https://worldcosplay.net/en/member/576367'),
+                      'GitHub',
+                      'https://github.com/stefaniamak',
+                    ),
+                    ButtonViewModel(
+                      'TikTok',
+                      'https://www.tiktok.com/@ste.pho',
+                    ),
+                    ButtonViewModel(
+                      'Behance',
+                      'https://www.behance.net/stefaniamak',
+                    ),
+                    ButtonViewModel(
+                      'Photography Facebook Page',
+                      'https://www.facebook.com/stefania.mak.project/',
+                    ),
+                    ButtonViewModel(
+                      'Instagram (Photography)',
+                      'https://www.instagram.com/ste.pho/',
+                    ),
+                    ButtonViewModel(
+                      'Instagram (Cosplay)',
+                      'https://www.instagram.com/stefania_sky/',
+                    ),
+                    ButtonViewModel(
+                      'WorldCosplay',
+                      'https://worldcosplay.net/en/member/576367',
+                    ),
                   ],
                 ),
               ],
@@ -153,6 +173,7 @@ class LinkTree extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 10),
           ],
         ),
       ),
