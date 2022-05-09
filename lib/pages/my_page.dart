@@ -32,7 +32,7 @@ class _MyPageState extends State<MyPage> {
       child: Text(
         'Stefania Mak'.toUpperCase(),
         style: TextStyle(
-          fontSize: (md.size.width / 10).clamp(70, 150),
+          fontSize: (md.size.width / 10).clamp(70, 150) * 1.0,
           height: 0.85,
           fontWeight: FontWeight.bold,
         ),
@@ -80,7 +80,7 @@ class _MyPageState extends State<MyPage> {
                       '* software dev & photographer *',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: (md.size.width / 10).clamp(16, 46),
+                        fontSize: (md.size.width / 10).clamp(16, 46) * 1.0,
                         height: 0.85,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,
@@ -132,7 +132,7 @@ class _MyPageState extends State<MyPage> {
               'Site is under construction.',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: (mdSize.width / 10).clamp(16, 46),
+                fontSize: (mdSize.width / 10).clamp(16, 46) * 1.0,
                 height: 0.85,
                 color: Colors.grey,
                 fontWeight: FontWeight.bold,
@@ -210,7 +210,8 @@ class FooterText extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: (MediaQuery.of(context).size.width / 6).clamp(8, 16),
+            fontSize:
+                (MediaQuery.of(context).size.width / 6).clamp(8, 16) * 1.0,
             height: 1.4,
             color: Colors.grey,
             fontWeight: FontWeight.bold,
