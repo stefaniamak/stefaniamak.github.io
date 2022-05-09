@@ -56,7 +56,7 @@ class _MyPageState extends State<MyPage> {
                   //   fit: BoxFit.cover,
                   // ),
                   Image.asset(
-                'escalators.jpg',
+                'assets/escalators.jpg',
                 height: md.size.height * 0.48,
                 width: md.size.width,
                 fit: BoxFit.cover,
@@ -80,7 +80,7 @@ class _MyPageState extends State<MyPage> {
                       '* software dev & photographer *',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: (md.size.width / 10).clamp(16, 46) * 1.0,
+                        fontSize: (md.size.width / 10).clamp(16, 36) * 1.0,
                         height: 0.85,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,
@@ -111,7 +111,7 @@ class _MyPageState extends State<MyPage> {
             //   fit: BoxFit.cover,
             // ),
             Image.asset(
-          'vi.jpg',
+          'assets/vi.jpg',
           height: MediaQuery.of(context).size.height * 0.48,
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
