@@ -1,10 +1,9 @@
-import 'dart:html' as html;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/constants/constants.dart';
 import 'package:stefaniamak/ui_kit/styles/colors.dart';
 import 'package:stefaniamak/view_models/button_view_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LinkButton extends StatelessWidget {
   const LinkButton({
@@ -13,6 +12,12 @@ class LinkButton extends StatelessWidget {
   }) : super(key: key);
 
   final ButtonViewModel buttonVm;
+
+  void _launchUrl() async {
+    final Uri _url = Uri.parse(buttonVm.link);
+
+    if (!await launchUrl(_url)) throw 'Could not launch $_url';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +41,8 @@ class LinkButton extends StatelessWidget {
                     // import 'dart:html' as html;
                     // String url = 'https://flutter.dev';
                     // if (button.link != '')
-                    html.window.open(buttonVm.link, '_blank');
+                    // html.window.open(buttonVm.link, '_blank');
+                    _launchUrl();
                     // for new '_blank' for same '_self'
                   },
                   child: Container(
