@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/pages/link_tree/links_list.dart';
+import 'package:stefaniamak/pages/my_page.dart';
 import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
 import 'package:stefaniamak/ui_kit/styles/colors.dart';
 import 'package:stefaniamak/view_models/button_view_model.dart';
@@ -131,6 +132,27 @@ class LinkTree extends StatelessWidget {
               ],
             ),
             SizedBox(height: 50),
+            InkWell(
+              onTap: () => Navigator.pushNamed(context, MyPage.route),
+              hoverColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              child: Icon(
+                Icons.wb_incandescent_outlined,
+                color: Color(0xFFBDBDBD),
+                size: 45,
+              ),
+            ),
+            SizedBox(height: 150),
+            Center(
+              child: Text(
+                '2022 | Stefania Mak',
+                style: TextStyle(
+                  color: Color(0xFFBDBDBD),
+                ),
+              ),
+            ),
           ],
         ),
       ),

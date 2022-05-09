@@ -143,6 +143,18 @@ class _MyPageState extends State<MyPage> {
               ],
             ),
           ),
+          Positioned(
+            bottom: 10,
+            right: 0,
+            left: 0,
+            child: Text(
+              '2022 | Stefania Mak',
+              style: TextStyle(
+                color: Color(0xFFBDBDBD).withOpacity(0.5),
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       ),
     ];
