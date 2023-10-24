@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
 import 'package:stefaniamak/pages/my_page.dart';

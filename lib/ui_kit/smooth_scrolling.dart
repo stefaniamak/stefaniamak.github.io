@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_scroll_web/smooth_scroll_web.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
 class SmoothScrolling extends StatelessWidget {
   const SmoothScrolling({
@@ -17,9 +17,13 @@ class SmoothScrolling extends StatelessWidget {
     return Scrollbar(
       isAlwaysShown: kIsWeb,
       controller: controller,
-      child: SmoothScrollWeb(
+      child: WebSmoothScroll(
         controller: controller,
-        child: child,
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: controller,
+          child: child,
+        ),
       ),
     );
   }

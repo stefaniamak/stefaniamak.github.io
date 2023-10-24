@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
-import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
 
 class MyPage extends StatefulWidget {
   static const String route = '/';
@@ -11,13 +9,22 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
-  var controller = ScrollController();
+  // Controllers
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    // initialize scroll controllers
+    _scrollController = ScrollController();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     var md = MediaQuery.of(context);
     return ParallaxPage(
-      controller: controller,
+      controller: _scrollController,
       behindParallaxes: buildTopBehindParallax(md),
       staticPage: buildStaticLetters(md),
       frontPage: buildFrontPage(md.size),
@@ -43,7 +50,7 @@ class _MyPageState extends State<MyPage> {
 
   ChildParallax buildTopBehindParallax(MediaQueryData md) {
     return ChildParallax(
-      controller: controller,
+      controller: _scrollController,
       child: Column(
         children: [
           Opacity(
@@ -242,22 +249,21 @@ class ParallaxPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var md = MediaQuery.of(context);
     return Scaffold(
-      body: SmoothScrolling(
-        controller: controller,
-        child: Stack(
-          children: [
-            if (behindParallaxes != null) behindParallaxes,
-            staticPage,
-            ListView(
-              controller: controller,
-              physics: kIsWeb
-                  ? NeverScrollableScrollPhysics()
-                  : BouncingScrollPhysics(),
-              children: frontPage,
-            ),
-            if (frontParallaxes != null) frontParallaxes,
-          ],
-        ),
+      body: Stack(
+        children: [
+          if (behindParallaxes != null) behindParallaxes,
+          staticPage,
+          ListView(
+            controller: controller,
+            physics:
+                // kIsWeb
+                //     ? NeverScrollableScrollPhysics()
+                //     :
+                BouncingScrollPhysics(),
+            children: frontPage,
+          ),
+          if (frontParallaxes != null) frontParallaxes,
+        ],
       ),
     );
   }
