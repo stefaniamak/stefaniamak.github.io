@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
 import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
@@ -251,9 +250,11 @@ class ParallaxPage extends StatelessWidget {
             staticPage,
             ListView(
               controller: controller,
-              physics: kIsWeb
-                  ? NeverScrollableScrollPhysics()
-                  : BouncingScrollPhysics(),
+              physics:
+                  // kIsWeb
+                  //     ? NeverScrollableScrollPhysics()
+                  //     :
+                  BouncingScrollPhysics(),
               children: frontPage,
             ),
             if (frontParallaxes != null) frontParallaxes,

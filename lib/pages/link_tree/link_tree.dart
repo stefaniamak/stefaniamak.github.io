@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/pages/link_tree/links_list.dart';
 import 'package:stefaniamak/pages/my_page.dart';
@@ -26,7 +24,8 @@ class LinkTree extends StatelessWidget {
         child: ListView(
           controller: controller,
           physics:
-              kIsWeb ? NeverScrollableScrollPhysics() : BouncingScrollPhysics(),
+              // kIsWeb ? NeverScrollableScrollPhysics() :
+              BouncingScrollPhysics(),
           children: [
             Container(
               width: isPhoneDiameters(context) ? 700.0 : windowWidth,
