@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
 import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
@@ -180,12 +179,12 @@ class _MyPageState extends State<MyPage> {
 
 class FooterText extends StatelessWidget {
   final String text;
-  final String hyperlinks;
+  final String? hyperlinks;
 
   const FooterText(
     this.text, {
     this.hyperlinks,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -193,7 +192,7 @@ class FooterText extends StatelessWidget {
     bool hasHyperlink = hyperlinks != null;
     return InkWell(
       onTap:
-          hasHyperlink ? () => Navigator.pushNamed(context, hyperlinks) : null,
+          hasHyperlink ? () => Navigator.pushNamed(context, hyperlinks!) : null,
       child: Container(
         padding: EdgeInsets.only(
           bottom: 0.2, // Space between underline and text
@@ -225,18 +224,18 @@ class FooterText extends StatelessWidget {
 
 class ParallaxPage extends StatelessWidget {
   final ScrollController controller;
-  final ChildParallax behindParallaxes;
+  final ChildParallax? behindParallaxes;
   final List<Widget> frontPage;
-  final ChildParallax frontParallaxes;
+  final ChildParallax? frontParallaxes;
   final Positioned staticPage;
 
   const ParallaxPage({
-    @required this.controller,
+    required this.controller,
     this.behindParallaxes,
     this.frontPage = const [],
     this.frontParallaxes,
-    Key key,
-    @required this.staticPage,
+    Key? key,
+    required this.staticPage,
   }) : super(key: key);
 
   @override
@@ -247,16 +246,18 @@ class ParallaxPage extends StatelessWidget {
         controller: controller,
         child: Stack(
           children: [
-            if (behindParallaxes != null) behindParallaxes,
+            if (behindParallaxes != null) behindParallaxes!,
             staticPage,
             ListView(
               controller: controller,
-              physics: kIsWeb
-                  ? NeverScrollableScrollPhysics()
-                  : BouncingScrollPhysics(),
+              physics:
+                  // kIsWeb
+                  //     ? NeverScrollableScrollPhysics()
+                  //     :
+                  BouncingScrollPhysics(),
               children: frontPage,
             ),
-            if (frontParallaxes != null) frontParallaxes,
+            if (frontParallaxes != null) frontParallaxes!,
           ],
         ),
       ),
@@ -266,9 +267,9 @@ class ParallaxPage extends StatelessWidget {
 
 class ChildParallax extends StatefulWidget {
   const ChildParallax({
-    Key key,
-    @required this.controller,
-    @required this.child,
+    Key? key,
+    required this.controller,
+    required this.child,
     this.speed = 1.0,
   }) : super(key: key);
 

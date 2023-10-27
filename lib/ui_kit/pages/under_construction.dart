@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
 
 class UnderConstruction extends StatelessWidget {
   const UnderConstruction({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -16,7 +15,8 @@ class UnderConstruction extends StatelessWidget {
         child: SingleChildScrollView(
           controller: controller,
           physics:
-              kIsWeb ? NeverScrollableScrollPhysics() : BouncingScrollPhysics(),
+              // kIsWeb ? NeverScrollableScrollPhysics() :
+              BouncingScrollPhysics(),
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: double.infinity,

@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stefaniamak/pages/link_tree/links_list.dart';
 import 'package:stefaniamak/pages/my_page.dart';
@@ -7,13 +5,13 @@ import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
 import 'package:stefaniamak/ui_kit/styles/colors.dart';
 import 'package:stefaniamak/view_models/button_view_model.dart';
 
-bool isPhoneDiameters(context, {double width}) =>
+bool isPhoneDiameters(context, {double? width}) =>
     MediaQuery.of(context).size.width > (width ?? 700);
 
 class LinkTree extends StatelessWidget {
   static const String route = '/links';
 
-  const LinkTree({Key key}) : super(key: key);
+  const LinkTree({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,8 @@ class LinkTree extends StatelessWidget {
         child: ListView(
           controller: controller,
           physics:
-              kIsWeb ? NeverScrollableScrollPhysics() : BouncingScrollPhysics(),
+              // kIsWeb ? NeverScrollableScrollPhysics() :
+              BouncingScrollPhysics(),
           children: [
             Container(
               width: isPhoneDiameters(context) ? 700.0 : windowWidth,
