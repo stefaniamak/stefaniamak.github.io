@@ -5,13 +5,13 @@ import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
 import 'package:stefaniamak/ui_kit/styles/colors.dart';
 import 'package:stefaniamak/view_models/button_view_model.dart';
 
-bool isPhoneDiameters(context, {double width}) =>
+bool isPhoneDiameters(context, {double? width}) =>
     MediaQuery.of(context).size.width > (width ?? 700);
 
 class LinkTree extends StatelessWidget {
   static const String route = '/links';
 
-  const LinkTree({Key key}) : super(key: key);
+  const LinkTree({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

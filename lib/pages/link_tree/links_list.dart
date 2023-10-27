@@ -7,7 +7,7 @@ import 'link_button.dart';
 import 'link_tree.dart';
 
 class LinksList extends StatelessWidget {
-  const LinksList({@required this.buttonViewModelList, Key key})
+  const LinksList({required this.buttonViewModelList, Key? key})
       : super(key: key);
 
   final List<ButtonViewModel> buttonViewModelList;

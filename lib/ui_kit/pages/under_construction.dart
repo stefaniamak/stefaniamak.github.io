@@ -3,7 +3,7 @@ import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
 
 class UnderConstruction extends StatelessWidget {
   const UnderConstruction({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

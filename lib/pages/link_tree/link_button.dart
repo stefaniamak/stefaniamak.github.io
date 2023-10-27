@@ -7,8 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class LinkButton extends StatelessWidget {
   const LinkButton({
-    @required this.buttonVm,
-    Key key,
+    required this.buttonVm,
+    Key? key,
   }) : super(key: key);
 
   final ButtonViewModel buttonVm;
