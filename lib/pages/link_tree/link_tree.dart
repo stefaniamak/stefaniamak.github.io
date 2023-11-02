@@ -166,7 +166,7 @@ class LinkTree extends StatelessWidget {
             SizedBox(height: 150),
             Center(
               child: Text(
-                '2022 | Stefania Mak',
+                '2023 | Stefania Mak',
                 style: TextStyle(
                   color: Color(0xFFBDBDBD),
                 ),
