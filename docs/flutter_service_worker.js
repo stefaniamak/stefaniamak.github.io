@@ -4,10 +4,9 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "ad498ec9a22ed6fa51b0f9d793be508a",
-"index.html": "d59351d8ee21b6e8dc654e54c6f63e0d",
-"/": "d59351d8ee21b6e8dc654e54c6f63e0d",
-"main.dart.js": "f5d77669833f17b559bee57da469416b",
-"flutter.js": "1cfe996e845b3a8a33f57607e8b09ee4",
+"index.html": "53550d90912203456068cbcf5b0453fa",
+"/": "53550d90912203456068cbcf5b0453fa",
+"main.dart.js": "9f8574a5a658fb20071f6cab410bcf94",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
@@ -19,11 +18,7 @@ const RESOURCES = {
 "assets/fonts/MaterialIcons-Regular.otf": "e7069dfd19b331be16bed984668fe080",
 "assets/assets/stefania_mak_icon.png": "09d6a26a833d8c45532d45679633bedf",
 "assets/assets/vi.jpg": "96154a2889786c4cd1b721a7cd85f6f1",
-"assets/assets/escalators.jpg": "688819ddbabdde0615fd2e31e2d41395",
-"canvaskit/canvaskit.js": "97937cb4c2c2073c968525a3e08c86a3",
-"canvaskit/profiling/canvaskit.js": "c21852696bc1cc82e8894d851c01921a",
-"canvaskit/profiling/canvaskit.wasm": "371bc4e204443b0d5e774d64a046eb99",
-"canvaskit/canvaskit.wasm": "3de12d898ec208a5f31362cc00f09b9e"
+"assets/assets/escalators.jpg": "688819ddbabdde0615fd2e31e2d41395"
 };
 
 // The application shell files that are downloaded before a service worker can
