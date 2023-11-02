@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
 import 'package:stefaniamak/pages/my_page.dart';
 import 'package:stefaniamak/router/router.dart';
 
 void main() {
-  setUrlStrategy(PathUrlStrategy());
+  // setUrlStrategy(PathUrlStrategy());
 
   // setPathUrlStrategy();
   runApp(MyHomePage());
