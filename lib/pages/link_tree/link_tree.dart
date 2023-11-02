@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stefaniamak/pages/link_tree/links_list.dart';
 import 'package:stefaniamak/pages/my_page.dart';
 import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
@@ -152,7 +153,7 @@ class LinkTree extends StatelessWidget {
             ),
             SizedBox(height: 50),
             InkWell(
-              onTap: () => Navigator.pushNamed(context, MyPage.route),
+              onTap: () => context.go(MyPage.route),
               hoverColor: Colors.transparent,
               focusColor: Colors.transparent,
               highlightColor: Colors.transparent,
