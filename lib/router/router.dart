@@ -10,6 +10,12 @@ class MyRouter {
       GoRoute(
         path: '/',
         builder: (context, state) => MyPage(),
+        routes: [
+          GoRoute(
+            path: 'links',
+            builder: (context, state) => LinkTree(),
+          ),
+        ],
       ),
       GoRoute(
         path: LinkTree.route,
