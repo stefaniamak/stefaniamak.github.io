@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
 import 'package:stefaniamak/pages/my_page.dart';
+import 'package:stefaniamak/router/router.dart';
 
 void main() {
   setUrlStrategy(PathUrlStrategy());
@@ -11,17 +11,15 @@ void main() {
   runApp(MyHomePage());
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key, this.title}) : super(key: key);
   final String? title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
   Widget build(BuildContext context) {
+    return MaterialApp.router(
+      routerConfig: MyRouter().router,
+    );
     return MaterialApp(
       initialRoute: MyPage.route,
       routes: {
