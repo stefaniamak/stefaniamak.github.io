@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stefaniamak/pages/link_tree/link_tree.dart';
 import 'package:stefaniamak/ui_kit/smooth_scrolling.dart';
 
@@ -191,8 +192,7 @@ class FooterText extends StatelessWidget {
   Widget build(BuildContext context) {
     bool hasHyperlink = hyperlinks != null;
     return InkWell(
-      onTap:
-          hasHyperlink ? () => Navigator.pushNamed(context, hyperlinks!) : null,
+      onTap: hasHyperlink ? () => context.go(hyperlinks!) : null,
       child: Container(
         padding: EdgeInsets.only(
           bottom: 0.2, // Space between underline and text
