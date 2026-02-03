@@ -6,11 +6,9 @@ const workExperienceData = [
         role: "Senior Flutter Developer",
         location: "Thessaloniki, Greece (Hybrid)",
         dates: "Jan 2024 – Jul 2025",
-        summary: "Worked on a single product, developing major features that changed core functionality.",
+        summary: "Worked in a single product in major features changing core functionalities of the product.",
         details: [
-            "Developed major features that changed core functionality of the product",
-            "Worked closely with product and design teams to implement new features",
-            "Maintained high code quality and performance standards"
+            "Worked in a single product in major features changing core functionalities of the product"
         ]
     },
     {
@@ -21,10 +19,12 @@ const workExperienceData = [
         dates: "Jan 2024 – Jul 2025",
         summary: "Led development of mobile and web applications, migrating apps to Flutter Web with adaptive UI.",
         details: [
-            "Led development (APIs, authentication, data refresh)",
-            "Migrated a mobile app to Flutter Web with adaptive UI",
-            "Improved performance, reusability, and UI responsiveness",
-            "Mentored developers and collaborated with designers and backend teams"
+            "Led development, managing APIs, data refresh, and authentication",
+            "Migrated a mobile app to Flutter Web, creating an adaptive UI",
+            "Enhanced team productivity through structured tasks and guidance",
+            "Optimized UI performance, fixed bugs, and improved reusability",
+            "Mentored developers and collaborated with designers and backend teams",
+            "Skilled in Flutter UI, BLoC, and platform-specific optimizations"
         ]
     },
     {
@@ -35,10 +35,11 @@ const workExperienceData = [
         dates: "Oct 2020 – Oct 2023",
         summary: "Led multiple Flutter projects from draft to production, working with 10+ clients.",
         details: [
-            "Contributed to 13 Flutter projects",
-            "Worked with 10+ clients",
+            "Developed & Contributed to 13 unique Flutter projects",
+            "Worked with 10+ clients to plan and refine products",
             "Led projects from draft to production",
-            "Trained 6 interns"
+            "Boosted productivity by improving project management",
+            "Trained 6 interns, guiding them from scratch to full integration"
         ]
     },
     {
@@ -48,25 +49,25 @@ const workExperienceData = [
         location: "Remote",
         dates: "May 2020 – Sep 2020",
         program: "Google Summer of Code",
-        summary: "Designed and developed a HUD for a game mode.",
+        summary: "Designed and developed a user-friendly HUD for Light and Shadow, a game mode for the organization.",
         details: [
-            "Designed and developed a HUD for a game mode",
-            "Collaborated with open-source community",
-            "Implemented UI/UX best practices"
+            "Software Engineer",
+            "UI/UX Designer",
+            "Designed and Developed a user-friendly HUD for Light and Shadow, a game mode for the organization. Project info at GSoC Archive or my final report"
         ]
     },
     {
         id: 5,
         company: "Catrobat",
         role: "Lead Software Engineer, UI/UX Designer & Artist",
-        location: "Remote",
+        location: "Graz (Remote)",
         dates: "May 2019 – Sep 2019",
         program: "Google Summer of Code",
-        summary: "Built an interactive app to teach algorithms.",
+        summary: "Developed an interactive mobile app to teach algorithms.",
         details: [
-            "Built an interactive app to teach algorithms",
-            "Designed UI/UX and created visual assets",
-            "Led development of educational features"
+            "Lead Software Engineer",
+            "UI/UX Designer and Artist (storyboards and original designs)",
+            "Developed an interactive mobile app to teach algorithms. GSoC Archive"
         ]
     }
 ];
@@ -529,7 +530,6 @@ function renderWorkExperience() {
                         <span class="experience-location">${exp.location}</span>
                         <span class="experience-dates">${datesDisplay}</span>
                     </div>
-                    <div class="experience-summary">${exp.summary}</div>
                 </div>
                 <span class="experience-toggle" aria-hidden="true">+</span>
             </button>
@@ -565,23 +565,7 @@ function initAccordion() {
             const content = document.getElementById(contentId);
             const item = header.closest('.experience-item');
             
-            // Close all other items
-            experienceHeaders.forEach(h => {
-                if (h !== header) {
-                    h.setAttribute('aria-expanded', 'false');
-                    const otherContentId = h.getAttribute('aria-controls');
-                    const otherContent = document.getElementById(otherContentId);
-                    const otherItem = h.closest('.experience-item');
-                    if (otherContent) {
-                        otherContent.setAttribute('aria-hidden', 'true');
-                    }
-                    if (otherItem) {
-                        otherItem.classList.remove('active');
-                    }
-                }
-            });
-            
-            // Toggle current item
+            // Toggle current item (don't close others)
             if (isExpanded) {
                 header.setAttribute('aria-expanded', 'false');
                 content.setAttribute('aria-hidden', 'true');
