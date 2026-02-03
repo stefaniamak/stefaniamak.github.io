@@ -415,16 +415,9 @@ function initHeader() {
     const headerName = document.getElementById('header-name');
     
     headerName.addEventListener('click', (e) => {
-        // If we're already at the top or on home, just scroll to top
-        if (window.scrollY === 0 || window.location.pathname === '/' || window.location.pathname === '/index.html') {
-            e.preventDefault();
-            window.location.hash = '';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            // Navigate to home
-            e.preventDefault();
-            window.location.href = '/';
-        }
+        e.preventDefault();
+        window.location.hash = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     // Mobile menu toggle

@@ -321,19 +321,27 @@ body {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     color: var(--text-primary);
-    line-height: 1.1;
-    letter-spacing: -0.015em;
-    font-size: 40px;
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
     margin-bottom: 24px;
     white-space: pre-line;
 }
 
 @media (min-width: 768px) {
     .hero-name {
-        font-size: 64px;
-        line-height: 1.05;
-        letter-spacing: -0.02em;
+        font-size: 80px;
+        line-height: 1.0;
+        letter-spacing: -0.03em;
         margin-bottom: 32px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .hero-name {
+        font-size: 96px;
+        line-height: 0.98;
+        letter-spacing: -0.035em;
     }
 }
 
@@ -395,7 +403,9 @@ body {
 
 .hero-cta {
     display: flex;
+    align-items: center;
     justify-content: flex-start;
+    gap: 22px;
 }
 
 /* Hero CTA Button */
@@ -419,6 +429,26 @@ body {
 .btn-hero:focus {
     background-color: var(--text-primary);
     color: var(--bg-primary);
+}
+
+/* Hero Secondary CTA */
+.hero-cta-secondary {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    text-decoration: none;
+    color: var(--text-primary);
+    opacity: 0.75;
+    transition: opacity 0.175s ease, text-decoration 0.175s ease;
+    position: relative;
+}
+
+.hero-cta-secondary:hover,
+.hero-cta-secondary:focus {
+    opacity: 1;
+    text-decoration: underline;
 }
 
 /* Buttons (for other sections) */
