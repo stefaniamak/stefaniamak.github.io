@@ -876,12 +876,8 @@ function initTypingAnimation() {
     const speedVariation = 30; // Random variation for natural feel
     let currentIndex = 0;
     
-    // Create cursor element that will be visible during and after typing
-    const cursor = document.createElement('span');
-    cursor.className = 'typing-cursor';
-    cursor.textContent = '|';
-    cursor.setAttribute('aria-hidden', 'true');
-    statementElement.appendChild(cursor);
+    // Show cursor immediately and let it blink for 1 second before typing
+    statementElement.innerHTML = '<span class="typing-cursor" aria-hidden="true">|</span>';
     
     function getTypingSpeed(char) {
         // Longer pause at punctuation
@@ -910,10 +906,10 @@ function initTypingAnimation() {
         }
     }
     
-    // Start typing animation after a short delay
+    // Start typing animation after cursor blinks for a natural pause
     setTimeout(() => {
         typeCharacter();
-    }, 400);
+    }, 1200);
 }
 
 // Initialize everything when DOM is ready
