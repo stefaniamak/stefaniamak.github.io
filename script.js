@@ -413,12 +413,17 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
 // Header Navigation
 function initHeader() {
     const headerName = document.getElementById('header-name');
-    const currentPath = window.location.hash || '#hero';
     
     headerName.addEventListener('click', (e) => {
-        if (window.location.hash === '#hero' || window.location.hash === '') {
+        // If we're already at the top or on home, just scroll to top
+        if (window.scrollY === 0 || window.location.pathname === '/' || window.location.pathname === '/index.html') {
             e.preventDefault();
+            window.location.hash = '';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            // Navigate to home
+            e.preventDefault();
+            window.location.href = '/';
         }
     });
 
