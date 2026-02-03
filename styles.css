@@ -220,8 +220,8 @@ body {
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
+    background-color: transparent;
+    border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -237,6 +237,13 @@ body {
 
 .theme-toggle-btn:hover {
     background-color: var(--hover-bg);
+}
+
+[data-theme="dark"] .theme-toggle-btn {
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .theme-toggle-btn:hover {
     border-color: var(--text-primary);
 }
 
