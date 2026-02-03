@@ -417,7 +417,7 @@ body {
     text-transform: none;
     padding: 12px 22px;
     text-decoration: none;
-    border-radius: 0;
+    border-radius: 2px;
     border: 1px solid currentColor;
     background-color: transparent;
     color: var(--text-primary);
@@ -431,24 +431,29 @@ body {
     color: var(--bg-primary);
 }
 
-/* Hero Secondary CTA */
-.hero-cta-secondary {
+/* Hero Secondary CTA Button */
+.btn-hero-secondary {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.08em;
     text-transform: none;
+    padding: 12px 22px;
     text-decoration: none;
+    border-radius: 2px;
+    border: 1px solid currentColor;
+    background-color: transparent;
     color: var(--text-primary);
-    opacity: 0.75;
-    transition: opacity 0.175s ease, text-decoration 0.175s ease;
-    position: relative;
+    opacity: 0.8;
+    display: inline-block;
+    transition: all 0.175s ease;
 }
 
-.hero-cta-secondary:hover,
-.hero-cta-secondary:focus {
+.btn-hero-secondary:hover,
+.btn-hero-secondary:focus {
     opacity: 1;
-    text-decoration: underline;
+    background-color: var(--hover-bg);
+    border-color: var(--text-primary);
 }
 
 /* Buttons (for other sections) */
