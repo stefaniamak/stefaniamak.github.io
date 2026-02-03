@@ -866,10 +866,61 @@ function setCurrentYear() {
     }
 }
 
+// Typing Animation for Hero Statement
+function initTypingAnimation() {
+    const statementElement = document.getElementById('hero-statement');
+    if (!statementElement) return;
+    
+    const text = 'I paint with code.';
+    const baseSpeed = 100; // Base milliseconds per character
+    const speedVariation = 30; // Random variation for natural feel
+    let currentIndex = 0;
+    
+    // Create cursor element that will be visible during and after typing
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    cursor.textContent = '|';
+    cursor.setAttribute('aria-hidden', 'true');
+    statementElement.appendChild(cursor);
+    
+    function getTypingSpeed(char) {
+        // Longer pause at punctuation
+        if (char === '.' || char === ',' || char === '!' || char === '?') {
+            return baseSpeed * 2.5 + Math.random() * speedVariation;
+        }
+        // Slight pause at spaces
+        if (char === ' ') {
+            return baseSpeed * 1.3 + Math.random() * speedVariation;
+        }
+        // Variable speed for regular characters
+        return baseSpeed + (Math.random() * speedVariation - speedVariation / 2);
+    }
+    
+    function typeCharacter() {
+        if (currentIndex < text.length) {
+            const char = text[currentIndex];
+            statementElement.innerHTML = text.substring(0, currentIndex + 1) + '<span class="typing-cursor" aria-hidden="true">|</span>';
+            currentIndex++;
+            
+            const nextSpeed = getTypingSpeed(char);
+            setTimeout(typeCharacter, nextSpeed);
+        } else {
+            // Animation complete - cursor stays and continues blinking
+            statementElement.innerHTML = text + '<span class="typing-cursor" aria-hidden="true">|</span>';
+        }
+    }
+    
+    // Start typing animation after a short delay
+    setTimeout(() => {
+        typeCharacter();
+    }, 400);
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initHeader();
+    initTypingAnimation();
     renderWorkExperience();
     initProjectFilters();
     renderContactLinks();
