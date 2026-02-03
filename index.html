@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stefania Makrygiannaki - Senior Flutter Software Engineer">
+    <title>Stefania Makrygiannaki | Senior Flutter Software Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jacquarda+Bastarda+9&family=Roboto+Slab:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="#hero" class="header-name" id="header-name">Stefania Makrygiannaki</a>
+            <div class="header-right">
+                <nav class="header-nav">
+                    <a href="#work" class="nav-link">Work</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </nav>
+                <!-- Theme Toggle -->
+                <div class="theme-toggle" role="group" aria-label="Theme selection">
+                    <button class="theme-btn" data-theme="light" aria-label="Light theme" title="Light theme">
+                        <span>Light</span>
+                    </button>
+                    <button class="theme-btn" data-theme="dark" aria-label="Dark theme" title="Dark theme">
+                        <span>Dark</span>
+                    </button>
+                    <button class="theme-btn active" data-theme="system" aria-label="System theme" title="System theme">
+                        <span>System</span>
+                    </button>
+                </div>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <h1 class="hero-name">Stefania Makrygiannaki</h1>
+            <p class="hero-location">Senior Flutter Software Engineer · Thessaloniki, Greece</p>
+            <div class="hero-intro">
+                <p>I build Flutter applications that feel as good as they work.</p>
+            </div>
+            <div class="hero-cta">
+                <a href="#projects" class="btn btn-primary">View my work</a>
+                <a href="#contact" class="btn btn-secondary">Let's connect</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Experience Section -->
+    <section class="work-experience" id="work">
+        <div class="container">
+            <h2 class="section-title">Work Experience</h2>
+            <div class="experience-list" id="experience-list" role="list">
+                <!-- Experience items will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            
+            <!-- Project Filters -->
+            <div class="project-filters" role="group" aria-label="Project filters" id="project-filters">
+                <!-- Filters will be populated here -->
+            </div>
+
+            <!-- Featured Projects (Home View) -->
+            <div class="featured-projects" id="featured-projects">
+                <!-- Featured project cards will be populated here -->
+            </div>
+
+            <!-- All Projects Grid -->
+            <div class="project-grid" id="project-grid">
+                <!-- Project cards will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modal -->
+    <div class="modal" id="project-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">×</button>
+            <h3 class="modal-title" id="modal-title"></h3>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">About</h2>
+            <div class="about-content">
+                <p>I'm a Senior Flutter Software Engineer based in Thessaloniki, Greece, with a passion for building applications that combine beautiful design with solid engineering.</p>
+                <p>I help teams translate design into Flutter apps, without sacrificing UX, performance, or confidence in the final result.</p>
+                <p>I'm always building something, sharing knowledge, or geeking out over smooth animations. If you like pixel-perfect details or tricky transitions, let's connect.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-links" id="contact-links">
+                <!-- Contact links will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">Links</h3>
+                    <div class="footer-links" id="footer-links">
+                        <!-- Footer links will be populated here -->
+                    </div>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; <span id="current-year"></span> Stefania Makrygiannaki. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
