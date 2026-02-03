@@ -906,10 +906,8 @@ function initTypingAnimation() {
         }
     }
     
-    // Start typing animation after cursor blinks for a natural pause
-    setTimeout(() => {
-        typeCharacter();
-    }, 1200);
+    // Start typing animation immediately
+    typeCharacter();
 }
 
 // Initialize everything when DOM is ready
