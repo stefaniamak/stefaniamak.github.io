@@ -871,7 +871,7 @@ function initTypingAnimation() {
     const statementElement = document.getElementById('hero-statement');
     if (!statementElement) return;
     
-    const text = 'I paint with code.';
+    const text = 'Painting with code.';
     const baseSpeed = 100; // Base milliseconds per character
     const speedVariation = 30; // Random variation for natural feel
     let currentIndex = 0;
