@@ -244,13 +244,19 @@ body {
     font-size: 20px;
     line-height: 1;
     color: var(--text-primary);
-    transition: transform 0.2s ease;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    opacity: 1;
 }
 
 @media (max-width: 767px) {
     .theme-icon {
         font-size: 18px;
     }
+}
+
+.theme-icon.fade-out {
+    opacity: 0;
+    transform: scale(0.8);
 }
 
 .theme-toggle-btn:hover .theme-icon {

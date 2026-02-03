@@ -332,7 +332,7 @@ const themeIcons = {
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'system';
     setTheme(savedTheme);
-    updateThemeIcon(savedTheme);
+    updateThemeIcon(savedTheme, true); // Skip transition on initial load
 }
 
 function setTheme(theme) {
@@ -359,10 +359,23 @@ function setTheme(theme) {
     updateThemeIcon(theme);
 }
 
-function updateThemeIcon(theme) {
+function updateThemeIcon(theme, skipTransition = false) {
     const themeIcon = document.getElementById('theme-icon');
     if (themeIcon) {
-        themeIcon.textContent = themeIcons[theme];
+        if (skipTransition) {
+            // Set icon immediately without transition (for initial load)
+            themeIcon.textContent = themeIcons[theme];
+        } else {
+            // Fade out
+            themeIcon.classList.add('fade-out');
+            
+            // Change icon after fade out
+            setTimeout(() => {
+                themeIcon.textContent = themeIcons[theme];
+                // Fade in
+                themeIcon.classList.remove('fade-out');
+            }, 150); // Half of transition duration
+        }
     }
     
     const themeBtn = document.getElementById('theme-toggle-btn');
@@ -393,7 +406,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
     const currentTheme = localStorage.getItem('theme') || 'system';
     if (currentTheme === 'system') {
         setTheme('system');
-        updateThemeIcon('system');
+        updateThemeIcon('system', true); // Skip transition for system preference changes
     }
 });
 
