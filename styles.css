@@ -1057,16 +1057,18 @@ body {
     max-width: 700px;
     margin: 0 auto;
     font-size: clamp(16px, 2vw, 20px);
-    line-height: 1.8;
+    line-height: 1.7;
     color: var(--text-primary);
 }
 
 .about-content p {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .about-content p:last-child {
     margin-bottom: 0;
+    font-style: italic;
+    opacity: 0.85;
 }
 
 /* Contact Section */
