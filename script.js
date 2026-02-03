@@ -443,6 +443,69 @@ function initHeader() {
     }
 }
 
+// Calculate duration from date string
+function calculateDuration(dateString) {
+    const monthNames = {
+        'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+        'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+    };
+    
+    // Parse date string like "Jan 2024 – Jul 2025" or "Oct 2020 – Oct 2023"
+    const dateParts = dateString.split(' – ');
+    if (dateParts.length !== 2) return '';
+    
+    const startPart = dateParts[0].trim();
+    const endPart = dateParts[1].trim();
+    
+    // Check if it's "Present" or current
+    const isPresent = endPart.toLowerCase() === 'present' || endPart.toLowerCase() === 'current';
+    
+    // Parse start date
+    const startMatch = startPart.match(/(\w+)\s+(\d{4})/);
+    if (!startMatch) return '';
+    
+    const startMonth = monthNames[startMatch[1]];
+    const startYear = parseInt(startMatch[2]);
+    
+    // Parse end date
+    let endMonth, endYear;
+    if (isPresent) {
+        const now = new Date();
+        endMonth = now.getMonth();
+        endYear = now.getFullYear();
+    } else {
+        const endMatch = endPart.match(/(\w+)\s+(\d{4})/);
+        if (!endMatch) return '';
+        endMonth = monthNames[endMatch[1]];
+        endYear = parseInt(endMatch[2]);
+    }
+    
+    // Calculate difference
+    let years = endYear - startYear;
+    let months = endMonth - startMonth;
+    
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+    
+    // Format duration
+    const durationParts = [];
+    if (years > 0) {
+        durationParts.push(`${years} ${years === 1 ? 'yr' : 'yrs'}`);
+    }
+    if (months > 0) {
+        durationParts.push(`${months} ${months === 1 ? 'mo' : 'mos'}`);
+    }
+    
+    // If less than a month, show as days or just "Less than 1 mo"
+    if (durationParts.length === 0) {
+        return 'Less than 1 mo';
+    }
+    
+    return durationParts.join(' ');
+}
+
 // Work Experience Rendering
 function renderWorkExperience() {
     const experienceList = document.getElementById('experience-list');
@@ -454,6 +517,8 @@ function renderWorkExperience() {
         item.setAttribute('role', 'listitem');
         
         const contentId = `exp-${exp.id}`;
+        const duration = calculateDuration(exp.dates);
+        const datesDisplay = duration ? `${exp.dates} · ${duration}` : exp.dates;
         
         item.innerHTML = `
             <button class="experience-header" aria-expanded="false" aria-controls="${contentId}">
@@ -462,7 +527,7 @@ function renderWorkExperience() {
                     <div class="experience-role">${exp.role}${exp.program ? ` · ${exp.program}` : ''}</div>
                     <div class="experience-meta">
                         <span class="experience-location">${exp.location}</span>
-                        <span class="experience-dates">${exp.dates}</span>
+                        <span class="experience-dates">${datesDisplay}</span>
                     </div>
                     <div class="experience-summary">${exp.summary}</div>
                 </div>
@@ -480,6 +545,9 @@ function renderWorkExperience() {
     
     // Initialize accordion after rendering
     initAccordion();
+    
+    // Initialize scroll animations
+    initTimelineAnimations();
 }
 
 // Work Experience Accordion
@@ -495,6 +563,7 @@ function initAccordion() {
             const isExpanded = header.getAttribute('aria-expanded') === 'true';
             const contentId = header.getAttribute('aria-controls');
             const content = document.getElementById(contentId);
+            const item = header.closest('.experience-item');
             
             // Close all other items
             experienceHeaders.forEach(h => {
@@ -502,8 +571,12 @@ function initAccordion() {
                     h.setAttribute('aria-expanded', 'false');
                     const otherContentId = h.getAttribute('aria-controls');
                     const otherContent = document.getElementById(otherContentId);
+                    const otherItem = h.closest('.experience-item');
                     if (otherContent) {
                         otherContent.setAttribute('aria-hidden', 'true');
+                    }
+                    if (otherItem) {
+                        otherItem.classList.remove('active');
                     }
                 }
             });
@@ -512,11 +585,55 @@ function initAccordion() {
             if (isExpanded) {
                 header.setAttribute('aria-expanded', 'false');
                 content.setAttribute('aria-hidden', 'true');
+                if (item) {
+                    item.classList.remove('active');
+                }
             } else {
                 header.setAttribute('aria-expanded', 'true');
                 content.setAttribute('aria-hidden', 'false');
+                if (item) {
+                    item.classList.add('active');
+                }
+                // Smooth scroll to item if needed
+                setTimeout(() => {
+                    const rect = item.getBoundingClientRect();
+                    const scrollOffset = window.innerHeight * 0.2;
+                    if (rect.top < scrollOffset) {
+                        window.scrollTo({
+                            top: window.scrollY + rect.top - scrollOffset,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 100);
             }
         });
+    });
+}
+
+// Timeline Scroll Animations
+function initTimelineAnimations() {
+    const experienceItems = document.querySelectorAll('.experience-item');
+    
+    // Use Intersection Observer for scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Unobserve after animation to improve performance
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    experienceItems.forEach((item, index) => {
+        // Stagger animation delays
+        item.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(item);
     });
 }
 
