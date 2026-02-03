@@ -578,17 +578,18 @@ function initAccordion() {
                 if (item) {
                     item.classList.add('active');
                 }
-                // Smooth scroll to item if needed
+                // Smooth scroll to focus on the expanded item
                 setTimeout(() => {
                     const rect = item.getBoundingClientRect();
-                    const scrollOffset = window.innerHeight * 0.2;
-                    if (rect.top < scrollOffset) {
-                        window.scrollTo({
-                            top: window.scrollY + rect.top - scrollOffset,
-                            behavior: 'smooth'
-                        });
-                    }
-                }, 100);
+                    const headerHeight = 80; // Account for fixed header
+                    const scrollOffset = headerHeight + 40; // Additional padding for visibility
+                    const targetPosition = window.scrollY + rect.top - scrollOffset;
+                    
+                    window.scrollTo({
+                        top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position
+                        behavior: 'smooth'
+                    });
+                }, 150); // Wait for expansion animation to start
             }
         });
     });
