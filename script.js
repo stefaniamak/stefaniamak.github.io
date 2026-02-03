@@ -322,17 +322,17 @@ const footerLinksData = [
 ];
 
 // Theme Management
+const themeOrder = ['system', 'light', 'dark'];
+const themeIcons = {
+    'system': '☯︎',
+    'light': '☀︎',
+    'dark': '⏾'
+};
+
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'system';
     setTheme(savedTheme);
-    
-    // Update active button
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.theme === savedTheme) {
-            btn.classList.add('active');
-        }
-    });
+    updateThemeIcon(savedTheme);
 }
 
 function setTheme(theme) {
@@ -355,18 +355,37 @@ function setTheme(theme) {
             root.removeAttribute('data-theme');
         }
     }
+    
+    updateThemeIcon(theme);
 }
 
-// Theme Toggle Event Listeners
-document.querySelectorAll('.theme-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const theme = btn.dataset.theme;
-        setTheme(theme);
-        
-        // Update active state
-        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-    });
+function updateThemeIcon(theme) {
+    const themeIcon = document.getElementById('theme-icon');
+    if (themeIcon) {
+        themeIcon.textContent = themeIcons[theme];
+    }
+    
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    if (themeBtn) {
+        themeBtn.setAttribute('aria-label', `${theme.charAt(0).toUpperCase() + theme.slice(1)} theme`);
+        themeBtn.setAttribute('title', `${theme.charAt(0).toUpperCase() + theme.slice(1)} theme`);
+    }
+}
+
+function cycleTheme() {
+    const currentTheme = localStorage.getItem('theme') || 'system';
+    const currentIndex = themeOrder.indexOf(currentTheme);
+    const nextIndex = (currentIndex + 1) % themeOrder.length;
+    const nextTheme = themeOrder[nextIndex];
+    setTheme(nextTheme);
+}
+
+// Theme Toggle Event Listener
+document.addEventListener('DOMContentLoaded', () => {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', cycleTheme);
+    }
 });
 
 // Listen for system theme changes
@@ -374,6 +393,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
     const currentTheme = localStorage.getItem('theme') || 'system';
     if (currentTheme === 'system') {
         setTheme('system');
+        updateThemeIcon('system');
     }
 });
 
