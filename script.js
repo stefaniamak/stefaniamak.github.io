@@ -157,7 +157,7 @@ const projectsData = [
         name: "Delphi Economic Forum | Mobile App",
         shortDescription: "Event companion app for Delphi Economic Forum attendees, built for offline access, real-time updates, and high-performance usage during a live 4-day event.",
         description: "An event companion app used by all Delphi Forum attendees to explore sessions, speakers, and real-time updates during the 4-day live event. Designed for performance, offline access, and intuitive interaction in a high-pressure, high-visibility setting.",
-        company: "ATCOM S.A.",
+        companyId: "work-2", // ATCOM S.A.
         period: "Jan 2025 – Mar 2025",
         type: ["professional"],
         role: ["Software Engineer"],
@@ -191,7 +191,7 @@ const projectsData = [
         name: "Nonogram Solver & Puzzle Designer | Thesis Project",
         shortDescription: "Flutter Web thesis project combining heuristic optimization algorithms with interactive puzzle design and visualization.",
         description: "A full-featured Flutter Web application developed for my thesis, combining advanced algorithmic problem solving, responsive UI, and puzzle design. Users can create their own Nonogram puzzles or watch them being solved step by step with full control and visualization.",
-        company: "International Hellenic University",
+        companyId: "education-1", // International Hellenic University
         period: "Dec 2023 – Jan 2025",
         type: ["academic"],
         role: ["Software Engineer", "Designer", "Researcher"],
@@ -223,7 +223,7 @@ const projectsData = [
         name: "Hertz Connect | Mobile App",
         shortDescription: "Leasing companion app for Hertz customers, supporting vehicle management, calculators, and service requests.",
         description: "A comprehensive leasing companion app for Hertz customers, providing vehicle management tools, calculators, and service request capabilities. Built with a focus on user experience and seamless integration with Hertz services.",
-        company: "ATCOM S.A.",
+        companyId: "work-2", // ATCOM S.A.
         period: "Apr 2024 – Aug 2024",
         type: ["professional"],
         role: ["Software Engineer"],
@@ -250,7 +250,7 @@ const projectsData = [
         name: "Polikatikia.gr | Web & Mobile App",
         shortDescription: "Property management app for tenants, owners, and landlords with Flutter Web adaptation.",
         description: "A comprehensive property management platform for tenants, owners, and landlords. Led the mobile-to-web adaptation using Flutter Web, creating responsive layouts and platform-aware components.",
-        company: "ATCOM S.A.",
+        companyId: "work-2", // ATCOM S.A.
         period: "Jan 2024 – Mar 2024",
         type: ["professional"],
         role: ["Software Engineer"],
@@ -274,7 +274,7 @@ const projectsData = [
         name: "AthletesWeR | Mobile App",
         shortDescription: "Mobile app for athletes with team management and performance tracking features.",
         description: "A comprehensive mobile application for athletes, featuring team management, performance tracking, and social features. Led a team of 3 developers, handling planning, architecture, and client communication.",
-        company: "Smartup",
+        companyId: "work-3", // Smartup
         period: "Mar 2023 – Oct 2023",
         type: ["professional"],
         role: ["Team Lead", "Project Manager"],
@@ -296,7 +296,7 @@ const projectsData = [
         name: "ArtVolt for Collectors | Mobile App",
         shortDescription: "Mobile app for art collectors to discover, track, and manage their art collections.",
         description: "A mobile application designed for art collectors to discover, track, and manage their art collections. Built as the first end-to-end Flutter app completed solo, with direct client collaboration.",
-        company: "Smartup",
+        companyId: "work-3", // Smartup
         period: "Feb 2023 – Jun 2023",
         type: ["professional"],
         role: ["Software Engineer"],
@@ -318,7 +318,7 @@ const projectsData = [
         name: "Influ | Mobile App",
         shortDescription: "Mobile app with premium features and polished UI for influencer management.",
         description: "A mobile application focused on influencer management and engagement. Led team planning and releases, coordinated directly with client, and implemented premium features with UI polish.",
-        company: "Smartup",
+        companyId: "work-3", // Smartup
         period: "Dec 2021 – Jun 2023",
         type: ["professional"],
         role: ["Team Lead", "Software Engineer"],
@@ -356,13 +356,91 @@ const projectsData = [
     }
 ];
 
+// Helper function to find company entry by ID across all sections
+function findCompanyEntry(companyId) {
+    if (!companyId) return null;
+    
+    // Check work experience
+    const workEntry = workExperienceData.find(exp => `work-${exp.id}` === companyId);
+    if (workEntry) {
+        return { ...workEntry, section: 'work', itemId: `work-${workEntry.id}` };
+    }
+    
+    // Check teaching
+    const teachingEntry = teachingData.find(teaching => `teaching-${teaching.id}` === companyId);
+    if (teachingEntry) {
+        return { ...teachingEntry, section: 'teaching', itemId: `teaching-${teachingEntry.id}` };
+    }
+    
+    // Check education
+    const educationEntry = educationData.find(edu => `education-${edu.id}` === companyId);
+    if (educationEntry) {
+        return { ...educationEntry, section: 'education', itemId: `education-${educationEntry.id}` };
+    }
+    
+    return null;
+}
+
+// Helper function to navigate to company entry
+function navigateToCompanyEntry(companyId) {
+    const companyEntry = findCompanyEntry(companyId);
+    if (!companyEntry) return;
+    
+    // Close project modal if open
+    const modal = document.getElementById('project-modal');
+    if (modal && modal.classList.contains('active')) {
+        closeProjectModal();
+    }
+    
+    // Wait for modal to close, then find and expand the company entry
+    setTimeout(() => {
+        const item = document.querySelector(`[data-item-id="${companyEntry.itemId}"]`);
+        if (!item) return;
+        
+        const header = item.querySelector('.experience-header');
+        if (!header) return;
+        
+        const isExpanded = header.getAttribute('aria-expanded') === 'true';
+        
+        // If not expanded, expand it first
+        if (!isExpanded) {
+            header.click();
+        }
+        
+        // Wait for expansion animation, then scroll to the item
+        const scrollDelay = isExpanded ? 100 : 450; // Wait longer if we just expanded
+        
+        setTimeout(() => {
+            const rect = item.getBoundingClientRect();
+            const headerHeight = 80; // Account for fixed header
+            const scrollOffset = headerHeight + 40; // Additional padding for visibility
+            const targetPosition = window.scrollY + rect.top - scrollOffset;
+            
+            window.scrollTo({
+                top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position
+                behavior: 'smooth'
+            });
+        }, scrollDelay);
+    }, 300); // Wait for modal close animation
+}
+
 // Helper function to get projects by company name (case-insensitive)
 function getProjectsByCompany(companyName) {
     if (!companyName) return [];
-    return projectsData.filter(project => 
-        project.company && 
-        project.company.toLowerCase().trim() === companyName.toLowerCase().trim()
-    );
+    return projectsData.filter(project => {
+        // If project has companyId, use it to find the company entry
+        if (project.companyId) {
+            const companyEntry = findCompanyEntry(project.companyId);
+            if (companyEntry) {
+                return companyEntry.company.toLowerCase().trim() === companyName.toLowerCase().trim();
+            }
+        }
+        // Fallback to direct company field match (for backward compatibility)
+        if (project.company) {
+            return project.company.toLowerCase().trim() === companyName.toLowerCase().trim();
+        }
+        return false;
+    });
 }
 
 // Create compact project card for horizontal list
@@ -1588,7 +1666,13 @@ function openProjectModal(project) {
     
     // Meta information (compact style)
     bodyHTML += '<div class="modal-meta">';
-    if (project.company) {
+    if (project.companyId) {
+        const companyEntry = findCompanyEntry(project.companyId);
+        if (companyEntry) {
+            bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Company:</span> <span class="modal-meta-value"><a href="#" class="modal-company-link" data-company-id="${project.companyId}">${companyEntry.company}</a></span></div>`;
+        }
+    } else if (project.company) {
+        // Fallback for projects without companyId
         bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Company:</span> <span class="modal-meta-value">${project.company}</span></div>`;
     }
     if (project.period) {
@@ -1678,6 +1762,19 @@ function openProjectModal(project) {
     }
     
     modalBody.innerHTML = bodyHTML;
+    
+    // Add click handlers for company links in modal
+    const companyLinks = modalBody.querySelectorAll('.modal-company-link');
+    companyLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const companyId = link.getAttribute('data-company-id');
+            if (companyId) {
+                navigateToCompanyEntry(companyId);
+            }
+        });
+    });
     
     // Add click handlers for platform bookmarks in modal
     const bookmarkElements = modalTitle.querySelectorAll('.platform-bookmark');

@@ -1711,6 +1711,20 @@ body {
     font-size: 14px;
 }
 
+.modal-company-link {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--text-secondary);
+    text-underline-offset: 3px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    cursor: pointer;
+}
+
+.modal-company-link:hover {
+    color: var(--text-secondary);
+    text-decoration-color: var(--text-primary);
+}
+
 .modal-section {
     margin-bottom: 32px;
 }
