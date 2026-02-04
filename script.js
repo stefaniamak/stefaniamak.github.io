@@ -120,6 +120,39 @@ const educationData = [
 // Projects Data
 const projectsData = [
     {
+        id: 9,
+        name: "Background Generator | Web App",
+        shortDescription: "Interactive Flutter Web app for generating complex geometric background graphics, created as an experiment in AI-assisted development.",
+        description: "A Flutter Web application that recreates complex generative UI graphics through mathematical calculations. Built as an exploration of AI-assisted development, this project tested the capabilities of ChatGPT and Cursor AI in generating complex graphics code. The final implementation combines AI-generated code with manual refinement to create an interactive background generator that produces intricate geometric patterns.",
+        period: "Oct 2025",
+        type: ["personal"],
+        role: ["Software Engineer", "Designer"],
+        teamSize: 1,
+        techStack: ["Flutter", "Flutter Web"],
+        highlights: [
+            "AI-assisted development experiment using ChatGPT and Cursor AI",
+            "Mathematical calculations for complex geometric graphics generation",
+            "Two-phase development: AI-only attempt vs. guided AI approach",
+            "Manual code refinement and optimization",
+            "Flutter Web implementation with performance optimization",
+            "Rapid development completed in two evenings"
+        ],
+        keyFeatures: [
+            "Interactive background generation",
+            "Real-time graphics rendering",
+            "Customizable visual parameters",
+            "Responsive web interface",
+            "Smooth animations and transitions"
+        ],
+        contribution: "Designed and developed the entire application, experimenting with AI-assisted coding workflows. Guided AI through the development process, manually refined code where AI struggled, and implemented custom graphics algorithms.",
+        approach: "AI-assisted development with manual refinement. Initial attempt with AI-only generation failed; shifted to guided approach where logic was designed manually and AI wrote the implementation, with subsequent manual fixes and optimizations.",
+        featured: false,
+        links: {
+            github: "https://github.com/stefaniamak/background-generator",
+            web: "https://stefaniamak.github.io/background-generator/"
+        }
+    },
+    {
         id: 1,
         name: "Delphi Economic Forum | Mobile App",
         shortDescription: "Event companion app for Delphi Economic Forum attendees, built for offline access, real-time updates, and high-performance usage during a live 4-day event.",
