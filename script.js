@@ -120,6 +120,46 @@ const educationData = [
 // Projects Data
 const projectsData = [
     {
+        id: 10,
+        name: "Personal Portfolio Website | Web App",
+        shortDescription: "A fully responsive personal portfolio website built from scratch with vanilla HTML, CSS, and JavaScript, featuring theme modes, interactive project showcase, and accessible design.",
+        description: "A personal portfolio website showcasing work experience, projects, and professional background. Built entirely from scratch using vanilla web technologies with no build process or dependencies. Features a clean, minimal editorial aesthetic with three theme modes (Light, Dark, System), interactive project filtering, expandable work experience sections, and detailed project modal views. Designed with accessibility in mind, using semantic HTML, proper ARIA labels, and keyboard navigation throughout.",
+        period: "Feb 2026",
+        type: ["personal"],
+        role: ["Software Engineer", "Designer"],
+        teamSize: 1,
+        techStack: ["HTML", "CSS", "JavaScript"],
+        highlights: [
+            "Built from scratch with vanilla web technologies (no frameworks or build tools)",
+            "Fully responsive design optimized for mobile, tablet, and desktop",
+            "Three theme modes with system preference detection and smooth transitions",
+            "Interactive project showcase with multi-criteria filtering (type, language, platform, role)",
+            "Expandable accordion interface for work experience sections",
+            "Detailed project modal views with platform bookmarks and company linking",
+            "Typing animation in hero section with natural character timing",
+            "Accessible design with semantic HTML, ARIA labels, and keyboard navigation",
+            "Clean, minimal editorial aesthetic with custom typography (Jacquarda Bastarda, Roboto Slab, Inter)"
+        ],
+        keyFeatures: [
+            "Responsive grid layouts for projects and experience sections",
+            "Theme toggle with localStorage persistence",
+            "Project filtering by type, language, platform, and role",
+            "Platform bookmarks (iOS, Android, Web) with procedural CSS drawing",
+            "Smooth scroll animations and transitions",
+            "URL hash navigation for deep linking to projects and sections",
+            "Mobile-friendly navigation with hamburger menu",
+            "Company-project relationships with cross-linking",
+            "No build process required - pure HTML/CSS/JS"
+        ],
+        contribution: "Designed and developed the entire website from scratch, including all UI/UX design, responsive layouts, interactive features, and accessibility implementations. Created custom CSS animations, theme system, and project filtering logic.",
+        approach: "Vanilla web development approach focusing on performance, accessibility, and maintainability. No frameworks or build tools - pure HTML, CSS, and JavaScript for maximum simplicity and fast loading. Designed with a mobile-first responsive approach and progressive enhancement.",
+        featured: true,
+        links: {
+            github: "https://github.com/stefaniamak/stefaniamak.github.io",
+            web: "https://stefaniamak.github.io/"
+        }
+    },
+    {
         id: 9,
         name: "Background Generator | Web App",
         shortDescription: "Interactive Flutter Web app for generating complex geometric background graphics, created as an experiment in AI-assisted development.",
