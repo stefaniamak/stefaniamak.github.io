@@ -1074,49 +1074,8 @@ function initProjectFilters() {
         });
     });
     
-    // Render featured projects
-    renderFeaturedProjects();
-    
     // Render all projects
     renderProjects();
-}
-
-function renderFeaturedProjects() {
-    const featuredContainer = document.getElementById('featured-projects');
-    const featuredProjects = projectsData.filter(p => p.featured).slice(0, 4);
-    
-    featuredContainer.innerHTML = `
-        <h3 class="featured-title">Featured Projects</h3>
-        <div class="featured-grid">
-            ${featuredProjects.map(project => createFeaturedProjectCard(project)).join('')}
-        </div>
-    `;
-}
-
-function createFeaturedProjectCard(project) {
-    const languages = extractLanguages(project.techStack);
-    const platforms = inferPlatforms(project);
-    const tags = [
-        ...languages,
-        ...platforms,
-        ...project.role,
-        ...project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1))
-    ];
-    
-    return `
-        <div class="featured-card" data-project-id="${project.id}">
-            <div class="project-mockup">
-                <div class="mockup-placeholder"></div>
-            </div>
-            <div class="project-info">
-                <div class="project-name">${project.name}</div>
-                <div class="project-description">${project.shortDescription}</div>
-                <div class="project-tags">
-                    ${tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
-                </div>
-            </div>
-        </div>
-    `;
 }
 
 function renderProjects() {
@@ -1155,19 +1114,6 @@ function renderProjects() {
         );
     }
     
-    // Hide featured projects section if filters are active
-    const featuredSection = document.getElementById('featured-projects');
-    const hasActiveFilters = activeFilters.type.length > 0 || 
-                            activeFilters.language.length > 0 || 
-                            activeFilters.platform.length > 0 || 
-                            activeFilters.role.length > 0;
-    
-    if (hasActiveFilters) {
-        featuredSection.style.display = 'none';
-    } else {
-        featuredSection.style.display = 'block';
-    }
-    
     projectGrid.innerHTML = '';
     
     if (filteredProjects.length === 0) {
@@ -1178,17 +1124,6 @@ function renderProjects() {
     filteredProjects.forEach(project => {
         const card = createProjectCard(project);
         projectGrid.appendChild(card);
-    });
-    
-    // Add click listeners to featured cards
-    document.querySelectorAll('.featured-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const projectId = parseInt(card.dataset.projectId);
-            const project = projectsData.find(p => p.id === projectId);
-            if (project) {
-                openProjectModal(project);
-            }
-        });
     });
 }
 
