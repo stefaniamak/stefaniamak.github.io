@@ -699,7 +699,7 @@ body {
 .experience-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease, opacity 0.3s ease;
+    transition: max-height 0.2s cubic-bezier(0.4, 0, 0.2, 1), padding 0.2s ease, opacity 0.15s ease;
     padding: 0;
     opacity: 0;
     margin-top: 16px;
@@ -709,6 +709,7 @@ body {
     max-height: 2000px;
     padding: 24px 0 0;
     opacity: 1;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease, opacity 0.3s ease;
 }
 
 .experience-content p {

@@ -565,7 +565,25 @@ function initAccordion() {
             const content = document.getElementById(contentId);
             const item = header.closest('.experience-item');
             
-            // Toggle current item (don't close others)
+            // Close all other items when opening a new one
+            if (!isExpanded) {
+                experienceHeaders.forEach(h => {
+                    if (h !== header) {
+                        h.setAttribute('aria-expanded', 'false');
+                        const otherContentId = h.getAttribute('aria-controls');
+                        const otherContent = document.getElementById(otherContentId);
+                        const otherItem = h.closest('.experience-item');
+                        if (otherContent) {
+                            otherContent.setAttribute('aria-hidden', 'true');
+                        }
+                        if (otherItem) {
+                            otherItem.classList.remove('active');
+                        }
+                    }
+                });
+            }
+            
+            // Toggle current item
             if (isExpanded) {
                 header.setAttribute('aria-expanded', 'false');
                 content.setAttribute('aria-hidden', 'true');
@@ -578,7 +596,7 @@ function initAccordion() {
                 if (item) {
                     item.classList.add('active');
                 }
-                // Smooth scroll to focus on the expanded item
+                // Wait for previous items to close (200ms closing animation) before calculating scroll position
                 setTimeout(() => {
                     const rect = item.getBoundingClientRect();
                     const headerHeight = 80; // Account for fixed header
@@ -589,7 +607,7 @@ function initAccordion() {
                         top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position
                         behavior: 'smooth'
                     });
-                }, 150); // Wait for expansion animation to start
+                }, 250); // Wait for closing animation (200ms) + small buffer (50ms) before scrolling
             }
         });
     });
