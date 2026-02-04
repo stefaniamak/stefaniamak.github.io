@@ -11,12 +11,12 @@
 
 [data-theme="dark"] {
     --bg-primary: #000000;
-    --bg-secondary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
     --text-primary: #ffffff;
     --text-secondary: #b3b3b3;
     --text-tertiary: #808080;
-    --border-color: #1a1a1a;
-    --hover-bg: #1a1a1a;
+    --border-color: #333333;
+    --hover-bg: #252525;
 }
 
 /* Reset and Base Styles */
@@ -1759,14 +1759,17 @@ body {
 
 .contact-method-link {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(15px, 1.8vw, 17px);
+    font-size: 14px;
     font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: none;
     color: var(--text-primary);
     text-decoration: none;
-    padding: 12px 20px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    padding: 12px 22px;
+    border-radius: 2px;
+    border: 1px solid currentColor;
+    background-color: transparent;
+    transition: all 0.175s ease;
     display: inline-block;
     width: 100%;
     text-align: center;
@@ -1775,11 +1778,10 @@ body {
     hyphens: auto;
 }
 
-.contact-method-link:hover {
+.contact-method-link:hover,
+.contact-method-link:focus {
     background-color: var(--text-primary);
     color: var(--bg-primary);
-    border-color: var(--text-primary);
-    transform: translateY(-2px);
 }
 
 /* Footer */
@@ -1787,6 +1789,7 @@ body {
     padding: 80px 0 40px;
     border-top: 1px solid var(--border-color);
     margin-top: 80px;
+    background-color: var(--bg-secondary);
 }
 
 .footer-content {
@@ -1883,11 +1886,11 @@ body {
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
         --bg-primary: #000000;
-        --bg-secondary: #0a0a0a;
+        --bg-secondary: #1a1a1a;
         --text-primary: #ffffff;
         --text-secondary: #b3b3b3;
         --text-tertiary: #808080;
-        --border-color: #1a1a1a;
-        --hover-bg: #1a1a1a;
+        --border-color: #333333;
+        --hover-bg: #252525;
     }
 }
