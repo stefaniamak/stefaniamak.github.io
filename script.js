@@ -1392,44 +1392,83 @@ function openProjectModal(project) {
     const modalTitle = document.getElementById('modal-title');
     const modalBody = document.getElementById('modal-body');
     
-    modalTitle.textContent = project.name;
+    // Extract clean name (remove platform type from name)
+    const { cleanName, platformType } = extractPlatformType(project.name);
+    
+    // Get platforms (iOS, Android, Web)
+    const platforms = inferPlatforms(project);
+    
+    // Build title HTML with project type label, platform bookmarks, and clean name
+    let titleHTML = '';
+    
+    // Project type label at top left
+    const projectTypeLabel = project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
+    titleHTML += `<div class="modal-type-label">${projectTypeLabel}</div>`;
+    
+    // Platform bookmarks above title
+    let platformBookmarksHTML = '';
+    if (platforms.length > 0) {
+        // Calculate right offset for each bookmark (16px base + 34px spacing per bookmark)
+        platforms.forEach((platform, index) => {
+            const rightOffset = 16 + (platforms.length - 1 - index) * 34; // 26px width + 8px spacing
+            // Get URL for this platform
+            let platformUrl = null;
+            if (project.links) {
+                if (platform === 'iOS' && project.links.appStore) {
+                    platformUrl = project.links.appStore;
+                } else if (platform === 'Android' && project.links.playStore) {
+                    platformUrl = project.links.playStore;
+                } else if (platform === 'Web') {
+                    // Check for web link (web or live)
+                    if (project.links.web) {
+                        platformUrl = project.links.web;
+                    } else if (project.links.live) {
+                        platformUrl = project.links.live;
+                    }
+                }
+            }
+            const bookmarkHTML = createPlatformBookmark(platform, platformUrl);
+            platformBookmarksHTML += bookmarkHTML.replace('class="platform-bookmark"', `class="platform-bookmark modal-bookmark" style="right: ${rightOffset}px;"`);
+        });
+    }
+    titleHTML += platformBookmarksHTML;
+    
+    // Project name with underline animation
+    titleHTML += `<div class="modal-title-wrapper"><span class="modal-title-name">${cleanName}</span></div>`;
+    
+    modalTitle.innerHTML = titleHTML;
     
     let bodyHTML = '';
     
-    // Meta information
-    const platforms = inferPlatforms(project);
+    // Meta information (compact style)
     bodyHTML += '<div class="modal-meta">';
     if (project.company) {
-        bodyHTML += `<div class="modal-meta-item"><strong>Company:</strong> ${project.company}</div>`;
+        bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Company:</span> <span class="modal-meta-value">${project.company}</span></div>`;
     }
     if (project.period) {
-        bodyHTML += `<div class="modal-meta-item"><strong>Period:</strong> ${project.period}</div>`;
+        bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Period:</span> <span class="modal-meta-value">${project.period}</span></div>`;
     }
-    bodyHTML += `<div class="modal-meta-item"><strong>Role:</strong> ${project.role.join(', ')}</div>`;
+    bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Role:</span> <span class="modal-meta-value">${project.role.join(', ')}</span></div>`;
     if (project.teamSize) {
-        bodyHTML += `<div class="modal-meta-item"><strong>Team Size:</strong> ${project.teamSize}</div>`;
-    }
-    bodyHTML += `<div class="modal-meta-item"><strong>Type:</strong> ${project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}</div>`;
-    if (platforms.length > 0) {
-        bodyHTML += `<div class="modal-meta-item"><strong>Platform:</strong> ${platforms.join(', ')}</div>`;
+        bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Team Size:</span> <span class="modal-meta-value">${project.teamSize}</span></div>`;
     }
     if (project.status) {
-        bodyHTML += `<div class="modal-meta-item"><strong>Status:</strong> ${project.status}</div>`;
+        bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Status:</span> <span class="modal-meta-value">${project.status}</span></div>`;
     }
     bodyHTML += '</div>';
     
     // Description
-    bodyHTML += `<div class="modal-section"><p>${project.description}</p></div>`;
+    bodyHTML += `<div class="modal-section"><p class="modal-description">${project.description}</p></div>`;
     
     // Contribution
     if (project.contribution) {
-        bodyHTML += `<div class="modal-section"><strong>My Contribution:</strong><p>${project.contribution}</p></div>`;
+        bodyHTML += `<div class="modal-section"><strong class="modal-section-title">My Contribution</strong><p>${project.contribution}</p></div>`;
     }
     
     // Highlights
     if (project.highlights && project.highlights.length > 0) {
         bodyHTML += '<div class="modal-section">';
-        bodyHTML += '<strong>Highlights:</strong>';
+        bodyHTML += '<strong class="modal-section-title">Highlights</strong>';
         bodyHTML += '<ul>';
         project.highlights.forEach(highlight => {
             bodyHTML += `<li>${highlight}</li>`;
@@ -1441,7 +1480,7 @@ function openProjectModal(project) {
     // Key Features
     if (project.keyFeatures && project.keyFeatures.length > 0) {
         bodyHTML += '<div class="modal-section">';
-        bodyHTML += '<strong>Key Features:</strong>';
+        bodyHTML += '<strong class="modal-section-title">Key Features</strong>';
         bodyHTML += '<ul>';
         project.keyFeatures.forEach(feature => {
             bodyHTML += `<li>${feature}</li>`;
@@ -1450,22 +1489,22 @@ function openProjectModal(project) {
         bodyHTML += '</div>';
     }
     
-    // Tech Stack
+    // Tech Stack (using tags like in cards)
     bodyHTML += '<div class="modal-section">';
-    bodyHTML += '<strong>Tech Stack:</strong>';
-    bodyHTML += '<ul>';
+    bodyHTML += '<strong class="modal-section-title">Tech Stack</strong>';
+    bodyHTML += '<div class="modal-tech-stack">';
     project.techStack.forEach(tech => {
-        bodyHTML += `<li>${tech}</li>`;
+        bodyHTML += `<span class="project-tag">${tech}</span>`;
     });
-    bodyHTML += '</ul>';
+    bodyHTML += '</div>';
     bodyHTML += '</div>';
     
     // Approach/Process
     if (project.approach) {
-        bodyHTML += `<div class="modal-section"><strong>Approach:</strong><p>${project.approach}</p></div>`;
+        bodyHTML += `<div class="modal-section"><strong class="modal-section-title">Approach</strong><p>${project.approach}</p></div>`;
     }
     if (project.process) {
-        bodyHTML += `<div class="modal-section"><strong>Process & Tools:</strong><p>${project.process}</p></div>`;
+        bodyHTML += `<div class="modal-section"><strong class="modal-section-title">Process & Tools</strong><p>${project.process}</p></div>`;
     }
     
     // Links
@@ -1493,6 +1532,33 @@ function openProjectModal(project) {
     }
     
     modalBody.innerHTML = bodyHTML;
+    
+    // Add click handlers for platform bookmarks in modal
+    const bookmarkElements = modalTitle.querySelectorAll('.platform-bookmark');
+    bookmarkElements.forEach(bookmark => {
+        bookmark.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const url = bookmark.getAttribute('data-url');
+            if (url) {
+                // Open the URL in a new tab
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }
+        });
+        
+        // Add keyboard support
+        bookmark.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                e.stopPropagation();
+                const url = bookmark.getAttribute('data-url');
+                if (url) {
+                    // Open the URL in a new tab
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                }
+            }
+        });
+    });
+    
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';

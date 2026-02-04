@@ -1505,12 +1505,12 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(4px);
 }
 
 [data-theme="dark"] .modal-overlay {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .modal-content {
@@ -1523,6 +1523,10 @@ body {
     overflow-y: auto;
     padding: 48px;
     z-index: 1;
+}
+
+[data-theme="dark"] .modal-content {
+    background-color: #121212;
 }
 
 @media (max-width: 767px) {
@@ -1554,16 +1558,87 @@ body {
 }
 
 .modal-title {
+    position: relative;
+    margin-bottom: 32px;
+    padding-top: 54px; /* Space for bookmarks above */
+    margin-top: -20px; /* Reduce spacing from type label */
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: clamp(28px, 4vw, 40px);
-    margin-bottom: 24px;
     color: var(--text-primary);
+}
+
+/* Modal type label - positioned at top left, matching card style */
+.modal-type-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1;
+    padding: 4px 8px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--text-primary);
+    border-radius: 2px;
+}
+
+@media (max-width: 767px) {
+    .modal-type-label {
+        font-size: 10px;
+        padding: 3px 6px;
+        letter-spacing: 0.8px;
+    }
+}
+
+/* Modal title wrapper */
+.modal-title-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Modal title name - matching project card name style */
+.modal-title-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 40px);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: inline-block;
+    transition: color 0.2s ease;
+    line-height: 1.2;
+}
+
+.modal-title-name::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--text-primary);
+    transition: width 0.3s ease;
+}
+
+.modal-title-wrapper:hover .modal-title-name::after {
+    width: 100%;
+}
+
+/* Platform bookmarks in modal */
+.modal-bookmark {
+    position: absolute;
+    top: -8px; /* Extends above the title */
 }
 
 .modal-body {
     color: var(--text-primary);
     line-height: 1.8;
+    font-family: 'Inter', sans-serif;
 }
 
 .modal-body p {
@@ -1593,39 +1668,58 @@ body {
 .modal-meta {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     margin-bottom: 32px;
     padding-bottom: 24px;
     border-bottom: 1px solid var(--border-color);
 }
 
 .modal-meta-item {
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
-    color: var(--text-secondary);
     line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.modal-meta-item strong {
-    color: var(--text-primary);
+.modal-meta-label {
     font-weight: 500;
-    margin-right: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.modal-meta-value {
+    color: var(--text-primary);
+    font-size: 14px;
 }
 
 .modal-section {
     margin-bottom: 32px;
 }
 
-.modal-section strong {
+.modal-section-title {
     display: block;
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 12px;
 }
 
+.modal-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
 .modal-section p {
+    font-family: 'Inter', sans-serif;
     margin-bottom: 16px;
     color: var(--text-primary);
+    line-height: 1.6;
 }
 
 .modal-section ul {
@@ -1635,6 +1729,7 @@ body {
 }
 
 .modal-section li {
+    font-family: 'Inter', sans-serif;
     padding-left: 24px;
     position: relative;
     margin-bottom: 10px;
@@ -1647,6 +1742,14 @@ body {
     position: absolute;
     left: 0;
     color: var(--text-primary);
+}
+
+/* Tech stack tags in modal - matching card style */
+.modal-tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
 }
 
 .modal-links {
