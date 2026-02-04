@@ -1243,6 +1243,10 @@ function createProjectCard(project) {
     const techStackTags = project.techStack || [];
     
     // Build HTML
+    // Project type label at top left
+    const projectTypeLabel = project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
+    const typeLabelHTML = `<div class="project-type-label">${projectTypeLabel}</div>`;
+    
     // Platform bookmarks above title
     let platformBookmarksHTML = '';
     if (platforms.length > 0) {
@@ -1270,8 +1274,8 @@ function createProjectCard(project) {
         });
     }
     
-    // Project name on its own line (below bookmarks)
-    let cardHTML = `${platformBookmarksHTML}<div class="project-name">${cleanName}</div>`;
+    // Project name on its own line (below bookmarks and type label)
+    let cardHTML = `${typeLabelHTML}${platformBookmarksHTML}<div class="project-name">${cleanName}</div>`;
     
     let bodyHTML = `<div class="project-description">${project.shortDescription}</div>`;
     

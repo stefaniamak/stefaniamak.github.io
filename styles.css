@@ -997,6 +997,33 @@ body {
     padding: 48px 0;
 }
 
+/* Project type label - positioned at top left, inside the card with matching padding */
+.project-type-label {
+    position: absolute;
+    top: 32px; /* Same as card padding */
+    left: 32px; /* Same as card padding */
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1;
+    padding: 4px 8px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--text-primary);
+    border-radius: 2px;
+}
+
+@media (max-width: 767px) {
+    .project-type-label {
+        top: 24px; /* Match mobile card padding if different */
+        left: 24px; /* Match mobile card padding if different */
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+}
+
 .project-name {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
