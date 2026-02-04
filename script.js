@@ -891,8 +891,7 @@ function initProjectAnimations() {
     }, observerOptions);
     
     projectCards.forEach((card, index) => {
-        // Stagger animation delays
-        card.style.transitionDelay = `${index * 0.1}s`;
+        // No stagger delay - all cards animate at the same speed
         observer.observe(card);
         
         // Check if card is already in viewport on load
