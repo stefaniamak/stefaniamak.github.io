@@ -957,7 +957,7 @@ function inferPlatforms(project) {
         if (project.links.playStore || project.links.huawei) {
             platforms.push('Android');
         }
-        if (project.links.web) {
+        if (project.links.web || project.links.live) {
             platforms.push('Web');
         }
     }
@@ -1006,15 +1006,18 @@ function getPlatformIcon(platform) {
 }
 
 // Create CSS-based bookmark HTML for platform (procedural drawing approach)
-function createPlatformBookmark(platform) {
+function createPlatformBookmark(platform, url) {
     const label = getPlatformLabel(platform);
     const platformLower = platform.toLowerCase();
     const icon = getPlatformIcon(platform);
+    const titleAttr = url ? `title="${url}"` : '';
     
     return `<div 
         class="platform-bookmark" 
         data-platform="${platformLower}"
-        aria-label="${label} platform"
+        ${url ? `data-url="${url}"` : ''}
+        aria-label="${label} platform${url ? ` - ${url}` : ''}"
+        ${titleAttr}
         role="button"
         tabindex="0">
         <span class="bookmark-fill bookmark-fill-top"></span>
@@ -1246,7 +1249,23 @@ function createProjectCard(project) {
         // Calculate right offset for each bookmark (16px base + 34px spacing per bookmark for wider size)
         platforms.forEach((platform, index) => {
             const rightOffset = 16 + (platforms.length - 1 - index) * 34; // 26px width + 8px spacing
-            const bookmarkHTML = createPlatformBookmark(platform);
+            // Get URL for this platform
+            let platformUrl = null;
+            if (project.links) {
+                if (platform === 'iOS' && project.links.appStore) {
+                    platformUrl = project.links.appStore;
+                } else if (platform === 'Android' && project.links.playStore) {
+                    platformUrl = project.links.playStore;
+                } else if (platform === 'Web') {
+                    // Check for web link (web or live)
+                    if (project.links.web) {
+                        platformUrl = project.links.web;
+                    } else if (project.links.live) {
+                        platformUrl = project.links.live;
+                    }
+                }
+            }
+            const bookmarkHTML = createPlatformBookmark(platform, platformUrl);
             platformBookmarksHTML += bookmarkHTML.replace('class="platform-bookmark"', `class="platform-bookmark" style="right: ${rightOffset}px;"`);
         });
     }
@@ -1286,9 +1305,15 @@ function createProjectCard(project) {
     bookmarkElements.forEach(bookmark => {
         bookmark.addEventListener('click', (e) => {
             e.stopPropagation();
-            const platform = bookmark.getAttribute('data-platform');
-            // Toggle platform filter
-            togglePlatformFilter(platform);
+            const url = bookmark.getAttribute('data-url');
+            if (url) {
+                // Open the URL in a new tab
+                window.open(url, '_blank', 'noopener,noreferrer');
+            } else {
+                // Fallback to filter if no URL
+                const platform = bookmark.getAttribute('data-platform');
+                togglePlatformFilter(platform);
+            }
         });
         
         // Add keyboard support
@@ -1296,8 +1321,15 @@ function createProjectCard(project) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 e.stopPropagation();
-                const platform = bookmark.getAttribute('data-platform');
-                togglePlatformFilter(platform);
+                const url = bookmark.getAttribute('data-url');
+                if (url) {
+                    // Open the URL in a new tab
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                } else {
+                    // Fallback to filter if no URL
+                    const platform = bookmark.getAttribute('data-platform');
+                    togglePlatformFilter(platform);
+                }
             }
         });
     });
