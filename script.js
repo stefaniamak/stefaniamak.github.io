@@ -5,7 +5,7 @@ const workExperienceData = [
         company: "WeAre8",
         role: "Senior Flutter Developer",
         location: "Thessaloniki, Greece (Hybrid)",
-        dates: "Jan 2024 – Jul 2025",
+        dates: "Aug 2025 – Dec 2025",
         summary: "Worked in a single product in major features changing core functionalities of the product.",
         details: [
             "Worked in a single product in major features changing core functionalities of the product"
