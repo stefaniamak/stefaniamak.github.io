@@ -985,6 +985,47 @@ function extractPlatformType(name) {
     return { cleanName, platformType };
 }
 
+// Get platform label for accessibility
+function getPlatformLabel(platform) {
+    const labels = {
+        'iOS': 'iOS',
+        'Android': 'Android',
+        'Web': 'Web'
+    };
+    return labels[platform] || platform;
+}
+
+// Get platform icon
+function getPlatformIcon(platform) {
+    const icons = {
+        'iOS': '',
+        'Android': '𖠌',
+        'Web': '🌐'
+    };
+    return icons[platform] || '';
+}
+
+// Create CSS-based bookmark HTML for platform (procedural drawing approach)
+function createPlatformBookmark(platform) {
+    const label = getPlatformLabel(platform);
+    const platformLower = platform.toLowerCase();
+    const icon = getPlatformIcon(platform);
+    
+    return `<div 
+        class="platform-bookmark" 
+        data-platform="${platformLower}"
+        aria-label="${label} platform"
+        role="button"
+        tabindex="0">
+        <span class="bookmark-stroke bookmark-stroke-left"></span>
+        <span class="bookmark-stroke bookmark-stroke-right"></span>
+        <span class="bookmark-stroke bookmark-stroke-bottom-left"></span>
+        <span class="bookmark-stroke bookmark-stroke-bottom-right"></span>
+        <span class="bookmark-stroke bookmark-stroke-hover"></span>
+        <span class="bookmark-icon">${icon}</span>
+    </div>`;
+}
+
 // Project Filtering (Multi-select)
 let activeFilters = {
     type: [],
@@ -992,6 +1033,41 @@ let activeFilters = {
     platform: [],
     role: []
 };
+
+// Toggle platform filter from bookmark click
+function togglePlatformFilter(platform) {
+    const filterIndex = activeFilters.platform.indexOf(platform);
+    if (filterIndex > -1) {
+        activeFilters.platform.splice(filterIndex, 1);
+    } else {
+        activeFilters.platform.push(platform);
+    }
+    
+    // Update filter buttons
+    document.querySelectorAll('.filter-btn[data-filter-type="platform"]').forEach(btn => {
+        if (btn.dataset.filterValue === platform) {
+            btn.classList.toggle('active', activeFilters.platform.includes(platform));
+        }
+    });
+    
+    // Re-render projects
+    renderProjects();
+    
+    // Update bookmark active states
+    updateBookmarkStates();
+}
+
+// Update bookmark active states based on current filters
+function updateBookmarkStates() {
+    document.querySelectorAll('.platform-bookmark').forEach(bookmark => {
+        const platform = bookmark.getAttribute('data-platform');
+        if (activeFilters.platform.includes(platform)) {
+            bookmark.classList.add('active');
+        } else {
+            bookmark.classList.remove('active');
+        }
+    });
+}
 
 function initProjectFilters() {
     const filterContainer = document.getElementById('project-filters');
@@ -1136,6 +1212,9 @@ function renderProjects() {
         const card = createProjectCard(project);
         projectGrid.appendChild(card);
     });
+    
+    // Update bookmark states after rendering
+    updateBookmarkStates();
 }
 
 function createProjectCard(project) {
@@ -1157,8 +1236,19 @@ function createProjectCard(project) {
     const techStackTags = project.techStack || [];
     
     // Build HTML
-    // Project name on its own line
-    let cardHTML = `<div class="project-name">${cleanName}</div>`;
+    // Platform bookmarks above title
+    let platformBookmarksHTML = '';
+    if (platforms.length > 0) {
+        // Calculate right offset for each bookmark (16px base + 34px spacing per bookmark for wider size)
+        platforms.forEach((platform, index) => {
+            const rightOffset = 16 + (platforms.length - 1 - index) * 34; // 26px width + 8px spacing
+            const bookmarkHTML = createPlatformBookmark(platform);
+            platformBookmarksHTML += bookmarkHTML.replace('class="platform-bookmark"', `class="platform-bookmark" style="right: ${rightOffset}px;"`);
+        });
+    }
+    
+    // Project name on its own line (below bookmarks)
+    let cardHTML = `${platformBookmarksHTML}<div class="project-name">${cleanName}</div>`;
     
     let bodyHTML = `<div class="project-description">${project.shortDescription}</div>`;
     
@@ -1167,14 +1257,6 @@ function createProjectCard(project) {
         bodyHTML += `<div class="project-role-section">`;
         bodyHTML += `<span class="project-meta-label">Role:</span>`;
         bodyHTML += `<span class="project-role">${project.role.join(', ')}</span>`;
-        bodyHTML += `</div>`;
-    }
-    
-    // Platform section (iOS, Android, Web)
-    if (platforms.length > 0) {
-        bodyHTML += `<div class="project-platform-section">`;
-        bodyHTML += `<span class="project-meta-label">Platform:</span>`;
-        bodyHTML += `<span class="project-platform">${platforms.join(', ')}</span>`;
         bodyHTML += `</div>`;
     }
     
@@ -1187,7 +1269,34 @@ function createProjectCard(project) {
     
     card.innerHTML = cardHTML + bodyHTML;
     
-    card.addEventListener('click', () => openProjectModal(project));
+    // Add click handler for card (excluding bookmarks)
+    card.addEventListener('click', (e) => {
+        // Don't open modal if clicking on a bookmark
+        if (!e.target.closest('.platform-bookmark')) {
+            openProjectModal(project);
+        }
+    });
+    
+    // Add click handlers for platform bookmarks
+    const bookmarkElements = card.querySelectorAll('.platform-bookmark');
+    bookmarkElements.forEach(bookmark => {
+        bookmark.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const platform = bookmark.getAttribute('data-platform');
+            // Toggle platform filter
+            togglePlatformFilter(platform);
+        });
+        
+        // Add keyboard support
+        bookmark.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                e.stopPropagation();
+                const platform = bookmark.getAttribute('data-platform');
+                togglePlatformFilter(platform);
+            }
+        });
+    });
     
     return card;
 }
