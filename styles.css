@@ -999,31 +999,120 @@ body {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: clamp(20px, 2.5vw, 28px);
-    margin-bottom: 12px;
     color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+/* Project type visual differences using patterns */
+.project-type-professional {
+    border-left: 3px solid var(--text-primary);
+    position: relative;
+}
+
+.project-type-professional::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-image: 
+        repeating-linear-gradient(
+            45deg,
+            var(--text-primary) 0px,
+            var(--text-primary) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+}
+
+.project-type-personal {
+    border-left: 3px solid var(--text-primary);
+    position: relative;
+}
+
+.project-type-personal::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-image: 
+        radial-gradient(circle, var(--text-primary) 1px, transparent 1px);
+    background-size: 3px 3px;
+}
+
+.project-type-academic {
+    border-left: 3px solid var(--text-primary);
+    position: relative;
+}
+
+.project-type-academic::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-image: 
+        linear-gradient(var(--text-primary) 1px, transparent 1px),
+        linear-gradient(90deg, var(--text-primary) 1px, transparent 1px);
+    background-size: 3px 3px;
 }
 
 .project-description {
     font-size: 16px;
     color: var(--text-secondary);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     line-height: 1.6;
+}
+
+.project-role-section,
+.project-platform-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.project-meta-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.project-role,
+.project-platform {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+    font-size: 13px;
 }
 
 .project-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    margin-top: 4px;
 }
 
 .project-tag {
     font-family: 'Inter', sans-serif;
     font-size: 12px;
-    padding: 4px 12px;
+    font-weight: 500;
+    padding: 6px 14px;
     background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    border-radius: 12px;
+    border: 1.5px solid var(--text-primary);
+    color: var(--text-primary);
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.project-tag:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
 }
 
 /* Modal */

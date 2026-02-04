@@ -974,6 +974,17 @@ function inferPlatforms(project) {
     return [...new Set(platforms)]; // Return unique platforms
 }
 
+// Extract platform type from project name (everything after "|")
+function extractPlatformType(name) {
+    const separatorIndex = name.indexOf('|');
+    if (separatorIndex === -1) {
+        return { cleanName: name, platformType: null };
+    }
+    const cleanName = name.substring(0, separatorIndex).trim();
+    const platformType = name.substring(separatorIndex + 1).trim();
+    return { cleanName, platformType };
+}
+
 // Project Filtering (Multi-select)
 let activeFilters = {
     type: [],
@@ -1132,22 +1143,49 @@ function createProjectCard(project) {
     card.className = 'project-card';
     card.setAttribute('data-project-id', project.id);
     
-    const languages = extractLanguages(project.techStack);
-    const platforms = inferPlatforms(project);
-    const tags = [
-        ...languages,
-        ...platforms,
-        ...project.role,
-        ...project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1))
-    ];
+    // Add project type class for styling
+    const projectType = project.type[0]; // Use first type if multiple
+    card.classList.add(`project-type-${projectType}`);
     
-    card.innerHTML = `
-        <div class="project-name">${project.name}</div>
-        <div class="project-description">${project.shortDescription}</div>
-        <div class="project-tags">
-            ${tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
-        </div>
-    `;
+    // Extract platform type from name
+    const { cleanName, platformType } = extractPlatformType(project.name);
+    
+    // Get platforms (iOS, Android, Web)
+    const platforms = inferPlatforms(project);
+    
+    // Only tech stack as chips
+    const techStackTags = project.techStack || [];
+    
+    // Build HTML
+    // Project name on its own line
+    let cardHTML = `<div class="project-name">${cleanName}</div>`;
+    
+    let bodyHTML = `<div class="project-description">${project.shortDescription}</div>`;
+    
+    // Role section
+    if (project.role && project.role.length > 0) {
+        bodyHTML += `<div class="project-role-section">`;
+        bodyHTML += `<span class="project-meta-label">Role:</span>`;
+        bodyHTML += `<span class="project-role">${project.role.join(', ')}</span>`;
+        bodyHTML += `</div>`;
+    }
+    
+    // Platform section (iOS, Android, Web)
+    if (platforms.length > 0) {
+        bodyHTML += `<div class="project-platform-section">`;
+        bodyHTML += `<span class="project-meta-label">Platform:</span>`;
+        bodyHTML += `<span class="project-platform">${platforms.join(', ')}</span>`;
+        bodyHTML += `</div>`;
+    }
+    
+    // Tech stack chips only
+    if (techStackTags.length > 0) {
+        bodyHTML += `<div class="project-tags">`;
+        bodyHTML += techStackTags.map(tech => `<span class="project-tag">${tech}</span>`).join('');
+        bodyHTML += `</div>`;
+    }
+    
+    card.innerHTML = cardHTML + bodyHTML;
     
     card.addEventListener('click', () => openProjectModal(project));
     
