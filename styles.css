@@ -1212,6 +1212,15 @@ body {
     color: var(--text-secondary);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bookmark-icon svg {
+    width: 18px;
+    height: 18px;
+    color: inherit;
 }
 
 @media (max-width: 767px) {
