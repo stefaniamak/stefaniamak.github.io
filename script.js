@@ -1299,12 +1299,27 @@ document.addEventListener('keydown', (e) => {
 // Contact Links Rendering
 function renderContactLinks() {
     const contactLinks = document.getElementById('contact-links');
-    contactLinks.innerHTML = contactLinksData.map(link => `
-        <a href="${link.url}" class="contact-link" aria-label="${link.label}" ${link.url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>
-            <span class="contact-icon">${link.icon}</span>
-            <span class="contact-text">${link.label}</span>
-        </a>
-    `).join('');
+    const email = 'stefania.makrygiannaki@gmail.com';
+    const linkedinName = 'Stefania Makrygiannaki';
+    const linkedinUrl = 'https://www.linkedin.com/in/stefaniamak/';
+    
+    contactLinks.innerHTML = `
+        <p class="contact-intro">
+            Whether you're reaching out for business opportunities or just want to geek out over smooth animations and pixel-perfect details ∙ feel free to 
+            <a href="mailto:${email}" class="contact-inline-link">email me</a> or 
+            <a href="${linkedinUrl}" class="contact-inline-link" target="_blank" rel="noopener noreferrer">connect with me on LinkedIn</a>.
+        </p>
+        <div class="contact-methods">
+            <div class="contact-method">
+                <p class="contact-method-label">Email</p>
+                <a href="mailto:${email}" class="contact-method-link">${email}</a>
+            </div>
+            <div class="contact-method">
+                <p class="contact-method-label">LinkedIn</p>
+                <a href="${linkedinUrl}" class="contact-method-link" target="_blank" rel="noopener noreferrer">${linkedinName}</a>
+            </div>
+        </div>
+    `;
 }
 
 // Footer Links Rendering

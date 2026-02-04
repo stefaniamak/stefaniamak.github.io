@@ -1250,59 +1250,91 @@ body {
     text-align: center;
 }
 
-.contact-links {
-    display: flex;
-    justify-content: center;
-    gap: 48px;
-    flex-wrap: wrap;
+.contact-content {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-@media (max-width: 767px) {
-    .contact-links {
-        gap: 32px;
+.contact-intro {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(16px, 2vw, 18px);
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0 auto 48px;
+    max-width: 600px;
+}
+
+.contact-intro .contact-inline-link {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--text-secondary);
+    text-underline-offset: 3px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.contact-intro .contact-inline-link:hover {
+    color: var(--text-secondary);
+    text-decoration-color: var(--text-primary);
+}
+
+.contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .contact-methods {
+        flex-direction: row;
+        justify-content: center;
+        gap: 64px;
     }
 }
 
-.contact-link {
+.contact-method {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
-    text-decoration: none;
-    color: var(--text-primary);
-    transition: color 0.2s ease;
+    flex: 1;
+    min-width: 0;
+    max-width: 350px;
 }
 
-.contact-link:hover {
-    color: var(--text-secondary);
-}
-
-.contact-icon {
+.contact-method-label {
     font-family: 'Inter', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--border-color);
-    border-radius: 50%;
-    transition: border-color 0.2s ease;
-}
-
-.contact-link:hover .contact-icon {
-    border-color: var(--text-primary);
-}
-
-.contact-text {
     font-size: 14px;
     font-weight: 500;
     color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
 }
 
-.contact-link:hover .contact-text {
+.contact-method-link {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(15px, 1.8vw, 17px);
+    font-weight: 500;
     color: var(--text-primary);
+    text-decoration: none;
+    padding: 12px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+.contact-method-link:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+    border-color: var(--text-primary);
+    transform: translateY(-2px);
 }
 
 /* Footer */
