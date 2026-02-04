@@ -568,12 +568,36 @@ body {
     transform: translateX(-50%);
 }
 
+@media (max-width: 767px) {
+    .experience-item::before {
+        left: 16px;
+        width: 10px;
+        height: 10px;
+        transform: none;
+        transform-origin: center center;
+        /* Line center is at 21px (20px + 1px). Bullet center = left + width/2 = 16 + 5 = 21px */
+    }
+    
+    .experience-item:hover::before {
+        left: 18.5px;
+        transform: scale(1.1);
+        /* Adjust left position to compensate for scale: 21px - (11px/2) = 15.5px, using 15.45px for precision */
+    }
+    
+    .experience-item.active::before {
+        left: 18.5px;
+        transform: scale(1.1);
+        /* Adjust left position to compensate for scale: 21px - (11px/2) = 15.5px, using 15.45px for precision */
+    }
+}
+
 @media (min-width: 768px) {
     .experience-item::before {
         left: 25px;
         width: 12px;
         height: 12px;
         border-width: 1.5px;
+        transform: translateX(-50%);
     }
 }
 
