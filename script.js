@@ -1322,21 +1322,11 @@ function renderContactLinks() {
     `;
 }
 
-// Footer Links Rendering
-function renderFooterLinks() {
-    const footerLinks = document.getElementById('footer-links');
-    footerLinks.innerHTML = footerLinksData.map(link => `
-        <a href="${link.url}" ${link.url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${link.label}</a>
-    `).join('');
-}
+// Footer Links Rendering - No longer needed as footer is now static HTML
+// Removed renderFooterLinks() function
 
-// Set current year in footer
-function setCurrentYear() {
-    const yearElement = document.getElementById('current-year');
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
-    }
-}
+// Set current year in footer - No longer needed as year is hardcoded to 2026
+// Removed setCurrentYear() function
 
 // Typing Animation for Hero Statement
 function initTypingAnimation() {
@@ -1394,6 +1384,4 @@ document.addEventListener('DOMContentLoaded', () => {
     renderEducation();
     initProjectFilters();
     renderContactLinks();
-    renderFooterLinks();
-    setCurrentYear();
 });
