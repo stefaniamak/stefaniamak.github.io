@@ -72,6 +72,19 @@ const workExperienceData = [
     }
 ];
 
+// Education Data
+const educationData = [
+    {
+        id: 1,
+        company: "International Hellenic University",
+        role: "Bachelor's degree, Information Technology",
+        location: "",
+        dates: "Oct 2016",
+        summary: "",
+        details: []
+    }
+];
+
 // Projects Data
 const projectsData = [
     {
@@ -545,6 +558,63 @@ function renderWorkExperience() {
     
     // Initialize accordion after rendering
     initAccordion();
+    
+    // Initialize scroll animations
+    initTimelineAnimations();
+}
+
+// Education Rendering
+function renderEducation() {
+    const educationList = document.getElementById('education-list');
+    educationList.innerHTML = '';
+    
+    educationData.forEach((edu, index) => {
+        const item = document.createElement('div');
+        item.className = 'experience-item';
+        item.setAttribute('role', 'listitem');
+        
+        const contentId = `edu-${edu.id}`;
+        const datesDisplay = edu.dates;
+        
+        // Only show toggle if there are details to display
+        const hasDetails = edu.details && edu.details.length > 0;
+        const toggleButton = hasDetails ? `<span class="experience-toggle" aria-hidden="true">+</span>` : '';
+        const detailsContent = hasDetails ? `
+            <div class="experience-content" id="${contentId}" aria-hidden="true">
+                <ul>
+                    ${edu.details.map(detail => `<li>${detail}</li>`).join('')}
+                </ul>
+            </div>
+        ` : '';
+        
+        // Use button for expandable items, div for non-expandable
+        const headerTag = hasDetails ? 'button' : 'div';
+        const headerAttrs = hasDetails 
+            ? `class="experience-header" aria-expanded="false" aria-controls="${contentId}"`
+            : `class="experience-header" style="cursor: default; pointer-events: none;"`;
+        
+        item.innerHTML = `
+            <${headerTag} ${headerAttrs}>
+                <div class="experience-header-content">
+                    <div class="experience-company">${edu.company}</div>
+                    <div class="experience-role">${edu.role}</div>
+                    <div class="experience-meta">
+                        ${edu.location ? `<span class="experience-location">${edu.location}</span>` : ''}
+                        <span class="experience-dates">${datesDisplay}</span>
+                    </div>
+                </div>
+                ${toggleButton}
+            </${headerTag}>
+            ${detailsContent}
+        `;
+        
+        educationList.appendChild(item);
+    });
+    
+    // Initialize accordion after rendering (only if there are expandable items)
+    if (educationData.some(edu => edu.details && edu.details.length > 0)) {
+        initAccordion();
+    }
     
     // Initialize scroll animations
     initTimelineAnimations();
@@ -1060,6 +1130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeader();
     initTypingAnimation();
     renderWorkExperience();
+    renderEducation();
     initProjectFilters();
     renderContactLinks();
     renderFooterLinks();
