@@ -868,6 +868,46 @@ function initTimelineAnimations() {
     });
 }
 
+// Project Cards Scroll Animation
+function initProjectAnimations() {
+    const projectCards = document.querySelectorAll('.project-card:not(.hidden)');
+    
+    if (projectCards.length === 0) return;
+    
+    // Use Intersection Observer for scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Unobserve after animation to improve performance
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    projectCards.forEach((card, index) => {
+        // Stagger animation delays
+        card.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(card);
+        
+        // Check if card is already in viewport on load
+        const rect = card.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+        if (isInViewport) {
+            // Small delay to ensure DOM is ready, then make visible
+            setTimeout(() => {
+                card.classList.add('visible');
+                observer.unobserve(card);
+            }, 100);
+        }
+    });
+}
+
 // Helper Functions for Project Filtering
 
 // Normalize role strings to standardized role arrays
@@ -1062,6 +1102,9 @@ function togglePlatformFilter(platform) {
     
     // Update bookmark active states
     updateBookmarkStates();
+    
+    // Initialize scroll animations for project cards
+    initProjectAnimations();
 }
 
 // Update bookmark active states based on current filters
@@ -1222,6 +1265,9 @@ function renderProjects() {
     
     // Update bookmark states after rendering
     updateBookmarkStates();
+    
+    // Initialize scroll animations for project cards
+    initProjectAnimations();
 }
 
 function createProjectCard(project) {
