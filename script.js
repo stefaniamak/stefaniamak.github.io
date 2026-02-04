@@ -565,6 +565,24 @@ function initAccordion() {
             const content = document.getElementById(contentId);
             const item = header.closest('.experience-item');
             
+            // Check if there's another open experience and if clicked item is below it
+            let hasOpenExperienceAbove = false;
+            if (!isExpanded) {
+                experienceHeaders.forEach(h => {
+                    if (h !== header && h.getAttribute('aria-expanded') === 'true') {
+                        const otherItem = h.closest('.experience-item');
+                        if (otherItem && item) {
+                            // Check if the other item is above the clicked item
+                            const otherRect = otherItem.getBoundingClientRect();
+                            const currentRect = item.getBoundingClientRect();
+                            if (otherRect.top < currentRect.top) {
+                                hasOpenExperienceAbove = true;
+                            }
+                        }
+                    }
+                });
+            }
+            
             // Close all other items when opening a new one
             if (!isExpanded) {
                 experienceHeaders.forEach(h => {
@@ -596,7 +614,11 @@ function initAccordion() {
                 if (item) {
                     item.classList.add('active');
                 }
-                // Wait for previous items to close (400ms closing animation) before calculating scroll position
+                // Adjust delay based on whether there's an open experience above
+                // If there is, wait for closing animation (400ms) + buffer
+                // Otherwise, use shorter delay
+                const scrollDelay = hasOpenExperienceAbove ? 450 : 150;
+                
                 setTimeout(() => {
                     const rect = item.getBoundingClientRect();
                     const headerHeight = 80; // Account for fixed header
@@ -607,7 +629,7 @@ function initAccordion() {
                         top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position
                         behavior: 'smooth'
                     });
-                }, 450); // Wait for closing animation (400ms) + small buffer (50ms) before scrolling
+                }, scrollDelay);
             }
         });
     });
