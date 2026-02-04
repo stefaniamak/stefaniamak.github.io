@@ -409,6 +409,7 @@ body {
     align-items: center;
     justify-content: flex-start;
     gap: 22px;
+    flex-wrap: wrap;
 }
 
 /* Hero CTA Button */
