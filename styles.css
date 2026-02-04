@@ -561,10 +561,10 @@ body {
     height: 10px;
     border-radius: 50%;
     background-color: var(--bg-primary);
-    border: 1.5px solid var(--text-secondary);
+    border: 1.5px solid var(--text-tertiary);
     z-index: 3;
     transition: all 0.3s ease;
-    opacity: 0.6;
+    opacity: 1;
     transform: translateX(-50%);
 }
 
@@ -578,7 +578,6 @@ body {
 }
 
 .experience-item:hover::before {
-    opacity: 1;
     border-color: var(--text-primary);
     transform: translateX(-50%) scale(1.1);
 }
@@ -586,7 +585,6 @@ body {
 .experience-item.active::before {
     background-color: var(--text-primary);
     border-color: var(--text-primary);
-    opacity: 1;
     transform: translateX(-50%) scale(1.1);
 }
 
