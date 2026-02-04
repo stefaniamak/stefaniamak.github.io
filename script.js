@@ -81,7 +81,10 @@ const educationData = [
         location: "",
         dates: "Oct 2016",
         summary: "",
-        details: []
+        details: [
+            "BSc Thesis Commendation: My BSc thesis, titled \"Nonogram: Development of a Puzzle Solver and Designer,\" was evaluated as one of the best theses of 2025 by the examination committee of the International Hellenic University, Department of Information and Electronic Engineering.",
+            "In 2025, over 200 theses were completed. From 15 shortlisted submissions for commendation, 5 were selected, including mine."
+        ]
     }
 ];
 
@@ -563,6 +566,36 @@ function renderWorkExperience() {
     initTimelineAnimations();
 }
 
+// Highlight important information in education text
+function highlightEducationText(text) {
+    let highlightedText = text;
+    const MARKER = '___BOLD_MARKER___';
+    
+    // First, replace "BSc Thesis Commendation" with a marker to protect it
+    const boldKeyword = 'BSc Thesis Commendation';
+    const boldRegex = new RegExp(`(${boldKeyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    highlightedText = highlightedText.replace(boldRegex, MARKER);
+    
+    // Then, process underlines for only the top important phrases
+    // (order matters - longer phrases first to avoid partial matches)
+    const underlineKeywords = [
+        'Nonogram: Development of a Puzzle Solver and Designer',
+        'best theses of 2025',
+        '5 were selected'
+    ];
+    
+    // Apply underlines
+    underlineKeywords.forEach(keyword => {
+        const regex = new RegExp(`(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        highlightedText = highlightedText.replace(regex, '<u>$1</u>');
+    });
+    
+    // Finally, replace the marker with bold tags
+    highlightedText = highlightedText.replace(new RegExp(MARKER.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '<strong>BSc Thesis Commendation</strong>');
+    
+    return highlightedText;
+}
+
 // Education Rendering
 function renderEducation() {
     const educationList = document.getElementById('education-list');
@@ -581,9 +614,7 @@ function renderEducation() {
         const toggleButton = hasDetails ? `<span class="experience-toggle" aria-hidden="true">+</span>` : '';
         const detailsContent = hasDetails ? `
             <div class="experience-content" id="${contentId}" aria-hidden="true">
-                <ul>
-                    ${edu.details.map(detail => `<li>${detail}</li>`).join('')}
-                </ul>
+                ${edu.details.map(detail => `<p>${highlightEducationText(detail)}</p>`).join('')}
             </div>
         ` : '';
         
