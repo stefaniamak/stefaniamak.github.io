@@ -1032,11 +1032,13 @@ body {
     color: var(--text-primary);
     margin-bottom: 12px;
     padding-top: 54px; /* Space for bookmarks above (bookmarks extend above with negative top) */
+    margin-top: -20px; /* Reduce spacing from type label */
 }
 
 @media (max-width: 767px) {
     .project-name {
         padding-top: 54px; /* Space for bookmarks (same as desktop) */
+        margin-top: -20px; /* Reduce spacing from type label */
     }
 }
 
