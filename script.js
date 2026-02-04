@@ -594,6 +594,7 @@ function renderWorkExperience() {
         const item = document.createElement('div');
         item.className = 'experience-item';
         item.setAttribute('role', 'listitem');
+        item.setAttribute('data-item-id', `work-${exp.id}`);
         
         const contentId = `exp-${exp.id}`;
         const duration = calculateDuration(exp.dates);
@@ -667,6 +668,7 @@ function renderTeaching() {
         const item = document.createElement('div');
         item.className = 'experience-item';
         item.setAttribute('role', 'listitem');
+        item.setAttribute('data-item-id', `teaching-${teaching.id}`);
         
         const contentId = `teaching-${teaching.id}`;
         const duration = calculateDuration(teaching.dates);
@@ -710,6 +712,7 @@ function renderEducation() {
         const item = document.createElement('div');
         item.className = 'experience-item';
         item.setAttribute('role', 'listitem');
+        item.setAttribute('data-item-id', `education-${edu.id}`);
         
         const contentId = `edu-${edu.id}`;
         const datesDisplay = edu.dates;
@@ -814,11 +817,23 @@ function initAccordion() {
                 if (item) {
                     item.classList.remove('active');
                 }
+                // Remove hash from URL when closing
+                if (window.location.hash) {
+                    const itemId = item ? item.getAttribute('data-item-id') : null;
+                    if (itemId && window.location.hash === `#${itemId}`) {
+                        history.replaceState(null, '', window.location.pathname + window.location.search);
+                    }
+                }
             } else {
                 header.setAttribute('aria-expanded', 'true');
                 content.setAttribute('aria-hidden', 'false');
                 if (item) {
                     item.classList.add('active');
+                }
+                // Update URL hash when opening (only if not already set to this value)
+                const itemId = item ? item.getAttribute('data-item-id') : null;
+                if (itemId && window.location.hash !== `#${itemId}`) {
+                    history.replaceState(null, '', `#${itemId}`);
                 }
                 // Adjust delay based on whether there's an open experience above
                 // If there is, wait for closing animation (400ms) + buffer
@@ -1273,6 +1288,7 @@ function createProjectCard(project) {
     const card = document.createElement('div');
     card.className = 'project-card';
     card.setAttribute('data-project-id', project.id);
+    card.setAttribute('data-item-id', `project-${project.id}`);
     
     // Add project type class for styling
     const projectType = project.type[0]; // Use first type if multiple
@@ -1391,6 +1407,11 @@ function openProjectModal(project) {
     const modal = document.getElementById('project-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalBody = document.getElementById('modal-body');
+    
+    // Update URL hash when opening project modal (only if not already set to this value)
+    if (window.location.hash !== `#project-${project.id}`) {
+        history.replaceState(null, '', `#project-${project.id}`);
+    }
     
     // Extract clean name (remove platform type from name)
     const { cleanName, platformType } = extractPlatformType(project.name);
@@ -1569,6 +1590,11 @@ function closeProjectModal() {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    
+    // Remove hash from URL when closing modal
+    if (window.location.hash && window.location.hash.startsWith('#project-')) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
 }
 
 // Modal Event Listeners
@@ -1672,6 +1698,39 @@ function initTypingAnimation() {
     }, 300);
 }
 
+// Handle URL hash to expand items on page load
+function handleHashNavigation() {
+    const hash = window.location.hash;
+    if (!hash) return;
+    
+    const itemId = hash.substring(1); // Remove the #
+    
+    // Check if it's a project
+    if (itemId.startsWith('project-')) {
+        const projectId = parseInt(itemId.replace('project-', ''));
+        const project = projectsData.find(p => p.id === projectId);
+        if (project) {
+            // Wait for projects to be rendered
+            setTimeout(() => {
+                openProjectModal(project);
+            }, 100);
+        }
+        return;
+    }
+    
+    // Check if it's a work experience, teaching, or education item
+    const item = document.querySelector(`[data-item-id="${itemId}"]`);
+    if (item) {
+        const header = item.querySelector('.experience-header');
+        if (header && header.getAttribute('aria-expanded') === 'false') {
+            // Wait a bit for animations to settle, then expand
+            setTimeout(() => {
+                header.click();
+            }, 300);
+        }
+    }
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
@@ -1682,4 +1741,26 @@ document.addEventListener('DOMContentLoaded', () => {
     renderEducation();
     initProjectFilters();
     renderContactLinks();
+    
+    // Handle hash navigation after everything is rendered
+    setTimeout(() => {
+        handleHashNavigation();
+    }, 500);
+    
+    // Listen for hash changes (e.g., browser back/forward)
+    window.addEventListener('hashchange', () => {
+        // If hash is removed, close any open modals or expanded items
+        if (!window.location.hash) {
+            const modal = document.getElementById('project-modal');
+            if (modal && modal.classList.contains('active')) {
+                closeProjectModal();
+            }
+            // Close all expanded experience items
+            document.querySelectorAll('.experience-header[aria-expanded="true"]').forEach(header => {
+                header.click();
+            });
+        } else {
+            handleHashNavigation();
+        }
+    });
 });
