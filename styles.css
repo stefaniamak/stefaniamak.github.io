@@ -770,6 +770,23 @@ body {
     font-weight: 600;
 }
 
+.experience-details-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 767px) {
+    .experience-details-title {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+}
+
 /* Highlight active experience */
 .experience-item.active {
     background-color: transparent;

@@ -715,6 +715,7 @@ function renderWorkExperience() {
                 <span class="experience-toggle" aria-hidden="true">+</span>
             </button>
             <div class="experience-content" id="${contentId}" aria-hidden="true">
+                <div class="experience-details-title">Details</div>
                 <ul>
                     ${exp.details.map(detail => `<li>${detail}</li>`).join('')}
                 </ul>
@@ -795,6 +796,7 @@ function renderTeaching() {
                 <span class="experience-toggle" aria-hidden="true">+</span>
             </button>
             <div class="experience-content" id="${contentId}" aria-hidden="true">
+                <div class="experience-details-title">Details</div>
                 <ul>
                     ${teaching.details.map(detail => `<li>${detail}</li>`).join('')}
                 </ul>
@@ -836,6 +838,7 @@ function renderEducation() {
         const toggleButton = hasDetails ? `<span class="experience-toggle" aria-hidden="true">+</span>` : '';
         const detailsContent = hasDetails ? `
             <div class="experience-content" id="${contentId}" aria-hidden="true">
+                <div class="experience-details-title">Details</div>
                 ${edu.details.map(detail => `<p>${highlightEducationText(detail)}</p>`).join('')}
             </div>
         ` : '';
