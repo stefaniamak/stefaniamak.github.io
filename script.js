@@ -596,7 +596,7 @@ function initAccordion() {
                 if (item) {
                     item.classList.add('active');
                 }
-                // Wait for previous items to close (200ms closing animation) before calculating scroll position
+                // Wait for previous items to close (400ms closing animation) before calculating scroll position
                 setTimeout(() => {
                     const rect = item.getBoundingClientRect();
                     const headerHeight = 80; // Account for fixed header
@@ -607,7 +607,7 @@ function initAccordion() {
                         top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position
                         behavior: 'smooth'
                     });
-                }, 250); // Wait for closing animation (200ms) + small buffer (50ms) before scrolling
+                }, 450); // Wait for closing animation (400ms) + small buffer (50ms) before scrolling
             }
         });
     });
