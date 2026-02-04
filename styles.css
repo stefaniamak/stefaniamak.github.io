@@ -1003,7 +1003,7 @@ body {
     font-size: clamp(20px, 2.5vw, 28px);
     color: var(--text-primary);
     margin-bottom: 12px;
-    padding-top: 54px; /* Space for bookmarks above */
+    padding-top: 54px; /* Space for bookmarks above (bookmarks extend above with negative top) */
 }
 
 @media (max-width: 767px) {
@@ -1015,9 +1015,9 @@ body {
 /* Platform bookmarks above title - Procedural CSS drawing (CustomPainter-style) */
 .platform-bookmark {
     position: absolute;
-    top: 0;
+    top: -8px; /* Extends above the card */
     width: 26px;
-    height: 48px;
+    height: 46px; /* Same height as tallest vertical line */
     cursor: pointer;
     transition: transform 0.2s ease;
     z-index: 2;
@@ -1026,39 +1026,115 @@ body {
 
 @media (max-width: 767px) {
     .platform-bookmark {
+        top: -6px; /* Smaller extension on mobile */
         width: 20px;
-        height: 38px;
+        height: 36px; /* Same height as tallest vertical line */
     }
 }
+
+/* Bookmark fill background - procedural approach matching stroke structure */
+.bookmark-fill {
+    position: absolute;
+    background-color: var(--bg-primary);
+    z-index: -1; /* Behind the strokes */
+}
+
+/* Top fill - fills area inside top border, follows top stroke line */
+.bookmark-fill-top {
+    top: 0;
+    left: 0;
+    width: 26px; /* Full width inside top border */
+    height: 46px; /* Fills down to where vertical strokes end */
+    border-radius: 8px 8px 0 0;
+}
+
+@media (max-width: 767px) {
+    .bookmark-fill-top {
+        width: 20px;
+        height: 36px;
+    }
+}
+
+/* Left fill - fills area inside left border, follows left stroke line */
+.bookmark-fill-left {
+    top: 0;
+    left: 0;
+    width: 13px; /* Fills from left edge to center */
+    height: 46px; /* Same height as left stroke */
+    border-radius: 8px 0 0 0;
+}
+
+@media (max-width: 767px) {
+    .bookmark-fill-left {
+        width: 10px;
+        height: 36px;
+    }
+}
+
+/* Right fill - fills area inside right border, follows right stroke line */
+.bookmark-fill-right {
+    top: 0;
+    right: 0;
+    width: 13px; /* Fills from right edge to center */
+    height: 46px; /* Same height as right stroke */
+    border-radius: 0 8px 0 0;
+}
+
+@media (max-width: 767px) {
+    .bookmark-fill-right {
+        width: 10px;
+        height: 36px;
+    }
+}
+
 
 /* Base stroke styling - all strokes inherit this */
 .bookmark-stroke {
     position: absolute;
-    background-color: currentColor;
+    background-color: var(--text-secondary);
     border: none;
     border-radius: 0;
 }
 
 /* Anchor points:
- * A: top-left (0, 0)
- * B: top-right (26px, 0) desktop / (20px, 0) mobile
- * C: bottom-left vertical anchor (0, 38px) desktop / (0, 30px) mobile
- * D: bottom-right vertical anchor (26px, 38px) desktop / (20px, 30px) mobile
- * E: bottom tip center (13px, 48px) desktop / (10px, 38px) mobile
+ * A: top-left (0, 0) - above card
+ * B: top-right (26px, 0) desktop / (20px, 0) mobile - above card
+ * C: bottom-left vertical anchor (0, 46px) desktop / (0, 36px) mobile - at card top
+ * D: bottom-right vertical anchor (26px, 46px) desktop / (20px, 36px) mobile - at card top
+ * E: bottom tip center (13px, 56px) desktop / (10px, 44px) mobile
  */
+
+/* Top horizontal stroke - A to B (extends above card) */
+.bookmark-stroke-top {
+    left: 0; /* Anchor A x-coordinate */
+    top: 0; /* Anchor A y-coordinate */
+    width: 26px; /* Full width from A to B */
+    height: 1.5px;
+    border-radius: 8px 8px 0 0; /* Rounded top corners */
+}
+
+@media (max-width: 767px) {
+    .bookmark-stroke-top {
+        width: 20px;
+        height: 1px;
+        border-radius: 8px 8px 0 0;
+    }
+}
 
 /* Left vertical stroke - A to C */
 .bookmark-stroke-left {
     left: 0; /* Anchor A x-coordinate */
     top: 0; /* Anchor A y-coordinate */
-    width: 2.5px;
-    height: 38px; /* Exact distance from A to C */
+    width: 1.5px;
+    height: 46px; /* Exact distance from A to C (8px above + 38px to card top) */
+    border-radius: 8px 0 0 0; /* Rounded top-left corner */
 }
 
 @media (max-width: 767px) {
     .bookmark-stroke-left {
-        width: 2px;
-        height: 30px; /* Exact distance from A to C on mobile */
+        width: 1px;
+        height: 36px; /* Exact distance from A to C on mobile (6px above + 30px to card top) */
+        border-radius: 8px 0 0 0;
     }
 }
 
@@ -1066,32 +1142,34 @@ body {
 .bookmark-stroke-right {
     right: 0; /* Anchor B x-coordinate (26px from left = container width) */
     top: 0; /* Anchor B y-coordinate */
-    width: 2.5px;
-    height: 38px; /* Exact distance from B to D */
+    width: 1.5px;
+    height: 46px; /* Exact distance from B to D (8px above + 38px to card top) */
+    border-radius: 0 8px 0 0; /* Rounded top-right corner */
 }
 
 @media (max-width: 767px) {
     .bookmark-stroke-right {
-        width: 2px;
-        height: 30px; /* Exact distance from B to D on mobile */
+        width: 1px;
+        height: 36px; /* Exact distance from B to D on mobile (6px above + 30px to card top) */
+        border-radius: 0 8px 0 0;
     }
 }
 
 /* Bottom-left diagonal stroke - C to E */
 .bookmark-stroke-bottom-left {
     left: 0; /* Anchor C x-coordinate */
-    top: 38px; /* Anchor C y-coordinate (exact end of left vertical) */
+    top: 46px; /* Anchor C y-coordinate (exact end of left vertical, at card top) */
     width: 16.4px; /* sqrt(13^2 + 10^2) = diagonal length C to E (13px horizontal to center, 10px vertical) */
-    height: 2.5px;
+    height: 1.5px;
     transform-origin: top left; /* Rotate around anchor C */
     transform: rotate(-37.9deg); /* atan(10/13) ≈ 37.9deg for proper angle to reach center */
 }
 
 @media (max-width: 767px) {
     .bookmark-stroke-bottom-left {
-        top: 30px; /* Anchor C y-coordinate on mobile */
+        top: 36px; /* Anchor C y-coordinate on mobile */
         width: 12.8px; /* sqrt(10^2 + 8^2) = diagonal length (10px horizontal to center, 8px vertical) */
-        height: 2px;
+        height: 1px;
         transform: rotate(-38.7deg); /* atan(8/10) ≈ 38.7deg */
     }
 }
@@ -1099,18 +1177,18 @@ body {
 /* Bottom-right diagonal stroke - D to E */
 .bookmark-stroke-bottom-right {
     right: 0; /* Anchor D x-coordinate (26px from left = container width) */
-    top: 38px; /* Anchor D y-coordinate (exact end of right vertical) */
+    top: 46px; /* Anchor D y-coordinate (exact end of right vertical, at card top) */
     width: 16.4px; /* sqrt(13^2 + 10^2) = diagonal length D to E (13px horizontal to center, 10px vertical) */
-    height: 2.5px;
+    height: 1.5px;
     transform-origin: top right; /* Rotate around anchor D */
     transform: rotate(37.9deg); /* atan(10/13) ≈ 37.9deg for proper angle to reach center */
 }
 
 @media (max-width: 767px) {
     .bookmark-stroke-bottom-right {
-        top: 30px; /* Anchor D y-coordinate on mobile */
+        top: 36px; /* Anchor D y-coordinate on mobile */
         width: 12.8px; /* sqrt(10^2 + 8^2) = diagonal length (10px horizontal to center, 8px vertical) */
-        height: 2px;
+        height: 1px;
         transform: rotate(38.7deg); /* atan(8/10) ≈ 38.7deg */
     }
 }
@@ -1119,28 +1197,28 @@ body {
 .bookmark-stroke-hover {
     right: 0; /* Anchor B x-coordinate */
     top: 0; /* Anchor B y-coordinate */
-    bottom: 10px; /* Stops at anchor D y-coordinate (38px from top = 48px - 10px) */
-    width: 1.5px;
+    bottom: 0; /* Stops at anchor D y-coordinate (46px from top) */
+    width: 1px;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
 
 @media (max-width: 767px) {
     .bookmark-stroke-hover {
-        bottom: 8px; /* Stops at anchor D y-coordinate on mobile (30px from top = 38px - 8px) */
-        width: 1px;
+        bottom: 0; /* Stops at anchor D y-coordinate on mobile (36px from top) */
+        width: 0.5px;
     }
 }
 
-/* Platform icon inside bookmark - positioned in upper half */
+/* Platform icon inside bookmark - positioned in the middle */
 .bookmark-icon {
     position: absolute;
-    top: 30%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 18px;
     line-height: 1;
-    color: var(--text-primary);
+    color: var(--text-secondary);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
     pointer-events: none;
 }
@@ -1148,7 +1226,6 @@ body {
 @media (max-width: 767px) {
     .bookmark-icon {
         font-size: 14px;
-        top: 28%;
     }
 }
 

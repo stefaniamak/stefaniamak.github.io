@@ -1017,6 +1017,10 @@ function createPlatformBookmark(platform) {
         aria-label="${label} platform"
         role="button"
         tabindex="0">
+        <span class="bookmark-fill bookmark-fill-top"></span>
+        <span class="bookmark-fill bookmark-fill-left"></span>
+        <span class="bookmark-fill bookmark-fill-right"></span>
+        <span class="bookmark-stroke bookmark-stroke-top"></span>
         <span class="bookmark-stroke bookmark-stroke-left"></span>
         <span class="bookmark-stroke bookmark-stroke-right"></span>
         <span class="bookmark-stroke bookmark-stroke-bottom-left"></span>
