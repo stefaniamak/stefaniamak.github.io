@@ -72,6 +72,35 @@ const workExperienceData = [
     }
 ];
 
+// Teaching & Mentoring Experience Data
+const teachingData = [
+    {
+        id: 1,
+        company: "i-Mentor, UMBRELLA Volunteering Program, International Hellenic University",
+        role: "Mentor",
+        location: "",
+        dates: "Oct 2019 — Jul 2022",
+        summary: "Mentored undergraduate students to support degree completion and academic success.",
+        details: [
+            "Mentored undergraduate students to support degree completion and academic success",
+            "Managed and moderated a Discord forum to facilitate communication between students and professors",
+            "Participated in seminars on educational techniques, communication, and personal development, applying insights to mentoring"
+        ]
+    },
+    {
+        id: 2,
+        company: "Private Computer Science Tutor for High School Student",
+        role: "Private Tutor",
+        location: "Thessaloniki, Greece",
+        dates: "Mar 2020 — Jun 2020",
+        summary: "Delivered tailored sessions preparing the student for the Greek final exams for University admission.",
+        details: [
+            "Delivered tailored sessions preparing the student for the Greek final exams for University admission",
+            "Designed exercises and lessons to strengthen problem-solving and understanding"
+        ]
+    }
+];
+
 // Education Data
 const educationData = [
     {
@@ -594,6 +623,49 @@ function highlightEducationText(text) {
     highlightedText = highlightedText.replace(new RegExp(MARKER.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '<strong>BSc Thesis Commendation</strong>');
     
     return highlightedText;
+}
+
+// Teaching & Mentoring Experience Rendering
+function renderTeaching() {
+    const teachingList = document.getElementById('teaching-list');
+    teachingList.innerHTML = '';
+    
+    teachingData.forEach((teaching, index) => {
+        const item = document.createElement('div');
+        item.className = 'experience-item';
+        item.setAttribute('role', 'listitem');
+        
+        const contentId = `teaching-${teaching.id}`;
+        const duration = calculateDuration(teaching.dates);
+        const datesDisplay = duration ? `${teaching.dates} · ${duration}` : teaching.dates;
+        
+        item.innerHTML = `
+            <button class="experience-header" aria-expanded="false" aria-controls="${contentId}">
+                <div class="experience-header-content">
+                    <div class="experience-company">${teaching.company}</div>
+                    <div class="experience-role">${teaching.role}</div>
+                    <div class="experience-meta">
+                        ${teaching.location ? `<span class="experience-location">${teaching.location}</span>` : ''}
+                        <span class="experience-dates">${datesDisplay}</span>
+                    </div>
+                </div>
+                <span class="experience-toggle" aria-hidden="true">+</span>
+            </button>
+            <div class="experience-content" id="${contentId}" aria-hidden="true">
+                <ul>
+                    ${teaching.details.map(detail => `<li>${detail}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+        
+        teachingList.appendChild(item);
+    });
+    
+    // Initialize accordion after rendering
+    initAccordion();
+    
+    // Initialize scroll animations
+    initTimelineAnimations();
 }
 
 // Education Rendering
@@ -1161,6 +1233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeader();
     initTypingAnimation();
     renderWorkExperience();
+    renderTeaching();
     renderEducation();
     initProjectFilters();
     renderContactLinks();
