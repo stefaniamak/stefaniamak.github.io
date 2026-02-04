@@ -985,17 +985,40 @@ let activeFilters = {
 function initProjectFilters() {
     const filterContainer = document.getElementById('project-filters');
     
-    // Get unique filter values
-    const types = [...new Set(projectsData.flatMap(p => p.type))];
-    const languages = [...new Set(projectsData.flatMap(p => extractLanguages(p.techStack)))];
-    const platforms = [...new Set(projectsData.flatMap(p => inferPlatforms(p)))];
-    const roles = [...new Set(projectsData.flatMap(p => p.role))];
+    // Get unique filter values with counts
+    const typeCounts = {};
+    projectsData.forEach(p => {
+        p.type.forEach(type => {
+            typeCounts[type] = (typeCounts[type] || 0) + 1;
+        });
+    });
+    const types = [...new Set(projectsData.flatMap(p => p.type))].sort((a, b) => typeCounts[b] - typeCounts[a]);
     
-    // Sort for consistent display
-    types.sort();
-    languages.sort();
-    platforms.sort();
-    roles.sort();
+    const languageCounts = {};
+    projectsData.forEach(p => {
+        const projectLanguages = extractLanguages(p.techStack);
+        projectLanguages.forEach(lang => {
+            languageCounts[lang] = (languageCounts[lang] || 0) + 1;
+        });
+    });
+    const languages = [...new Set(projectsData.flatMap(p => extractLanguages(p.techStack)))].sort((a, b) => languageCounts[b] - languageCounts[a]);
+    
+    const platformCounts = {};
+    projectsData.forEach(p => {
+        const projectPlatforms = inferPlatforms(p);
+        projectPlatforms.forEach(platform => {
+            platformCounts[platform] = (platformCounts[platform] || 0) + 1;
+        });
+    });
+    const platforms = [...new Set(projectsData.flatMap(p => inferPlatforms(p)))].sort((a, b) => platformCounts[b] - platformCounts[a]);
+    
+    const roleCounts = {};
+    projectsData.forEach(p => {
+        p.role.forEach(role => {
+            roleCounts[role] = (roleCounts[role] || 0) + 1;
+        });
+    });
+    const roles = [...new Set(projectsData.flatMap(p => p.role))].sort((a, b) => roleCounts[b] - roleCounts[a]);
     
     filterContainer.innerHTML = `
         <div class="filter-group">
