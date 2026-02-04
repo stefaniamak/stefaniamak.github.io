@@ -126,8 +126,8 @@ const projectsData = [
         description: "An event companion app used by all Delphi Forum attendees to explore sessions, speakers, and real-time updates during the 4-day live event. Designed for performance, offline access, and intuitive interaction in a high-pressure, high-visibility setting.",
         company: "ATCOM S.A.",
         period: "Jan 2025 – Mar 2025",
-        type: "professional",
-        role: "Main Flutter Developer",
+        type: ["professional"],
+        role: ["Software Engineer"],
         teamSize: 2,
         techStack: ["Flutter", "BLoC"],
         highlights: [
@@ -160,8 +160,8 @@ const projectsData = [
         description: "A full-featured Flutter Web application developed for my thesis, combining advanced algorithmic problem solving, responsive UI, and puzzle design. Users can create their own Nonogram puzzles or watch them being solved step by step with full control and visualization.",
         company: "International Hellenic University",
         period: "Dec 2023 – Jan 2025",
-        type: "personal",
-        role: "Sole Designer, Researcher & Developer",
+        type: ["academic"],
+        role: ["Software Engineer", "Designer", "Researcher"],
         teamSize: 1,
         techStack: ["Flutter", "Flutter Web", "Flutter Isolate", "Worker"],
         highlights: [
@@ -192,8 +192,8 @@ const projectsData = [
         description: "A comprehensive leasing companion app for Hertz customers, providing vehicle management tools, calculators, and service request capabilities. Built with a focus on user experience and seamless integration with Hertz services.",
         company: "ATCOM S.A.",
         period: "Apr 2024 – Aug 2024",
-        type: "professional",
-        role: "Flutter Developer",
+        type: ["professional"],
+        role: ["Software Engineer"],
         teamSize: 4,
         techStack: ["Flutter", "BLoC"],
         highlights: [
@@ -219,8 +219,8 @@ const projectsData = [
         description: "A comprehensive property management platform for tenants, owners, and landlords. Led the mobile-to-web adaptation using Flutter Web, creating responsive layouts and platform-aware components.",
         company: "ATCOM S.A.",
         period: "Jan 2024 – Mar 2024",
-        type: "professional",
-        role: "Flutter Software Engineer",
+        type: ["professional"],
+        role: ["Software Engineer"],
         teamSize: 5,
         techStack: ["Flutter", "Flutter Web", "BLoC"],
         highlights: [
@@ -243,8 +243,8 @@ const projectsData = [
         description: "A comprehensive mobile application for athletes, featuring team management, performance tracking, and social features. Led a team of 3 developers, handling planning, architecture, and client communication.",
         company: "Smartup",
         period: "Mar 2023 – Oct 2023",
-        type: "professional",
-        role: "Flutter Team Lead & Project Manager",
+        type: ["professional"],
+        role: ["Team Lead", "Project Manager"],
         teamSize: 4,
         techStack: ["Flutter", "flutter_hooks", "React Admin"],
         highlights: [
@@ -265,8 +265,8 @@ const projectsData = [
         description: "A mobile application designed for art collectors to discover, track, and manage their art collections. Built as the first end-to-end Flutter app completed solo, with direct client collaboration.",
         company: "Smartup",
         period: "Feb 2023 – Jun 2023",
-        type: "professional",
-        role: "Flutter Mobile Developer",
+        type: ["professional"],
+        role: ["Software Engineer"],
         teamSize: 2,
         techStack: ["Flutter", "flutter_hooks"],
         highlights: [
@@ -287,8 +287,8 @@ const projectsData = [
         description: "A mobile application focused on influencer management and engagement. Led team planning and releases, coordinated directly with client, and implemented premium features with UI polish.",
         company: "Smartup",
         period: "Dec 2021 – Jun 2023",
-        type: "professional",
-        role: "Flutter Team Lead & Developer",
+        type: ["professional"],
+        role: ["Team Lead", "Software Engineer"],
         teamSize: 5,
         techStack: ["Flutter", "Provider", "Firebase"],
         highlights: [
@@ -308,8 +308,8 @@ const projectsData = [
         shortDescription: "Wellness app with adaptive questionnaire logic and personalized wellness program UX.",
         description: "A wellness application featuring adaptive questionnaire logic and personalized wellness program user experience. Built entire app from scratch with focus on user personalization and adaptive content delivery.",
         period: "May 2021 – Oct 2021",
-        type: "professional",
-        role: "Flutter Developer",
+        type: ["professional"],
+        role: ["Software Engineer"],
         teamSize: 2,
         techStack: ["Flutter", "Provider", "Firebase Authentication", "Firestore"],
         highlights: [
@@ -835,10 +835,117 @@ function initTimelineAnimations() {
     });
 }
 
+// Helper Functions for Project Filtering
+
+// Normalize role strings to standardized role arrays
+function normalizeRoles(roleString) {
+    const roles = [];
+    const roleLower = roleString.toLowerCase();
+    
+    // Check for Lead Software Engineer
+    if (roleLower.includes('lead software engineer')) {
+        roles.push('Lead Software Engineer');
+    }
+    
+    // Check for Team Lead
+    if (roleLower.includes('team lead') || roleLower.includes('(team lead)')) {
+        roles.push('Team Lead');
+    }
+    
+    // Check for Project Manager
+    if (roleLower.includes('project manager')) {
+        roles.push('Project Manager');
+    }
+    
+    // Check for Software Engineer (Flutter Developer, Flutter Software Engineer, etc.)
+    if (roleLower.includes('developer') || 
+        roleLower.includes('software engineer') || 
+        roleLower.includes('flutter developer') ||
+        roleLower.includes('flutter mobile developer') ||
+        roleLower.includes('main flutter developer')) {
+        // Only add if not already added as Lead Software Engineer
+        if (!roles.includes('Lead Software Engineer')) {
+            roles.push('Software Engineer');
+        }
+    }
+    
+    // Check for Designer
+    if (roleLower.includes('designer') || roleLower.includes('ui/ux designer')) {
+        roles.push('Designer');
+    }
+    
+    // Check for Researcher
+    if (roleLower.includes('researcher')) {
+        roles.push('Researcher');
+    }
+    
+    // Check for Artist
+    if (roleLower.includes('artist')) {
+        roles.push('Artist');
+    }
+    
+    // If no roles found, default to Software Engineer
+    if (roles.length === 0) {
+        roles.push('Software Engineer');
+    }
+    
+    return roles;
+}
+
+// Extract programming languages from tech stack
+function extractLanguages(techStack) {
+    const languages = [];
+    const techLower = techStack.map(tech => tech.toLowerCase());
+    
+    // Map frameworks to languages
+    if (techLower.some(tech => tech.includes('flutter'))) {
+        languages.push('Dart');
+    }
+    
+    if (techLower.some(tech => tech.includes('react'))) {
+        languages.push('JavaScript');
+    }
+    
+    // Add more language mappings as needed
+    // For now, we only have Flutter/Dart projects
+    
+    return [...new Set(languages)]; // Return unique languages
+}
+
+// Infer platforms from project links and tech stack
+function inferPlatforms(project) {
+    const platforms = [];
+    
+    // Check links
+    if (project.links) {
+        if (project.links.appStore) {
+            platforms.push('iOS');
+        }
+        if (project.links.playStore || project.links.huawei) {
+            platforms.push('Android');
+        }
+        if (project.links.web) {
+            platforms.push('Web');
+        }
+    }
+    
+    // Check tech stack for Flutter Web
+    if (project.techStack && project.techStack.some(tech => 
+        tech.toLowerCase().includes('flutter web') || 
+        tech.toLowerCase().includes('web'))) {
+        if (!platforms.includes('Web')) {
+            platforms.push('Web');
+        }
+    }
+    
+    return [...new Set(platforms)]; // Return unique platforms
+}
+
 // Project Filtering (Multi-select)
 let activeFilters = {
     type: [],
-    tech: [],
+    language: [],
+    platform: [],
     role: []
 };
 
@@ -846,9 +953,16 @@ function initProjectFilters() {
     const filterContainer = document.getElementById('project-filters');
     
     // Get unique filter values
-    const types = [...new Set(projectsData.map(p => p.type))];
-    const techStacks = [...new Set(projectsData.flatMap(p => p.techStack))];
-    const roles = [...new Set(projectsData.map(p => p.role))];
+    const types = [...new Set(projectsData.flatMap(p => p.type))];
+    const languages = [...new Set(projectsData.flatMap(p => extractLanguages(p.techStack)))];
+    const platforms = [...new Set(projectsData.flatMap(p => inferPlatforms(p)))];
+    const roles = [...new Set(projectsData.flatMap(p => p.role))];
+    
+    // Sort for consistent display
+    types.sort();
+    languages.sort();
+    platforms.sort();
+    roles.sort();
     
     filterContainer.innerHTML = `
         <div class="filter-group">
@@ -860,10 +974,18 @@ function initProjectFilters() {
             `).join('')}
         </div>
         <div class="filter-group">
-            <span class="filter-label">Tech:</span>
-            ${techStacks.map(tech => `
-                <button class="filter-btn multi-select" data-filter-type="tech" data-filter-value="${tech}">
-                    ${tech}
+            <span class="filter-label">Language:</span>
+            ${languages.map(lang => `
+                <button class="filter-btn multi-select" data-filter-type="language" data-filter-value="${lang}">
+                    ${lang}
+                </button>
+            `).join('')}
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">Platform:</span>
+            ${platforms.map(platform => `
+                <button class="filter-btn multi-select" data-filter-type="platform" data-filter-value="${platform}">
+                    ${platform}
                 </button>
             `).join('')}
         </div>
@@ -916,10 +1038,13 @@ function renderFeaturedProjects() {
 }
 
 function createFeaturedProjectCard(project) {
+    const languages = extractLanguages(project.techStack);
+    const platforms = inferPlatforms(project);
     const tags = [
-        ...project.techStack,
-        project.role,
-        project.type.charAt(0).toUpperCase() + project.type.slice(1)
+        ...languages,
+        ...platforms,
+        ...project.role,
+        ...project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1))
     ];
     
     return `
@@ -944,23 +1069,42 @@ function renderProjects() {
     // Filter projects
     let filteredProjects = projectsData;
     
+    // Filter by type (array intersection)
     if (activeFilters.type.length > 0) {
-        filteredProjects = filteredProjects.filter(p => activeFilters.type.includes(p.type));
-    }
-    
-    if (activeFilters.tech.length > 0) {
         filteredProjects = filteredProjects.filter(p => 
-            p.techStack.some(tech => activeFilters.tech.includes(tech))
+            p.type.some(type => activeFilters.type.includes(type))
         );
     }
     
+    // Filter by language (extracted from tech stack)
+    if (activeFilters.language.length > 0) {
+        filteredProjects = filteredProjects.filter(p => {
+            const projectLanguages = extractLanguages(p.techStack);
+            return projectLanguages.some(lang => activeFilters.language.includes(lang));
+        });
+    }
+    
+    // Filter by platform (inferred from links)
+    if (activeFilters.platform.length > 0) {
+        filteredProjects = filteredProjects.filter(p => {
+            const projectPlatforms = inferPlatforms(p);
+            return projectPlatforms.some(platform => activeFilters.platform.includes(platform));
+        });
+    }
+    
+    // Filter by role (array intersection)
     if (activeFilters.role.length > 0) {
-        filteredProjects = filteredProjects.filter(p => activeFilters.role.includes(p.role));
+        filteredProjects = filteredProjects.filter(p => 
+            p.role.some(role => activeFilters.role.includes(role))
+        );
     }
     
     // Hide featured projects section if filters are active
     const featuredSection = document.getElementById('featured-projects');
-    const hasActiveFilters = activeFilters.type.length > 0 || activeFilters.tech.length > 0 || activeFilters.role.length > 0;
+    const hasActiveFilters = activeFilters.type.length > 0 || 
+                            activeFilters.language.length > 0 || 
+                            activeFilters.platform.length > 0 || 
+                            activeFilters.role.length > 0;
     
     if (hasActiveFilters) {
         featuredSection.style.display = 'none';
@@ -997,10 +1141,13 @@ function createProjectCard(project) {
     card.className = 'project-card';
     card.setAttribute('data-project-id', project.id);
     
+    const languages = extractLanguages(project.techStack);
+    const platforms = inferPlatforms(project);
     const tags = [
-        ...project.techStack,
-        project.role,
-        project.type.charAt(0).toUpperCase() + project.type.slice(1)
+        ...languages,
+        ...platforms,
+        ...project.role,
+        ...project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1))
     ];
     
     card.innerHTML = `
@@ -1027,6 +1174,7 @@ function openProjectModal(project) {
     let bodyHTML = '';
     
     // Meta information
+    const platforms = inferPlatforms(project);
     bodyHTML += '<div class="modal-meta">';
     if (project.company) {
         bodyHTML += `<div class="modal-meta-item"><strong>Company:</strong> ${project.company}</div>`;
@@ -1034,11 +1182,14 @@ function openProjectModal(project) {
     if (project.period) {
         bodyHTML += `<div class="modal-meta-item"><strong>Period:</strong> ${project.period}</div>`;
     }
-    bodyHTML += `<div class="modal-meta-item"><strong>Role:</strong> ${project.role}</div>`;
+    bodyHTML += `<div class="modal-meta-item"><strong>Role:</strong> ${project.role.join(', ')}</div>`;
     if (project.teamSize) {
         bodyHTML += `<div class="modal-meta-item"><strong>Team Size:</strong> ${project.teamSize}</div>`;
     }
-    bodyHTML += `<div class="modal-meta-item"><strong>Type:</strong> ${project.type.charAt(0).toUpperCase() + project.type.slice(1)}</div>`;
+    bodyHTML += `<div class="modal-meta-item"><strong>Type:</strong> ${project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}</div>`;
+    if (platforms.length > 0) {
+        bodyHTML += `<div class="modal-meta-item"><strong>Platform:</strong> ${platforms.join(', ')}</div>`;
+    }
     if (project.status) {
         bodyHTML += `<div class="modal-meta-item"><strong>Status:</strong> ${project.status}</div>`;
     }
