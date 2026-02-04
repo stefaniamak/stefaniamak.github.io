@@ -1039,51 +1039,42 @@ body {
     z-index: -1; /* Behind the strokes */
 }
 
-/* Top fill - fills area inside top border, follows top stroke line */
-.bookmark-fill-top {
-    top: 0;
-    left: 0;
-    width: 26px; /* Full width inside top border */
-    height: 46px; /* Fills down to where vertical strokes end */
-    border-radius: 8px 8px 0 0;
-}
-
-@media (max-width: 767px) {
-    .bookmark-fill-top {
-        width: 20px;
-        height: 36px;
-    }
-}
-
-/* Left fill - fills area inside left border, follows left stroke line */
+/* Left fill - follows path: top-left inner edge → down left vertical inner edge → up-right diagonal → top horizontal inner edge → close */
 .bookmark-fill-left {
     top: 0;
     left: 0;
-    width: 13px; /* Fills from left edge to center */
-    height: 46px; /* Same height as left stroke */
-    border-radius: 8px 0 0 0;
+    width: 13px;
+    height: 48px;
+    clip-path: polygon(1.5px 1.5px, /* Top-left inner corner (inside top and left strokes) */ 1.5px 45px, /* Down along inner edge of left vertical stroke */ 13px 36px, /* Up and right diagonal (to center bottom, following diagonal stroke) */ 13px 1.5px /* Back along inner edge of top stroke to start */);
 }
 
 @media (max-width: 767px) {
     .bookmark-fill-left {
         width: 10px;
-        height: 36px;
+        height: 38px;
+        clip-path: polygon(1px 1px, /* Top-left inner corner */ 1px 35px, /* Down along inner edge of left vertical */ 10px 28px, /* Up and right diagonal */ 10px 1px /* Back along top inner edge */);
     }
 }
 
-/* Right fill - fills area inside right border, follows right stroke line */
+/* Right fill - follows path: top-right inner edge → down right vertical inner edge → up-left diagonal → top horizontal inner edge → close */
 .bookmark-fill-right {
     top: 0;
-    right: 0;
-    width: 13px; /* Fills from right edge to center */
-    height: 46px; /* Same height as right stroke */
-    border-radius: 0 8px 0 0;
+    left: 13px; /* Start from center, extends to right edge */
+    width: 13px;
+    height: 48px;
+    /* Element coordinate system: x=0 is center (x=13px of bookmark), x=13px is right edge (x=26px of bookmark) */
+    /* Inner edge of right stroke is at x=24.5px of bookmark = x=11.5px of element */
+    clip-path: polygon(11.5px 1.5px, /* Top-right inner corner (inside top and right strokes) */ 11.5px 45px, /* Down along inner edge of right vertical stroke */ 0 36px, /* Up and left diagonal (to center bottom, following diagonal stroke) */ 0 1.5px /* Back along inner edge of top stroke to start (center top) */);
 }
 
 @media (max-width: 767px) {
     .bookmark-fill-right {
+        left: 10px; /* Start from center on mobile */
         width: 10px;
-        height: 36px;
+        height: 38px;
+        /* On mobile: element x=0 is at x=10px of bookmark (center), x=10px is at x=20px of bookmark (right edge) */
+        /* Inner edge of right stroke is at x=19px of bookmark = x=9px of element */
+        clip-path: polygon(9px 1px, /* Top-right inner corner */ 9px 35px, /* Down along inner edge of right vertical */ 0 28px, /* Up and left diagonal */ 0 1px /* Back along top inner edge */);
     }
 }
 
