@@ -1026,8 +1026,10 @@ function initTypingAnimation() {
         }
     }
     
-    // Start typing animation immediately
-    typeCharacter();
+    // Start typing animation after a short delay
+    setTimeout(() => {
+        typeCharacter();
+    }, 300);
 }
 
 // Initialize everything when DOM is ready
