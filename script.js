@@ -356,6 +356,108 @@ const projectsData = [
     }
 ];
 
+// Helper function to get projects by company name (case-insensitive)
+function getProjectsByCompany(companyName) {
+    if (!companyName) return [];
+    return projectsData.filter(project => 
+        project.company && 
+        project.company.toLowerCase().trim() === companyName.toLowerCase().trim()
+    );
+}
+
+// Create compact project card for horizontal list
+function createCompactProjectCard(project) {
+    const card = document.createElement('div');
+    card.className = 'compact-project-card';
+    card.setAttribute('data-project-id', project.id);
+    
+    // Extract clean name (remove platform type from name)
+    const { cleanName } = extractPlatformType(project.name);
+    
+    // Get project type label
+    const projectTypeLabel = project.type && project.type.length > 0 
+        ? project.type[0].charAt(0).toUpperCase() + project.type[0].slice(1)
+        : '';
+    
+    // Get platforms (iOS, Android, Web)
+    const platforms = inferPlatforms(project);
+    
+    // Build minimal HTML
+    let cardHTML = '';
+    if (projectTypeLabel) {
+        cardHTML += `<span class="compact-project-type">${projectTypeLabel}</span>`;
+    }
+    cardHTML += `<span class="compact-project-name">${cleanName}</span>`;
+    
+    // Add platform indicators (non-clickable)
+    if (platforms.length > 0) {
+        cardHTML += `<div class="compact-project-platforms">`;
+        platforms.forEach(platform => {
+            cardHTML += `<span class="compact-platform-badge">${platform}</span>`;
+        });
+        cardHTML += `</div>`;
+    }
+    
+    card.innerHTML = cardHTML;
+    
+    // Add click handler to open project modal
+    card.addEventListener('click', () => {
+        // Find full project data by ID
+        const fullProject = projectsData.find(p => p.id === project.id);
+        if (fullProject) {
+            openProjectModal(fullProject);
+        }
+    });
+    
+    // Add keyboard support
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', `Open project: ${cleanName}`);
+    card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const fullProject = projectsData.find(p => p.id === project.id);
+            if (fullProject) {
+                openProjectModal(fullProject);
+            }
+        }
+    });
+    
+    return card;
+}
+
+// Render company projects list into a container
+function renderCompanyProjects(companyName, containerElement) {
+    const projects = getProjectsByCompany(companyName);
+    
+    if (projects.length === 0) {
+        return; // Don't render anything if no projects
+    }
+    
+    // Create projects list container
+    const projectsContainer = document.createElement('div');
+    projectsContainer.className = 'company-projects-container';
+    
+    // Add title
+    const title = document.createElement('div');
+    title.className = 'company-projects-title';
+    title.textContent = 'Related Projects';
+    projectsContainer.appendChild(title);
+    
+    // Create horizontal scrolling list
+    const projectsList = document.createElement('div');
+    projectsList.className = 'company-projects-list';
+    
+    // Add compact project cards
+    projects.forEach(project => {
+        const card = createCompactProjectCard(project);
+        projectsList.appendChild(card);
+    });
+    
+    projectsContainer.appendChild(projectsList);
+    containerElement.appendChild(projectsContainer);
+}
+
 // Contact Links Data
 const contactLinksData = [
     {
@@ -620,6 +722,12 @@ function renderWorkExperience() {
         `;
         
         experienceList.appendChild(item);
+        
+        // Add company projects list after the content is appended
+        const contentElement = document.getElementById(contentId);
+        if (contentElement) {
+            renderCompanyProjects(exp.company, contentElement);
+        }
     });
     
     // Initialize accordion after rendering
@@ -694,6 +802,12 @@ function renderTeaching() {
         `;
         
         teachingList.appendChild(item);
+        
+        // Add company projects list after the content is appended
+        const contentElement = document.getElementById(contentId);
+        if (contentElement) {
+            renderCompanyProjects(teaching.company, contentElement);
+        }
     });
     
     // Initialize accordion after rendering
@@ -748,6 +862,14 @@ function renderEducation() {
         `;
         
         educationList.appendChild(item);
+        
+        // Add company projects list after the content is appended (only if content exists)
+        if (hasDetails) {
+            const contentElement = document.getElementById(contentId);
+            if (contentElement) {
+                renderCompanyProjects(edu.company, contentElement);
+            }
+        }
     });
     
     // Initialize accordion after rendering (only if there are expandable items)
