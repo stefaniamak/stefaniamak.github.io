@@ -975,12 +975,13 @@ body {
     border: 1px solid var(--border-color);
     padding: 32px;
     cursor: pointer;
-    transition: all 0.05s ease, opacity 0.6s ease, transform 0.6s ease, box-shadow 0.05s ease, background-color 0.05s ease, border-color 0.05s ease;
+    transition: all 0.05s ease, opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease, background-color 0.05s ease, border-color 0.05s ease;
     text-align: left;
     position: relative;
     overflow: visible;
     opacity: 0;
     transform: translateY(20px);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 
 /* Animated border that fills from top-left corner clockwise */
@@ -1047,12 +1048,16 @@ body {
 .project-card:hover {
     border-color: var(--text-primary);
     background-color: var(--hover-bg);
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translate(-3.5px, -3.5px);
+    box-shadow: 3.5px 3.5px 3.5px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .project-card {
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
 }
 
 [data-theme="dark"] .project-card:hover {
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    box-shadow: 3.5px 3.5px 3.5px rgba(255, 255, 255, 0.15);
 }
 
 .project-card.visible {
@@ -1061,7 +1066,7 @@ body {
 }
 
 .project-card.visible:hover {
-    transform: translateY(-4px);
+    transform: translate(-3.5px, -3.5px);
 }
 
 .project-card.hidden {
