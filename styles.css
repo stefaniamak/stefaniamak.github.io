@@ -133,17 +133,19 @@ body {
         background-color: var(--bg-primary);
         border-bottom: 1px solid var(--border-color);
         flex-direction: column;
-        padding: 24px;
+        padding: 0 24px;
         gap: 16px;
-        transform: translateY(-100%);
+        max-height: 0;
+        overflow: hidden;
         opacity: 0;
         visibility: hidden;
-        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+        transition: max-height 0.3s ease, opacity 0.3s ease, visibility 0.3s ease, padding 0.3s ease;
         z-index: 998;
     }
     
     .header-nav.active {
-        transform: translateY(0);
+        max-height: 500px;
+        padding: 24px;
         opacity: 1;
         visibility: visible;
     }
