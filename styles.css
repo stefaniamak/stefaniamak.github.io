@@ -2,6 +2,7 @@
 :root {
     --bg-primary: #ffffff;
     --bg-secondary: #fafafa;
+    --bg-footer: #fcfcfc;
     --text-primary: #000000;
     --text-secondary: #666666;
     --text-tertiary: #999999;
@@ -12,6 +13,7 @@
 [data-theme="dark"] {
     --bg-primary: #000000;
     --bg-secondary: #1a1a1a;
+    --bg-footer: #0a0a0a;
     --text-primary: #ffffff;
     --text-secondary: #b3b3b3;
     --text-tertiary: #808080;
@@ -1789,7 +1791,7 @@ body {
     padding: 80px 0 40px;
     border-top: 1px solid var(--border-color);
     margin-top: 80px;
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-footer);
 }
 
 .footer-content {
@@ -1887,6 +1889,7 @@ body {
     :root:not([data-theme]) {
         --bg-primary: #000000;
         --bg-secondary: #1a1a1a;
+        --bg-footer: #0a0a0a;
         --text-primary: #ffffff;
         --text-secondary: #b3b3b3;
         --text-tertiary: #808080;
