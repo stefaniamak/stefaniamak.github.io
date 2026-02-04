@@ -1008,7 +1008,7 @@ body {
 
 @media (max-width: 767px) {
     .project-name {
-        padding-top: 44px; /* Space for mobile-sized bookmarks */
+        padding-top: 54px; /* Space for bookmarks (same as desktop) */
     }
 }
 
@@ -1026,9 +1026,9 @@ body {
 
 @media (max-width: 767px) {
     .platform-bookmark {
-        top: -6px; /* Smaller extension on mobile */
-        width: 20px;
-        height: 36px; /* Same height as tallest vertical line */
+        top: -8px; /* Same as desktop */
+        width: 26px;
+        height: 46px; /* Same as desktop */
     }
 }
 
@@ -1050,9 +1050,9 @@ body {
 
 @media (max-width: 767px) {
     .bookmark-fill-left {
-        width: 10px;
-        height: 38px;
-        clip-path: polygon(1px 1px, /* Top-left inner corner */ 1px 35px, /* Down along inner edge of left vertical */ 10px 28px, /* Up and right diagonal */ 10px 1px /* Back along top inner edge */);
+        width: 13px;
+        height: 48px;
+        clip-path: polygon(1.5px 1.5px, /* Top-left inner corner (inside top and left strokes) */ 1.5px 45px, /* Down along inner edge of left vertical stroke */ 13px 36px, /* Up and right diagonal (to center bottom, following diagonal stroke) */ 13px 1.5px /* Back along inner edge of top stroke to start */);
     }
 }
 
@@ -1069,12 +1069,12 @@ body {
 
 @media (max-width: 767px) {
     .bookmark-fill-right {
-        left: 10px; /* Start from center on mobile */
-        width: 10px;
-        height: 38px;
-        /* On mobile: element x=0 is at x=10px of bookmark (center), x=10px is at x=20px of bookmark (right edge) */
-        /* Inner edge of right stroke is at x=19px of bookmark = x=9px of element */
-        clip-path: polygon(9px 1px, /* Top-right inner corner */ 9px 35px, /* Down along inner edge of right vertical */ 0 28px, /* Up and left diagonal */ 0 1px /* Back along top inner edge */);
+        left: 13px; /* Same as desktop */
+        width: 13px;
+        height: 48px;
+        /* Element coordinate system: x=0 is center (x=13px of bookmark), x=13px is right edge (x=26px of bookmark) */
+        /* Inner edge of right stroke is at x=24.5px of bookmark = x=11.5px of element */
+        clip-path: polygon(11.5px 1.5px, /* Top-right inner corner (inside top and right strokes) */ 11.5px 45px, /* Down along inner edge of right vertical stroke */ 0 36px, /* Up and left diagonal (to center bottom, following diagonal stroke) */ 0 1.5px /* Back along inner edge of top stroke to start (center top) */);
     }
 }
 
@@ -1106,8 +1106,8 @@ body {
 
 @media (max-width: 767px) {
     .bookmark-stroke-top {
-        width: 20px;
-        height: 1px;
+        width: 26px;
+        height: 1.5px;
         border-radius: 8px 8px 0 0;
     }
 }
@@ -1123,8 +1123,8 @@ body {
 
 @media (max-width: 767px) {
     .bookmark-stroke-left {
-        width: 1px;
-        height: 36px; /* Exact distance from A to C on mobile (6px above + 30px to card top) */
+        width: 1.5px;
+        height: 46px; /* Same as desktop */
         border-radius: 8px 0 0 0;
     }
 }
@@ -1140,8 +1140,8 @@ body {
 
 @media (max-width: 767px) {
     .bookmark-stroke-right {
-        width: 1px;
-        height: 36px; /* Exact distance from B to D on mobile (6px above + 30px to card top) */
+        width: 1.5px;
+        height: 46px; /* Same as desktop */
         border-radius: 0 8px 0 0;
     }
 }
@@ -1158,10 +1158,10 @@ body {
 
 @media (max-width: 767px) {
     .bookmark-stroke-bottom-left {
-        top: 36px; /* Anchor C y-coordinate on mobile */
-        width: 12.8px; /* sqrt(10^2 + 8^2) = diagonal length (10px horizontal to center, 8px vertical) */
-        height: 1px;
-        transform: rotate(-38.7deg); /* atan(8/10) ≈ 38.7deg */
+        top: 46px; /* Same as desktop */
+        width: 16.4px; /* Same as desktop */
+        height: 1.5px;
+        transform: rotate(-37.9deg); /* Same as desktop */
     }
 }
 
@@ -1177,10 +1177,10 @@ body {
 
 @media (max-width: 767px) {
     .bookmark-stroke-bottom-right {
-        top: 36px; /* Anchor D y-coordinate on mobile */
-        width: 12.8px; /* sqrt(10^2 + 8^2) = diagonal length (10px horizontal to center, 8px vertical) */
-        height: 1px;
-        transform: rotate(38.7deg); /* atan(8/10) ≈ 38.7deg */
+        top: 46px; /* Same as desktop */
+        width: 16.4px; /* Same as desktop */
+        height: 1.5px;
+        transform: rotate(37.9deg); /* Same as desktop */
     }
 }
 
@@ -1196,8 +1196,8 @@ body {
 
 @media (max-width: 767px) {
     .bookmark-stroke-hover {
-        bottom: 0; /* Stops at anchor D y-coordinate on mobile (36px from top) */
-        width: 0.5px;
+        bottom: 0; /* Same as desktop */
+        width: 1px;
     }
 }
 
@@ -1216,7 +1216,7 @@ body {
 
 @media (max-width: 767px) {
     .bookmark-icon {
-        font-size: 14px;
+        font-size: 18px; /* Same as desktop */
     }
 }
 
@@ -1252,12 +1252,12 @@ body {
 @media (max-width: 767px) {
     .platform-bookmark.active .bookmark-stroke-left,
     .platform-bookmark.active .bookmark-stroke-right {
-        width: 2.5px;
+        width: 3px; /* Same as desktop */
     }
     
     .platform-bookmark.active .bookmark-stroke-bottom-left,
     .platform-bookmark.active .bookmark-stroke-bottom-right {
-        height: 2.5px;
+        height: 3px; /* Same as desktop */
     }
 }
 
