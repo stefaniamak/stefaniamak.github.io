@@ -927,7 +927,8 @@ body {
 }
 
 .featured-card .project-name {
-    font-family: 'Jacquarda Bastarda 9', serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
     font-size: clamp(18px, 2vw, 22px);
     margin-bottom: 8px;
     color: var(--text-primary);
@@ -995,7 +996,8 @@ body {
 }
 
 .project-name {
-    font-family: 'Jacquarda Bastarda 9', serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
     font-size: clamp(20px, 2.5vw, 28px);
     margin-bottom: 12px;
     color: var(--text-primary);
@@ -1101,7 +1103,8 @@ body {
 }
 
 .modal-title {
-    font-family: 'Jacquarda Bastarda 9', serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
     font-size: clamp(28px, 4vw, 40px);
     margin-bottom: 24px;
     color: var(--text-primary);
