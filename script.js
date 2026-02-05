@@ -1373,7 +1373,7 @@ function createPlatformBookmark(platform, url) {
     </div>`;
 }
 
-// Project Filtering (Multi-select)
+// Project Filtering (Single-select per category)
 let activeFilters = {
     type: [],
     language: [],
@@ -1381,19 +1381,22 @@ let activeFilters = {
     role: []
 };
 
-// Toggle platform filter from bookmark click
+// Toggle platform filter from bookmark click (single selection)
 function togglePlatformFilter(platform) {
-    const filterIndex = activeFilters.platform.indexOf(platform);
-    if (filterIndex > -1) {
-        activeFilters.platform.splice(filterIndex, 1);
+    // If this platform is already selected, deselect it
+    if (activeFilters.platform.includes(platform)) {
+        activeFilters.platform = [];
     } else {
-        activeFilters.platform.push(platform);
+        // Otherwise, select only this platform (single selection)
+        activeFilters.platform = [platform];
     }
     
-    // Update filter buttons
+    // Update filter buttons - only one can be active at a time
     document.querySelectorAll('.filter-btn[data-filter-type="platform"]').forEach(btn => {
         if (btn.dataset.filterValue === platform) {
             btn.classList.toggle('active', activeFilters.platform.includes(platform));
+        } else {
+            btn.classList.remove('active');
         }
     });
     
@@ -1492,19 +1495,28 @@ function initProjectFilters() {
         </div>
     `;
     
-    // Add event listeners
+    // Add event listeners (single selection per category)
     document.querySelectorAll('.filter-btn.multi-select').forEach(btn => {
         btn.addEventListener('click', () => {
             const filterType = btn.dataset.filterType;
             const filterValue = btn.dataset.filterValue;
             
-            // Toggle filter
+            // Single selection: if already selected, deselect; otherwise, select only this one
             if (activeFilters[filterType].includes(filterValue)) {
-                activeFilters[filterType] = activeFilters[filterType].filter(v => v !== filterValue);
+                // Deselect
+                activeFilters[filterType] = [];
                 btn.classList.remove('active');
             } else {
-                activeFilters[filterType].push(filterValue);
-                btn.classList.add('active');
+                // Select only this filter (clear others in the same category)
+                activeFilters[filterType] = [filterValue];
+                // Update all buttons in this category
+                document.querySelectorAll(`.filter-btn[data-filter-type="${filterType}"]`).forEach(b => {
+                    if (b === btn) {
+                        b.classList.add('active');
+                    } else {
+                        b.classList.remove('active');
+                    }
+                });
             }
             
             renderProjects();
