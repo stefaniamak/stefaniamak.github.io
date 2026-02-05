@@ -1581,10 +1581,16 @@ body {
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    padding: 48px;
+    overflow-x: hidden;
+    padding: 48px 48px 88px 48px; /* Always include bottom padding for button space */
     z-index: 1;
     transform: translateY(0);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Container for navigation buttons - positioned relative to modal, not content */
+.modal-content-wrapper {
+    position: relative;
 }
 
 [data-theme="dark"] .modal-content {
@@ -1596,7 +1602,7 @@ body {
         max-width: 100%;
         width: 100%;
         max-height: 90vh;
-        padding: 32px 24px 24px;
+        padding: 32px 24px 96px 24px; /* Always include bottom padding for button space (96px for mobile) */
         border-left: none;
         border-right: none;
         border-bottom: none;
@@ -1664,6 +1670,241 @@ body {
     }
 }
 
+/* Modal Navigation Buttons - Absolute position relative to modal, fixed to viewport */
+.modal-nav-button {
+    position: fixed;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    z-index: 2001;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal.active .modal-nav-button {
+    opacity: 1;
+    visibility: visible;
+}
+
+[data-theme="dark"] .modal-nav-button {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+.modal-nav-button:hover:not(:disabled) {
+    background-color: var(--hover-bg);
+    border-color: var(--text-primary);
+}
+
+.modal-nav-button:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.modal-nav-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.modal-nav-button .modal-nav-arrow {
+    font-size: 32px;
+    line-height: 1;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.modal-nav-button .modal-nav-info {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    background-color: var(--bg-primary);
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 2002;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .modal-nav-button .modal-nav-info {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+.modal-nav-button.modal-nav-show-info .modal-nav-info {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-nav-button.modal-nav-show-info .modal-nav-arrow {
+    opacity: 0.7;
+}
+
+/* Hover tooltip - shows project name or "Older/Newer Project" */
+.modal-nav-button .modal-nav-hover-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    background-color: var(--bg-primary);
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 2002;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .modal-nav-button .modal-nav-hover-tooltip {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+.modal-nav-button:hover:not(:disabled) .modal-nav-hover-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hide hover tooltip when info tooltip is shown (at bottom) */
+.modal-nav-button.modal-nav-show-info:hover .modal-nav-hover-tooltip {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Desktop: Position will be set by JavaScript based on modal position */
+@media (min-width: 768px) {
+    .modal-nav-button {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+    }
+    
+    .modal-nav-button span {
+        font-size: 32px;
+    }
+    
+    /* Default side positioning (will be overridden by JS if needed) */
+    .modal-nav-prev,
+    .modal-nav-next {
+        transform: translateY(-50%);
+    }
+    
+    .modal-nav-prev:hover:not(:disabled),
+    .modal-nav-next:hover:not(:disabled) {
+        transform: translateY(-50%) scale(1.1);
+    }
+    
+    .modal-nav-prev:active:not(:disabled),
+    .modal-nav-next:active:not(:disabled) {
+        transform: translateY(-50%) scale(0.95);
+    }
+    
+    /* Bottom center positioning (when buttons don't fit on sides) */
+    .modal-nav-button.modal-nav-bottom {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .modal-nav-button.modal-nav-bottom:hover:not(:disabled) {
+        transform: scale(1.1);
+    }
+    
+    .modal-nav-button.modal-nav-bottom:active:not(:disabled) {
+        transform: scale(0.95);
+    }
+    
+    .modal-nav-prev.modal-nav-bottom:hover:not(:disabled) {
+        transform: translateX(calc(-100% - 12px)) scale(1.1);
+    }
+    
+    .modal-nav-prev.modal-nav-bottom:active:not(:disabled) {
+        transform: translateX(calc(-100% - 12px)) scale(0.95);
+    }
+    
+    .modal-nav-next.modal-nav-bottom:hover:not(:disabled) {
+        transform: translateX(calc(100% + 12px)) scale(1.1);
+    }
+    
+    .modal-nav-next.modal-nav-bottom:active:not(:disabled) {
+        transform: translateX(calc(100% + 12px)) scale(0.95);
+    }
+}
+
+/* Mobile: Position at bottom, centered horizontally, fixed to viewport */
+@media (max-width: 767px) {
+    .modal-content {
+        padding-bottom: 96px !important; /* Button height 56px + bottom offset 20px + extra spacing 20px */
+    }
+    
+    .modal-nav-button {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 20px !important;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+    }
+    
+    .modal-nav-button span {
+        font-size: 32px;
+    }
+    
+    .modal-nav-prev {
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(calc(-100% - 12px)) !important;
+    }
+    
+    .modal-nav-prev:hover:not(:disabled) {
+        transform: translateX(calc(-100% - 12px)) scale(1.1) !important;
+    }
+    
+    .modal-nav-prev:active:not(:disabled) {
+        transform: translateX(calc(-100% - 12px)) scale(0.95) !important;
+    }
+    
+    .modal-nav-next {
+        right: 50% !important;
+        left: auto !important;
+        transform: translateX(calc(100% + 12px)) !important;
+    }
+    
+    .modal-nav-next:hover:not(:disabled) {
+        transform: translateX(calc(100% + 12px)) scale(1.1) !important;
+    }
+    
+    .modal-nav-next:active:not(:disabled) {
+        transform: translateX(calc(100% + 12px)) scale(0.95) !important;
+    }
+}
+
 .modal-title {
     position: relative;
     margin-bottom: 32px;
@@ -1673,6 +1914,8 @@ body {
     font-weight: 600;
     font-size: clamp(28px, 4vw, 40px);
     color: var(--text-primary);
+    transition: opacity 0.3s ease;
+    opacity: 1;
 }
 
 @media (max-width: 767px) {
@@ -1755,6 +1998,8 @@ body {
     color: var(--text-primary);
     line-height: 1.8;
     font-family: 'Inter', sans-serif;
+    transition: opacity 0.3s ease;
+    opacity: 1;
 }
 
 .modal-body p {

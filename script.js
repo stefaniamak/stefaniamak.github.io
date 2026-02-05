@@ -1381,6 +1381,10 @@ let activeFilters = {
     role: []
 };
 
+// Track current filtered projects list and index for modal navigation
+let currentFilteredProjects = [];
+let currentProjectIndex = -1;
+
 // Toggle platform filter from bookmark click (single selection)
 function togglePlatformFilter(platform) {
     // If this platform is already selected, deselect it
@@ -1553,10 +1557,8 @@ function initProjectFilters() {
     renderProjects();
 }
 
-function renderProjects() {
-    const projectGrid = document.getElementById('project-grid');
-    
-    // Filter projects
+// Get filtered projects list (shared function for rendering and navigation)
+function getFilteredProjects() {
     let filteredProjects = projectsData;
     
     // Filter by type (array intersection)
@@ -1588,6 +1590,15 @@ function renderProjects() {
             p.role.some(role => activeFilters.role.includes(role))
         );
     }
+    
+    return filteredProjects;
+}
+
+function renderProjects() {
+    const projectGrid = document.getElementById('project-grid');
+    
+    // Get filtered projects
+    const filteredProjects = getFilteredProjects();
     
     projectGrid.innerHTML = '';
     
@@ -1727,14 +1738,45 @@ function createProjectCard(project) {
 }
 
 // Project Modal
-function openProjectModal(project) {
+function openProjectModal(project, skipAnimation = false) {
     const modal = document.getElementById('project-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalBody = document.getElementById('modal-body');
+    const modalContent = document.querySelector('.modal-content');
+    
+    // Check if modal is already open (switching projects)
+    const isSwitching = modal.classList.contains('active');
+    
+    // Get current filtered projects list and find current index
+    currentFilteredProjects = getFilteredProjects();
+    currentProjectIndex = currentFilteredProjects.findIndex(p => p.id === project.id);
     
     // Update URL hash when opening project modal (only if not already set to this value)
     if (window.location.hash !== `#project-${project.id}`) {
         history.replaceState(null, '', `#project-${project.id}`);
+    }
+    
+    // Fade out existing content if switching projects
+    if (isSwitching && !skipAnimation) {
+        modalTitle.style.opacity = '0';
+        modalBody.style.opacity = '0';
+        
+        // Wait for fade out, then update content and fade in
+        setTimeout(() => {
+            updateModalContent(project, modalTitle, modalBody, modalContent);
+        }, 150);
+        return;
+    }
+    
+    // Initial open - update content immediately
+    updateModalContent(project, modalTitle, modalBody, modalContent);
+}
+
+// Update modal content (separated for reuse)
+function updateModalContent(project, modalTitle, modalBody, modalContent) {
+    // Scroll to top when switching projects
+    if (modalContent) {
+        modalContent.scrollTop = 0;
     }
     
     // Extract clean name (remove platform type from name)
@@ -1891,9 +1933,490 @@ function openProjectModal(project) {
         });
     });
     
-    modal.classList.add('active');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    const modal = document.getElementById('project-modal');
+    const isSwitching = modal.classList.contains('active');
+    
+    if (!isSwitching) {
+        // Initial open
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        
+        // Ensure scroll listener is attached
+        attachModalScrollListener();
+        
+        // Reset scroll state when opening modal
+        resetModalScrollState();
+    }
+    
+    // Update navigation button states
+    updateModalNavigationButtons();
+    
+    // Position navigation buttons based on modal position (after a brief delay to ensure modal is rendered)
+    setTimeout(() => {
+        positionModalNavigationButtons();
+        
+        // Fade in new content after positioning
+        if (isSwitching) {
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            if (modalTitle && modalBody) {
+                modalTitle.style.opacity = '1';
+                modalBody.style.opacity = '1';
+            }
+        }
+        
+        // Check if at bottom and update button info
+        const modalContent = document.querySelector('.modal-content');
+        if (modalContent) {
+            const scrollHeight = modalContent.scrollHeight;
+            const clientHeight = modalContent.clientHeight;
+            const currentScrollTop = modalContent.scrollTop;
+            const isAtBottom = scrollHeight - currentScrollTop - clientHeight < 10;
+            
+            if (isAtBottom) {
+                updateButtonProjectInfo();
+            }
+        }
+    }, 50);
+}
+
+// Update navigation button states based on current position
+function updateModalNavigationButtons() {
+    const prevButton = document.getElementById('modal-nav-prev');
+    const nextButton = document.getElementById('modal-nav-next');
+    
+    if (!prevButton || !nextButton) return;
+    
+    const totalProjects = currentFilteredProjects.length;
+    
+    // Hide buttons if only one project
+    if (totalProjects <= 1) {
+        prevButton.style.display = 'none';
+        nextButton.style.display = 'none';
+        return;
+    } else {
+        prevButton.style.display = '';
+        nextButton.style.display = '';
+    }
+    
+    // Disable prev button if at first project
+    if (currentProjectIndex <= 0) {
+        prevButton.disabled = true;
+        prevButton.setAttribute('aria-disabled', 'true');
+    } else {
+        prevButton.disabled = false;
+        prevButton.setAttribute('aria-disabled', 'false');
+    }
+    
+    // Disable next button if at last project
+    if (currentProjectIndex >= totalProjects - 1) {
+        nextButton.disabled = true;
+        nextButton.setAttribute('aria-disabled', 'true');
+    } else {
+        nextButton.disabled = false;
+        nextButton.setAttribute('aria-disabled', 'false');
+    }
+    
+    // Update hover tooltips with project names or fallback text
+    updateButtonTooltips();
+}
+
+// Update button tooltips with project names
+function updateButtonTooltips() {
+    const prevButton = document.getElementById('modal-nav-prev');
+    const nextButton = document.getElementById('modal-nav-next');
+    const prevTooltip = prevButton?.querySelector('.modal-nav-hover-tooltip');
+    const nextTooltip = nextButton?.querySelector('.modal-nav-hover-tooltip');
+    
+    if (!prevButton || !nextButton) return;
+    
+    // Previous button tooltip - show project name if available, otherwise "Older Project"
+    if (currentProjectIndex > 0 && currentFilteredProjects.length > 0) {
+        const prevProject = currentFilteredProjects[currentProjectIndex - 1];
+        const { cleanName } = extractPlatformType(prevProject.name);
+        if (prevTooltip) {
+            prevTooltip.textContent = cleanName;
+        }
+        prevButton.setAttribute('title', cleanName);
+        prevButton.setAttribute('aria-label', `Previous project: ${cleanName}`);
+    } else {
+        if (prevTooltip) {
+            prevTooltip.textContent = 'Older Project';
+        }
+        prevButton.setAttribute('title', 'Older Project');
+        prevButton.setAttribute('aria-label', 'Older Project');
+    }
+    
+    // Next button tooltip - show project name if available, otherwise "Newer Project"
+    if (currentProjectIndex < currentFilteredProjects.length - 1 && currentFilteredProjects.length > 0) {
+        const nextProject = currentFilteredProjects[currentProjectIndex + 1];
+        const { cleanName } = extractPlatformType(nextProject.name);
+        if (nextTooltip) {
+            nextTooltip.textContent = cleanName;
+        }
+        nextButton.setAttribute('title', cleanName);
+        nextButton.setAttribute('aria-label', `Next project: ${cleanName}`);
+    } else {
+        if (nextTooltip) {
+            nextTooltip.textContent = 'Newer Project';
+        }
+        nextButton.setAttribute('title', 'Newer Project');
+        nextButton.setAttribute('aria-label', 'Newer Project');
+    }
+}
+
+// Navigate to previous project
+function navigateToPreviousProject() {
+    if (currentProjectIndex <= 0 || currentFilteredProjects.length === 0) return;
+    
+    // Restore opacity when clicked
+    restoreButtonOpacity();
+    
+    const previousProject = currentFilteredProjects[currentProjectIndex - 1];
+    if (previousProject) {
+        openProjectModal(previousProject);
+    }
+}
+
+// Navigate to next project
+function navigateToNextProject() {
+    if (currentProjectIndex >= currentFilteredProjects.length - 1 || currentFilteredProjects.length === 0) return;
+    
+    // Restore opacity when clicked
+    restoreButtonOpacity();
+    
+    const nextProject = currentFilteredProjects[currentProjectIndex + 1];
+    if (nextProject) {
+        openProjectModal(nextProject);
+    }
+}
+
+// Track previous button position state for animation
+let previousButtonPosition = null; // 'sides' or 'bottom'
+let isPositionAnimating = false; // Flag to prevent scroll opacity changes during animation
+let positionAnimationTimeouts = []; // Array of timeout references for canceling animations
+
+// Position navigation buttons based on modal's actual position
+function positionModalNavigationButtons() {
+    const modal = document.getElementById('project-modal');
+    const modalContent = document.querySelector('.modal-content');
+    const prevButton = document.getElementById('modal-nav-prev');
+    const nextButton = document.getElementById('modal-nav-next');
+    
+    if (!modal || !modalContent || !prevButton || !nextButton) return;
+    
+    // Only position on desktop (mobile uses CSS only)
+    if (window.innerWidth <= 767) {
+        // Reset any desktop positioning styles - let CSS handle mobile
+        prevButton.style.top = '';
+        prevButton.style.left = '';
+        prevButton.style.right = '';
+        prevButton.style.bottom = '';
+        prevButton.style.transform = '';
+        prevButton.classList.remove('modal-nav-bottom');
+        
+        nextButton.style.top = '';
+        nextButton.style.left = '';
+        nextButton.style.right = '';
+        nextButton.style.bottom = '';
+        nextButton.style.transform = '';
+        nextButton.classList.remove('modal-nav-bottom');
+        previousButtonPosition = null;
+        return;
+    }
+    
+    // Get modal content position
+    const modalRect = modalContent.getBoundingClientRect();
+    const buttonOffset = 64; // Distance from modal edge
+    const minSpacing = 24; // Minimum spacing from browser edge
+    
+    const leftSpace = modalRect.left;
+    const rightSpace = window.innerWidth - modalRect.right;
+    
+    // Check if buttons fit on sides
+    const buttonsFitOnSides = leftSpace >= (buttonOffset + minSpacing) && rightSpace >= (buttonOffset + minSpacing);
+    
+    // Determine new position
+    const newPosition = buttonsFitOnSides ? 'sides' : 'bottom';
+    
+    // Helper function to get target opacity based on scroll
+    function getTargetOpacity() {
+        const modalContent = document.querySelector('.modal-content');
+        if (modalContent) {
+            const currentScrollTop = modalContent.scrollTop;
+            const scrollHeight = modalContent.scrollHeight;
+            const clientHeight = modalContent.clientHeight;
+            const isAtBottom = scrollHeight - currentScrollTop - clientHeight < 10;
+            
+            if (!isAtBottom && currentScrollTop > 0) {
+                return '0.3';
+            }
+        }
+        return '1';
+    }
+    
+    // Check if position changed and animate transition
+    const positionChanged = previousButtonPosition !== null && previousButtonPosition !== newPosition;
+    
+    if (positionChanged) {
+        // Cancel any ongoing animations and restore opacity immediately
+        positionAnimationTimeouts.forEach(timeout => clearTimeout(timeout));
+        positionAnimationTimeouts = [];
+        
+        // If we're canceling an animation, restore opacity first
+        if (isPositionAnimating) {
+            const targetOpacity = getTargetOpacity();
+            prevButton.style.transition = '';
+            nextButton.style.transition = '';
+            prevButton.style.opacity = targetOpacity;
+            nextButton.style.opacity = targetOpacity;
+        }
+        
+        // Reset animation state
+        isPositionAnimating = true;
+        
+        // Fade out buttons at old position
+        prevButton.style.transition = 'opacity 0.3s ease';
+        nextButton.style.transition = 'opacity 0.3s ease';
+        prevButton.style.opacity = '0';
+        nextButton.style.opacity = '0';
+        
+        // Reposition and fade in at new position
+        const timeout1 = setTimeout(() => {
+            // Reposition buttons to new location (still invisible)
+            applyButtonPosition(prevButton, nextButton, modalRect, newPosition, buttonOffset, leftSpace, rightSpace);
+            
+            // Small delay to ensure reposition is complete, then fade in
+            const timeout2 = setTimeout(() => {
+                const targetOpacity = getTargetOpacity();
+                
+                // Fade in at new position
+                prevButton.style.opacity = targetOpacity;
+                nextButton.style.opacity = targetOpacity;
+                
+                // Remove transition override after animation completes
+                const timeout3 = setTimeout(() => {
+                    prevButton.style.transition = '';
+                    nextButton.style.transition = '';
+                    isPositionAnimating = false;
+                    positionAnimationTimeouts = [];
+                }, 300);
+                positionAnimationTimeouts.push(timeout3);
+            }, 50);
+            positionAnimationTimeouts.push(timeout2);
+        }, 300);
+        positionAnimationTimeouts.push(timeout1);
+    } else {
+        // No position change, just apply position directly
+        // Cancel any ongoing animations since position didn't change
+        positionAnimationTimeouts.forEach(timeout => clearTimeout(timeout));
+        positionAnimationTimeouts = [];
+        
+        // Restore proper opacity if animation was in progress
+        if (isPositionAnimating) {
+            const targetOpacity = getTargetOpacity();
+            prevButton.style.transition = '';
+            nextButton.style.transition = '';
+            prevButton.style.opacity = targetOpacity;
+            nextButton.style.opacity = targetOpacity;
+        }
+        
+        isPositionAnimating = false;
+        applyButtonPosition(prevButton, nextButton, modalRect, newPosition, buttonOffset, leftSpace, rightSpace);
+    }
+    
+    previousButtonPosition = newPosition;
+}
+
+// Apply button position (extracted for reuse)
+function applyButtonPosition(prevButton, nextButton, modalRect, position, buttonOffset, leftSpace, rightSpace) {
+    if (position === 'sides') {
+        // Position on sides - based on modal's actual position
+        prevButton.classList.remove('modal-nav-bottom');
+        nextButton.classList.remove('modal-nav-bottom');
+        
+        // Position based on modal's actual position
+        const modalCenterY = modalRect.top + (modalRect.height / 2);
+        const prevLeft = modalRect.left - buttonOffset;
+        const nextRight = window.innerWidth - modalRect.right - buttonOffset;
+        
+        prevButton.style.top = `${modalCenterY}px`;
+        prevButton.style.left = `${prevLeft}px`;
+        prevButton.style.right = 'auto';
+        prevButton.style.bottom = 'auto';
+        prevButton.style.transform = 'translateY(-50%)';
+        
+        nextButton.style.top = `${modalCenterY}px`;
+        nextButton.style.right = `${nextRight}px`;
+        nextButton.style.left = 'auto';
+        nextButton.style.bottom = 'auto';
+        nextButton.style.transform = 'translateY(-50%)';
+    } else {
+        // Position at bottom center - within modal, relative to modal's bottom
+        prevButton.classList.add('modal-nav-bottom');
+        nextButton.classList.add('modal-nav-bottom');
+        
+        // Position relative to modal's bottom edge (20px from modal bottom, centered horizontally)
+        const bottomOffset = 20;
+        const modalBottom = modalRect.bottom;
+        const modalCenterX = modalRect.left + (modalRect.width / 2);
+        const buttonY = window.innerHeight - modalBottom + bottomOffset;
+        
+        prevButton.style.top = 'auto';
+        prevButton.style.bottom = `${buttonY}px`;
+        prevButton.style.left = `${modalCenterX}px`;
+        prevButton.style.right = 'auto';
+        prevButton.style.transform = 'translateX(calc(-100% - 12px))';
+        
+        nextButton.style.top = 'auto';
+        nextButton.style.bottom = `${buttonY}px`;
+        nextButton.style.right = `${window.innerWidth - modalCenterX}px`;
+        nextButton.style.left = 'auto';
+        nextButton.style.transform = 'translateX(calc(100% + 12px))';
+    }
+}
+
+// Update button positions on window resize - instant, no debounce
+window.addEventListener('resize', () => {
+    const modal = document.getElementById('project-modal');
+    if (modal && modal.classList.contains('active')) {
+        positionModalNavigationButtons();
+    }
+});
+
+// Track scroll for button opacity
+let lastScrollTop = 0;
+
+function handleModalScroll() {
+    const modal = document.getElementById('project-modal');
+    const modalContent = document.querySelector('.modal-content');
+    const prevButton = document.getElementById('modal-nav-prev');
+    const nextButton = document.getElementById('modal-nav-next');
+    
+    if (!modal || !modal.classList.contains('active') || !modalContent || !prevButton || !nextButton) {
+        return;
+    }
+    
+    // Don't change opacity during position animation
+    if (isPositionAnimating) {
+        return;
+    }
+    
+    const currentScrollTop = modalContent.scrollTop;
+    const scrollHeight = modalContent.scrollHeight;
+    const clientHeight = modalContent.clientHeight;
+    const scrollDirection = currentScrollTop > lastScrollTop ? 'down' : 'up';
+    
+    // Check if scrolled to bottom (with small threshold for rounding)
+    const isAtBottom = scrollHeight - currentScrollTop - clientHeight < 10;
+    
+    if (isAtBottom) {
+        // At bottom - make buttons fully opaque and show project info
+        prevButton.style.opacity = '1';
+        nextButton.style.opacity = '1';
+        updateButtonProjectInfo();
+    } else if (scrollDirection === 'down' && currentScrollTop > 0) {
+        // Fade out when scrolling down (but keep clickable)
+        prevButton.style.opacity = '0.3';
+        nextButton.style.opacity = '0.3';
+        hideButtonProjectInfo();
+    } else if (scrollDirection === 'up' || currentScrollTop === 0) {
+        // Fade in when scrolling up or at top
+        prevButton.style.opacity = '1';
+        nextButton.style.opacity = '1';
+        hideButtonProjectInfo();
+    }
+    
+    lastScrollTop = currentScrollTop;
+}
+
+// Update button project info when at bottom
+function updateButtonProjectInfo() {
+    const prevButton = document.getElementById('modal-nav-prev');
+    const nextButton = document.getElementById('modal-nav-next');
+    const prevInfo = prevButton?.querySelector('.modal-nav-info');
+    const nextInfo = nextButton?.querySelector('.modal-nav-info');
+    
+    if (!prevInfo || !nextInfo) return;
+    
+    // Get previous project info
+    if (currentProjectIndex > 0 && currentFilteredProjects.length > 0) {
+        const prevProject = currentFilteredProjects[currentProjectIndex - 1];
+        const { cleanName } = extractPlatformType(prevProject.name);
+        prevInfo.textContent = cleanName;
+        prevButton.classList.add('modal-nav-show-info');
+    } else {
+        prevInfo.textContent = '';
+        prevButton.classList.remove('modal-nav-show-info');
+    }
+    
+    // Get next project info
+    if (currentProjectIndex < currentFilteredProjects.length - 1 && currentFilteredProjects.length > 0) {
+        const nextProject = currentFilteredProjects[currentProjectIndex + 1];
+        const { cleanName } = extractPlatformType(nextProject.name);
+        nextInfo.textContent = cleanName;
+        nextButton.classList.add('modal-nav-show-info');
+    } else {
+        nextInfo.textContent = '';
+        nextButton.classList.remove('modal-nav-show-info');
+    }
+}
+
+// Hide project info from buttons
+function hideButtonProjectInfo() {
+    const prevButton = document.getElementById('modal-nav-prev');
+    const nextButton = document.getElementById('modal-nav-next');
+    
+    if (prevButton) {
+        prevButton.classList.remove('modal-nav-show-info');
+    }
+    if (nextButton) {
+        nextButton.classList.remove('modal-nav-show-info');
+    }
+}
+
+// Restore button opacity when clicked
+function restoreButtonOpacity() {
+    const prevButton = document.getElementById('modal-nav-prev');
+    const nextButton = document.getElementById('modal-nav-next');
+    if (prevButton) {
+        prevButton.style.opacity = '1';
+    }
+    if (nextButton) {
+        nextButton.style.opacity = '1';
+    }
+    hideButtonProjectInfo();
+}
+
+// Add scroll listener to modal content (attach when modal opens)
+let scrollListenerAttached = false;
+
+function attachModalScrollListener() {
+    if (scrollListenerAttached) return;
+    
+    const modalContent = document.querySelector('.modal-content');
+    if (modalContent) {
+        modalContent.addEventListener('scroll', handleModalScroll, { passive: true });
+        scrollListenerAttached = true;
+    }
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+    attachModalScrollListener();
+});
+
+// Reset scroll position and button opacity when modal opens
+function resetModalScrollState() {
+    lastScrollTop = 0;
+    const prevButton = document.getElementById('modal-nav-prev');
+    const nextButton = document.getElementById('modal-nav-next');
+    if (prevButton && nextButton) {
+        prevButton.style.opacity = '1';
+        nextButton.style.opacity = '1';
+    }
+    hideButtonProjectInfo();
 }
 
 function closeProjectModal() {
@@ -1901,6 +2424,18 @@ function closeProjectModal() {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    
+    // Disable navigation buttons when modal is closed
+    const prevButton = document.getElementById('modal-nav-prev');
+    const nextButton = document.getElementById('modal-nav-next');
+    if (prevButton) {
+        prevButton.disabled = true;
+        prevButton.setAttribute('aria-disabled', 'true');
+    }
+    if (nextButton) {
+        nextButton.disabled = true;
+        nextButton.setAttribute('aria-disabled', 'true');
+    }
     
     // Remove hash from URL when closing modal
     if (window.location.hash && window.location.hash.startsWith('#project-')) {
@@ -1912,12 +2447,20 @@ function closeProjectModal() {
 document.addEventListener('DOMContentLoaded', () => {
     const modalClose = document.querySelector('.modal-close');
     const modalOverlay = document.querySelector('.modal-overlay');
+    const prevButton = document.getElementById('modal-nav-prev');
+    const nextButton = document.getElementById('modal-nav-next');
     
     if (modalClose) {
         modalClose.addEventListener('click', closeProjectModal);
     }
     if (modalOverlay) {
         modalOverlay.addEventListener('click', closeProjectModal);
+    }
+    if (prevButton) {
+        prevButton.addEventListener('click', navigateToPreviousProject);
+    }
+    if (nextButton) {
+        nextButton.addEventListener('click', navigateToNextProject);
     }
     
     // Drag-to-dismiss for mobile bottom sheet
@@ -1926,7 +2469,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Drag-to-dismiss functionality for mobile bottom sheet
 function initModalDragToDismiss() {
-    const modal = document.getElementById('project-modal');
+        const modal = document.getElementById('project-modal');
     const modalContent = document.querySelector('.modal-content');
     
     if (!modal || !modalContent) return;
@@ -2017,13 +2560,19 @@ function initModalDragToDismiss() {
     observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
 }
 
-// Close modal on Escape key
+// Close modal on Escape key and handle arrow key navigation
 document.addEventListener('keydown', (e) => {
+    const modal = document.getElementById('project-modal');
+    if (!modal || !modal.classList.contains('active')) return;
+    
     if (e.key === 'Escape') {
-        const modal = document.getElementById('project-modal');
-        if (modal && modal.classList.contains('active')) {
-            closeProjectModal();
-        }
+        closeProjectModal();
+    } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        navigateToPreviousProject();
+    } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        navigateToNextProject();
     }
 });
 
