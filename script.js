@@ -2558,11 +2558,50 @@ document.addEventListener('DOMContentLoaded', () => {
         modalOverlay.addEventListener('click', closeProjectModal);
     }
     if (prevButton) {
-        prevButton.addEventListener('click', navigateToPreviousProject);
+        // Use touchend for immediate navigation on mobile (fires before click)
+        // This ensures navigation happens on first tap, not waiting for click
+        let touchHandled = false;
+        const handlePrevTouch = (e) => {
+            if (!touchHandled) {
+                touchHandled = true;
+                e.preventDefault();
+                e.stopPropagation();
+                navigateToPreviousProject();
+                // Reset flag after a short delay to allow for rapid taps
+                setTimeout(() => { touchHandled = false; }, 100);
+            }
+        };
+        prevButton.addEventListener('touchend', handlePrevTouch, { passive: false });
+        prevButton.addEventListener('click', (e) => {
+            // On mobile, touchend already handled it, so prevent duplicate navigation
+            if (touchHandled) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+            navigateToPreviousProject();
+        });
+        
         // Make info card clickable
         const prevInfo = prevButton.querySelector('.modal-nav-info');
         if (prevInfo) {
+            let prevInfoTouchHandled = false;
+            const handlePrevInfoTouch = (e) => {
+                if (!prevInfoTouchHandled) {
+                    prevInfoTouchHandled = true;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigateToPreviousProject();
+                    setTimeout(() => { prevInfoTouchHandled = false; }, 100);
+                }
+            };
+            prevInfo.addEventListener('touchend', handlePrevInfoTouch, { passive: false });
             prevInfo.addEventListener('click', (e) => {
+                if (prevInfoTouchHandled) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
                 e.stopPropagation();
                 navigateToPreviousProject();
             });
@@ -2570,18 +2609,73 @@ document.addEventListener('DOMContentLoaded', () => {
         // Make hover tooltip clickable
         const prevTooltip = prevButton.querySelector('.modal-nav-hover-tooltip');
         if (prevTooltip) {
+            let prevTooltipTouchHandled = false;
+            const handlePrevTooltipTouch = (e) => {
+                if (!prevTooltipTouchHandled) {
+                    prevTooltipTouchHandled = true;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigateToPreviousProject();
+                    setTimeout(() => { prevTooltipTouchHandled = false; }, 100);
+                }
+            };
+            prevTooltip.addEventListener('touchend', handlePrevTooltipTouch, { passive: false });
             prevTooltip.addEventListener('click', (e) => {
+                if (prevTooltipTouchHandled) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
                 e.stopPropagation();
                 navigateToPreviousProject();
             });
         }
     }
     if (nextButton) {
-        nextButton.addEventListener('click', navigateToNextProject);
+        // Use touchend for immediate navigation on mobile (fires before click)
+        // This ensures navigation happens on first tap, not waiting for click
+        let touchHandled = false;
+        const handleNextTouch = (e) => {
+            if (!touchHandled) {
+                touchHandled = true;
+                e.preventDefault();
+                e.stopPropagation();
+                navigateToNextProject();
+                // Reset flag after a short delay to allow for rapid taps
+                setTimeout(() => { touchHandled = false; }, 100);
+            }
+        };
+        nextButton.addEventListener('touchend', handleNextTouch, { passive: false });
+        nextButton.addEventListener('click', (e) => {
+            // On mobile, touchend already handled it, so prevent duplicate navigation
+            if (touchHandled) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+            navigateToNextProject();
+        });
+        
         // Make info card clickable
         const nextInfo = nextButton.querySelector('.modal-nav-info');
         if (nextInfo) {
+            let nextInfoTouchHandled = false;
+            const handleNextInfoTouch = (e) => {
+                if (!nextInfoTouchHandled) {
+                    nextInfoTouchHandled = true;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigateToNextProject();
+                    setTimeout(() => { nextInfoTouchHandled = false; }, 100);
+                }
+            };
+            nextInfo.addEventListener('touchend', handleNextInfoTouch, { passive: false });
             nextInfo.addEventListener('click', (e) => {
+                if (nextInfoTouchHandled) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
                 e.stopPropagation();
                 navigateToNextProject();
             });
@@ -2589,7 +2683,23 @@ document.addEventListener('DOMContentLoaded', () => {
         // Make hover tooltip clickable
         const nextTooltip = nextButton.querySelector('.modal-nav-hover-tooltip');
         if (nextTooltip) {
+            let nextTooltipTouchHandled = false;
+            const handleNextTooltipTouch = (e) => {
+                if (!nextTooltipTouchHandled) {
+                    nextTooltipTouchHandled = true;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigateToNextProject();
+                    setTimeout(() => { nextTooltipTouchHandled = false; }, 100);
+                }
+            };
+            nextTooltip.addEventListener('touchend', handleNextTooltipTouch, { passive: false });
             nextTooltip.addEventListener('click', (e) => {
+                if (nextTooltipTouchHandled) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
                 e.stopPropagation();
                 navigateToNextProject();
             });
