@@ -1673,7 +1673,7 @@ body {
 /* Modal Navigation Buttons - Absolute position relative to modal, fixed to viewport */
 .modal-nav-button {
     position: fixed;
-    background-color: var(--bg-primary);
+    background-color: rgba(255, 255, 255, 0.2);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     cursor: pointer;
@@ -1686,15 +1686,19 @@ body {
     box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     opacity: 0;
     visibility: hidden;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    will-change: backdrop-filter;
 }
 
 .modal.active .modal-nav-button {
-    opacity: 1;
+    opacity: 0.9;
     visibility: visible;
 }
 
 [data-theme="dark"] .modal-nav-button {
     box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* Remove shadow when opacity is 0.3 (faded state) */
@@ -1703,14 +1707,19 @@ body {
 }
 
 .modal-nav-button:hover:not(:disabled) {
-    background-color: var(--hover-bg);
+    background-color: rgba(255, 255, 255, 0.7);
     border-color: var(--text-primary);
     opacity: 1 !important; /* Force full opacity on hover, overriding scroll-based opacity */
-    box-shadow: 3.5px 3.5px 3.5px rgba(0, 0, 0, 0.15);
+    box-shadow: none;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 [data-theme="dark"] .modal-nav-button:hover:not(:disabled) {
-    box-shadow: 3.5px 3.5px 3.5px rgba(255, 255, 255, 0.15);
+    background-color: rgba(0, 0, 0, 0.7);
+    box-shadow: none;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 .modal-nav-button:active:not(:disabled) {
@@ -1760,7 +1769,7 @@ body {
     pointer-events: auto; /* Make clickable */
     cursor: pointer;
     transition: all 0.05s ease, opacity 0.2s ease, visibility 0.2s ease, transform 0.6s ease, box-shadow 0.3s ease, background-color 0.05s ease, border-color 0.05s ease;
-    background-color: var(--bg-primary);
+    background-color: rgba(255, 255, 255, 0.95);
     padding: 10px 12px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -1775,14 +1784,19 @@ body {
     /* Allow full height - remove line clamp */
     display: block;
     word-wrap: break-word;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    will-change: backdrop-filter;
 }
 
 /* When button is hovered, animate the info card */
 .modal-nav-button:hover:not(:disabled) .modal-nav-info {
     border-color: var(--text-primary);
-    background-color: var(--hover-bg);
+    background-color: rgba(255, 255, 255, 0.95);
     transform: translateY(-50%) translate(-3.5px, -3.5px);
     box-shadow: 3.5px 3.5px 3.5px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 [data-theme="dark"] .modal-nav-button:hover:not(:disabled) .modal-nav-info {
@@ -1802,15 +1816,24 @@ body {
 
 .modal-nav-button .modal-nav-info:hover {
     border-color: var(--text-primary);
-    background-color: var(--hover-bg);
+    background-color: rgba(255, 255, 255, 0.95);
     transform: translateY(-50%) translate(-3.5px, -3.5px);
     box-shadow: 3.5px 3.5px 3.5px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 
+[data-theme="dark"] .modal-nav-button .modal-nav-info {
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
 [data-theme="dark"] .modal-nav-button .modal-nav-info:hover,
 [data-theme="dark"] .modal-nav-button:hover:not(:disabled) .modal-nav-info {
+    background-color: rgba(0, 0, 0, 0.95);
     box-shadow: 3.5px 3.5px 3.5px rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 /* Previous button: info to the left of arrow */
@@ -1892,7 +1915,7 @@ body {
     pointer-events: auto; /* Make clickable */
     cursor: pointer;
     transition: all 0.05s ease, opacity 0.2s ease, visibility 0.2s ease, transform 0.6s ease, box-shadow 0.3s ease, background-color 0.05s ease, border-color 0.05s ease;
-    background-color: var(--bg-primary);
+    background-color: rgba(255, 255, 255, 0.95);
     padding: 10px 12px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -1907,14 +1930,19 @@ body {
     /* Allow full height - remove line clamp */
     display: block;
     word-wrap: break-word;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    will-change: backdrop-filter;
 }
 
 /* When button is hovered, animate the hover tooltip card */
 .modal-nav-button:hover:not(:disabled) .modal-nav-hover-tooltip {
     border-color: var(--text-primary);
-    background-color: var(--hover-bg);
+    background-color: rgba(255, 255, 255, 0.95);
     transform: translateY(-50%) translate(-3.5px, -3.5px);
     box-shadow: 3.5px 3.5px 3.5px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 /* When hover tooltip card is hovered, animate the button - transform handled in media queries */
@@ -1930,15 +1958,24 @@ body {
 
 .modal-nav-button .modal-nav-hover-tooltip:hover {
     border-color: var(--text-primary);
-    background-color: var(--hover-bg);
+    background-color: rgba(255, 255, 255, 0.95);
     transform: translateY(-50%) translate(-3.5px, -3.5px);
     box-shadow: 3.5px 3.5px 3.5px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 
+[data-theme="dark"] .modal-nav-button .modal-nav-hover-tooltip {
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
 [data-theme="dark"] .modal-nav-button .modal-nav-hover-tooltip:hover,
 [data-theme="dark"] .modal-nav-button:hover:not(:disabled) .modal-nav-hover-tooltip {
+    background-color: rgba(0, 0, 0, 0.95);
     box-shadow: 3.5px 3.5px 3.5px rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 /* Previous button: tooltip to the left of arrow */

@@ -2171,11 +2171,14 @@ function positionModalNavigationButtons() {
             const clientHeight = modalContent.clientHeight;
             const isAtBottom = scrollHeight - currentScrollTop - clientHeight < 10;
             
+            if (isAtBottom) {
+                return '1'; // Full opacity at bottom
+            }
             if (!isAtBottom && currentScrollTop > 0) {
-                return '0.3';
+                return '0.3'; // Low opacity when scrolling down
             }
         }
-        return '1';
+        return '0.9'; // Default opacity (90%)
     }
     
     // Check if position changed and animate transition
@@ -2386,8 +2389,8 @@ function handleModalScroll() {
         hideButtonProjectInfo();
     } else if (scrollDirection === 'up' || currentScrollTop === 0) {
         // Fade in when scrolling up or at top
-        prevButton.style.opacity = '1';
-        nextButton.style.opacity = '1';
+        prevButton.style.opacity = '0.9';
+        nextButton.style.opacity = '0.9';
         prevButton.classList.remove('modal-nav-faded');
         nextButton.classList.remove('modal-nav-faded');
         hideButtonProjectInfo();
@@ -2458,11 +2461,11 @@ function restoreButtonOpacity() {
     const prevButton = document.getElementById('modal-nav-prev');
     const nextButton = document.getElementById('modal-nav-next');
     if (prevButton) {
-        prevButton.style.opacity = '1';
+        prevButton.style.opacity = '0.9';
         prevButton.classList.remove('modal-nav-faded');
     }
     if (nextButton) {
-        nextButton.style.opacity = '1';
+        nextButton.style.opacity = '0.9';
         nextButton.classList.remove('modal-nav-faded');
     }
     hideButtonProjectInfo();
@@ -2492,8 +2495,8 @@ function resetModalScrollState() {
     const prevButton = document.getElementById('modal-nav-prev');
     const nextButton = document.getElementById('modal-nav-next');
     if (prevButton && nextButton) {
-        prevButton.style.opacity = '1';
-        nextButton.style.opacity = '1';
+        prevButton.style.opacity = '0.9';
+        nextButton.style.opacity = '0.9';
         prevButton.classList.remove('modal-nav-faded');
         nextButton.classList.remove('modal-nav-faded');
     }
