@@ -2167,8 +2167,8 @@ function positionModalNavigationButtons() {
         // If we're canceling an animation, restore opacity first
         if (isPositionAnimating) {
             const targetOpacity = getTargetOpacity();
-            prevButton.style.transition = '';
-            nextButton.style.transition = '';
+            prevButton.style.transition = 'opacity 0.3s ease';
+            nextButton.style.transition = 'opacity 0.3s ease';
             prevButton.style.opacity = targetOpacity;
             nextButton.style.opacity = targetOpacity;
         }
@@ -2176,34 +2176,31 @@ function positionModalNavigationButtons() {
         // Reset animation state
         isPositionAnimating = true;
         
-        // Fade out buttons at old position
+        // IMPORTANT: Reposition buttons INSTANTLY (no animation) while visible
+        // This ensures position change happens immediately, separate from fade
+        applyButtonPosition(prevButton, nextButton, modalRect, newPosition, buttonOffset, leftSpace, rightSpace);
+        
+        // Now fade out buttons at new position
         prevButton.style.transition = 'opacity 0.3s ease';
         nextButton.style.transition = 'opacity 0.3s ease';
         prevButton.style.opacity = '0';
         nextButton.style.opacity = '0';
         
-        // Reposition and fade in at new position
+        // Fade in at new position
         const timeout1 = setTimeout(() => {
-            // Reposition buttons to new location (still invisible)
-            applyButtonPosition(prevButton, nextButton, modalRect, newPosition, buttonOffset, leftSpace, rightSpace);
+            const targetOpacity = getTargetOpacity();
             
-            // Small delay to ensure reposition is complete, then fade in
+            // Fade in at new position
+            prevButton.style.opacity = targetOpacity;
+            nextButton.style.opacity = targetOpacity;
+            
+            // Remove transition override after animation completes
             const timeout2 = setTimeout(() => {
-                const targetOpacity = getTargetOpacity();
-                
-                // Fade in at new position
-                prevButton.style.opacity = targetOpacity;
-                nextButton.style.opacity = targetOpacity;
-                
-                // Remove transition override after animation completes
-                const timeout3 = setTimeout(() => {
-                    prevButton.style.transition = '';
-                    nextButton.style.transition = '';
-                    isPositionAnimating = false;
-                    positionAnimationTimeouts = [];
-                }, 300);
-                positionAnimationTimeouts.push(timeout3);
-            }, 50);
+                prevButton.style.transition = '';
+                nextButton.style.transition = '';
+                isPositionAnimating = false;
+                positionAnimationTimeouts = [];
+            }, 300);
             positionAnimationTimeouts.push(timeout2);
         }, 300);
         positionAnimationTimeouts.push(timeout1);
@@ -2216,8 +2213,8 @@ function positionModalNavigationButtons() {
         // Restore proper opacity if animation was in progress
         if (isPositionAnimating) {
             const targetOpacity = getTargetOpacity();
-            prevButton.style.transition = '';
-            nextButton.style.transition = '';
+            prevButton.style.transition = 'opacity 0.3s ease';
+            nextButton.style.transition = 'opacity 0.3s ease';
             prevButton.style.opacity = targetOpacity;
             nextButton.style.opacity = targetOpacity;
         }
@@ -2231,6 +2228,14 @@ function positionModalNavigationButtons() {
 
 // Apply button position (extracted for reuse)
 function applyButtonPosition(prevButton, nextButton, modalRect, position, buttonOffset, leftSpace, rightSpace) {
+    // Store current transition to restore it after position change
+    const prevTransition = prevButton.style.transition || '';
+    const nextTransition = nextButton.style.transition || '';
+    
+    // Temporarily disable all transitions to ensure instant position change
+    prevButton.style.transition = 'none';
+    nextButton.style.transition = 'none';
+    
     if (position === 'sides') {
         // Position on sides - based on modal's actual position
         prevButton.classList.remove('modal-nav-bottom');
@@ -2275,6 +2280,14 @@ function applyButtonPosition(prevButton, nextButton, modalRect, position, button
         nextButton.style.left = 'auto';
         nextButton.style.transform = 'translateX(calc(100% + 12px))';
     }
+    
+    // Force reflow to ensure position is applied instantly before restoring transition
+    void prevButton.offsetHeight;
+    void nextButton.offsetHeight;
+    
+    // Restore the original transition (which should only be for opacity)
+    prevButton.style.transition = prevTransition;
+    nextButton.style.transition = nextTransition;
 }
 
 // Update button positions on window resize - instant, no debounce
