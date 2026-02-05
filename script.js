@@ -1743,40 +1743,12 @@ function openProjectModal(project) {
     // Get platforms (iOS, Android, Web)
     const platforms = inferPlatforms(project);
     
-    // Build title HTML with project type label, platform bookmarks, and clean name
+    // Build title HTML with project type label and clean name
     let titleHTML = '';
     
     // Project type label at top left
     const projectTypeLabel = project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
     titleHTML += `<div class="modal-type-label">${projectTypeLabel}</div>`;
-    
-    // Platform bookmarks above title
-    let platformBookmarksHTML = '';
-    if (platforms.length > 0) {
-        // Calculate right offset for each bookmark (16px base + 34px spacing per bookmark)
-        platforms.forEach((platform, index) => {
-            const rightOffset = 16 + (platforms.length - 1 - index) * 34; // 26px width + 8px spacing
-            // Get URL for this platform
-            let platformUrl = null;
-            if (project.links) {
-                if (platform === 'iOS' && project.links.appStore) {
-                    platformUrl = project.links.appStore;
-                } else if (platform === 'Android' && project.links.playStore) {
-                    platformUrl = project.links.playStore;
-                } else if (platform === 'Web') {
-                    // Check for web link (web or live)
-                    if (project.links.web) {
-                        platformUrl = project.links.web;
-                    } else if (project.links.live) {
-                        platformUrl = project.links.live;
-                    }
-                }
-            }
-            const bookmarkHTML = createPlatformBookmark(platform, platformUrl);
-            platformBookmarksHTML += bookmarkHTML.replace('class="platform-bookmark"', `class="platform-bookmark modal-bookmark" style="right: ${rightOffset}px;"`);
-        });
-    }
-    titleHTML += platformBookmarksHTML;
     
     // Project name with underline animation
     titleHTML += `<div class="modal-title-wrapper"><span class="modal-title-name">${cleanName}</span></div>`;
@@ -1800,6 +1772,28 @@ function openProjectModal(project) {
         bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Period:</span> <span class="modal-meta-value">${project.period}</span></div>`;
     }
     bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Role:</span> <span class="modal-meta-value">${project.role.join(', ')}</span></div>`;
+    if (platforms.length > 0) {
+        // Build platform links
+        const platformLinks = platforms.map(platform => {
+            let platformUrl = null;
+            if (project.links) {
+                if (platform === 'iOS' && project.links.appStore) {
+                    platformUrl = project.links.appStore;
+                } else if (platform === 'Android' && (project.links.playStore || project.links.huawei)) {
+                    platformUrl = project.links.playStore || project.links.huawei;
+                } else if (platform === 'Web' && (project.links.web || project.links.live)) {
+                    platformUrl = project.links.web || project.links.live;
+                }
+            }
+            
+            if (platformUrl) {
+                return `<a href="${platformUrl}" target="_blank" rel="noopener noreferrer" class="modal-platform-link">${platform}</a>`;
+            } else {
+                return `<span class="modal-platform-text">${platform}</span>`;
+            }
+        });
+        bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Platforms:</span> <span class="modal-meta-value">${platformLinks.join(', ')}</span></div>`;
+    }
     if (project.teamSize) {
         bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Team Size:</span> <span class="modal-meta-value">${project.teamSize}</span></div>`;
     }
@@ -1897,32 +1891,6 @@ function openProjectModal(project) {
         });
     });
     
-    // Add click handlers for platform bookmarks in modal
-    const bookmarkElements = modalTitle.querySelectorAll('.platform-bookmark');
-    bookmarkElements.forEach(bookmark => {
-        bookmark.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const url = bookmark.getAttribute('data-url');
-            if (url) {
-                // Open the URL in a new tab
-                window.open(url, '_blank', 'noopener,noreferrer');
-            }
-        });
-        
-        // Add keyboard support
-        bookmark.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                e.stopPropagation();
-                const url = bookmark.getAttribute('data-url');
-                if (url) {
-                    // Open the URL in a new tab
-                    window.open(url, '_blank', 'noopener,noreferrer');
-                }
-            }
-        });
-    });
-    
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -1951,7 +1919,103 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalOverlay) {
         modalOverlay.addEventListener('click', closeProjectModal);
     }
+    
+    // Drag-to-dismiss for mobile bottom sheet
+    initModalDragToDismiss();
 });
+
+// Drag-to-dismiss functionality for mobile bottom sheet
+function initModalDragToDismiss() {
+    const modal = document.getElementById('project-modal');
+    const modalContent = document.querySelector('.modal-content');
+    
+    if (!modal || !modalContent) return;
+    
+    let touchStartY = 0;
+    let touchCurrentY = 0;
+    let isDragging = false;
+    let scrollTop = 0;
+    
+    // Check if we're on mobile
+    function isMobile() {
+        return window.innerWidth <= 767;
+    }
+    
+    modalContent.addEventListener('touchstart', (e) => {
+        if (!isMobile() || !modal.classList.contains('active')) return;
+        
+        // Only start drag if touching near the top of the modal or if content is scrolled to top
+        scrollTop = modalContent.scrollTop;
+        const touchY = e.touches[0].clientY;
+        const modalRect = modalContent.getBoundingClientRect();
+        const touchOffsetFromTop = touchY - modalRect.top;
+        
+        // Allow drag if scrolled to top or touching in top 120px of modal (includes drag handle area)
+        if (scrollTop === 0 || touchOffsetFromTop < 120) {
+            touchStartY = touchY;
+            isDragging = true;
+            modalContent.style.transition = 'none'; // Disable transition during drag
+        }
+    }, { passive: true });
+    
+    modalContent.addEventListener('touchmove', (e) => {
+        if (!isMobile() || !isDragging || !modal.classList.contains('active')) return;
+        
+        touchCurrentY = e.touches[0].clientY;
+        const deltaY = touchCurrentY - touchStartY;
+        
+        // Only allow dragging down (positive deltaY)
+        if (deltaY > 0) {
+            // Prevent scrolling while dragging
+            if (scrollTop === 0) {
+                e.preventDefault();
+            }
+            
+            // Apply transform to show drag feedback
+            modalContent.style.transform = `translateY(${deltaY}px)`;
+            
+            // Add opacity fade based on drag distance
+            const maxDrag = 200; // Maximum drag distance for full fade
+            const opacity = Math.max(0.3, 1 - (deltaY / maxDrag));
+            modalContent.style.opacity = opacity;
+        }
+    }, { passive: false });
+    
+    modalContent.addEventListener('touchend', () => {
+        if (!isMobile() || !isDragging || !modal.classList.contains('active')) return;
+        
+        isDragging = false;
+        const deltaY = touchCurrentY - touchStartY;
+        const threshold = 100; // Minimum drag distance to close (in pixels)
+        
+        // Re-enable transition
+        modalContent.style.transition = '';
+        
+        if (deltaY > threshold) {
+            // Close modal if dragged down enough
+            closeProjectModal();
+        } else {
+            // Snap back to original position
+            modalContent.style.transform = '';
+            modalContent.style.opacity = '';
+        }
+        
+        // Reset values
+        touchStartY = 0;
+        touchCurrentY = 0;
+    }, { passive: true });
+    
+    // Reset transform when modal closes
+    const observer = new MutationObserver(() => {
+        if (!modal.classList.contains('active')) {
+            modalContent.style.transform = '';
+            modalContent.style.opacity = '';
+            modalContent.style.transition = '';
+        }
+    });
+    
+    observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
+}
 
 // Close modal on Escape key
 document.addEventListener('keydown', (e) => {
