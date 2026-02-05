@@ -1465,7 +1465,8 @@ function initProjectFilters() {
             <span class="filter-label">Type:</span>
             ${types.map(type => `
                 <button class="filter-btn multi-select" data-filter-type="type" data-filter-value="${type}">
-                    ${type.charAt(0).toUpperCase() + type.slice(1)}
+                    <span class="filter-btn-text">${type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                    <span class="filter-btn-close" aria-label="Remove filter">×</span>
                 </button>
             `).join('')}
         </div>
@@ -1473,7 +1474,8 @@ function initProjectFilters() {
             <span class="filter-label">Language:</span>
             ${languages.map(lang => `
                 <button class="filter-btn multi-select" data-filter-type="language" data-filter-value="${lang}">
-                    ${lang}
+                    <span class="filter-btn-text">${lang}</span>
+                    <span class="filter-btn-close" aria-label="Remove filter">×</span>
                 </button>
             `).join('')}
         </div>
@@ -1481,7 +1483,8 @@ function initProjectFilters() {
             <span class="filter-label">Platform:</span>
             ${platforms.map(platform => `
                 <button class="filter-btn multi-select" data-filter-type="platform" data-filter-value="${platform}">
-                    ${platform}
+                    <span class="filter-btn-text">${platform}</span>
+                    <span class="filter-btn-close" aria-label="Remove filter">×</span>
                 </button>
             `).join('')}
         </div>
@@ -1489,7 +1492,8 @@ function initProjectFilters() {
             <span class="filter-label">Role:</span>
             ${roles.map(role => `
                 <button class="filter-btn multi-select" data-filter-type="role" data-filter-value="${role}">
-                    ${role}
+                    <span class="filter-btn-text">${role}</span>
+                    <span class="filter-btn-close" aria-label="Remove filter">×</span>
                 </button>
             `).join('')}
         </div>
@@ -1497,7 +1501,13 @@ function initProjectFilters() {
     
     // Add event listeners (single selection per category)
     document.querySelectorAll('.filter-btn.multi-select').forEach(btn => {
-        btn.addEventListener('click', () => {
+        // Handle click on the button (but not on the close icon)
+        btn.addEventListener('click', (e) => {
+            // Don't trigger if clicking the close icon
+            if (e.target.classList.contains('filter-btn-close')) {
+                return;
+            }
+            
             const filterType = btn.dataset.filterType;
             const filterValue = btn.dataset.filterValue;
             
@@ -1521,6 +1531,22 @@ function initProjectFilters() {
             
             renderProjects();
         });
+        
+        // Handle click on the close icon
+        const closeIcon = btn.querySelector('.filter-btn-close');
+        if (closeIcon) {
+            closeIcon.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent button click
+                const filterType = btn.dataset.filterType;
+                const filterValue = btn.dataset.filterValue;
+                
+                // Deselect this filter
+                activeFilters[filterType] = [];
+                btn.classList.remove('active');
+                
+                renderProjects();
+            });
+        }
     });
     
     // Render all projects

@@ -860,6 +860,10 @@ body {
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
 }
 
 .filter-btn:hover {
@@ -871,6 +875,38 @@ body {
     background-color: var(--text-primary);
     color: var(--bg-primary);
     border-color: var(--text-primary);
+    gap: 8px;
+    padding-right: 10px;
+}
+
+.filter-btn-text {
+    display: inline-block;
+}
+
+.filter-btn-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: width 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 300;
+    overflow: hidden;
+}
+
+.filter-btn.active .filter-btn-close {
+    width: 16px;
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.filter-btn-close:hover {
+    opacity: 0.7;
 }
 
 /* Featured Projects */
