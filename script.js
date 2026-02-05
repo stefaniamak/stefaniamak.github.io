@@ -160,6 +160,45 @@ const projectsData = [
         }
     },
     {
+        id: 11,
+        name: "WeAre8 - The People's Platform | Mobile App",
+        shortDescription: "Social media platform that pays users for watching ads, combining video content, text posts, and community features to create a more ethical and value-driven social experience.",
+        description: "A social media platform that pays users for watching ads, combining video content (like TikTok), text posts (like Twitter/X), and community features. WeAre8 aims to create a more ethical social media experience by giving users control and value, rather than exploiting them through addictive algorithms. The platform allows users to create and join communities, share content, and earn money while engaging with brands.",
+        companyId: "work-1", // WeAre8
+        period: "Aug 2025 – Dec 2025",
+        type: ["professional"],
+        role: ["Software Engineer"],
+        teamSize: 7,
+        techStack: ["Flutter", "iOS", "Android"],
+        highlights: [
+            "Built the Communities feature from scratch as part of a 3-developer team - a new user type allowing users to create and join community spaces",
+            "Implemented account creation and profile editing for communities",
+            "Developed comprehensive post management system for communities",
+            "Created member management functionality for community creators (only the creator can manage members)",
+            "Implemented Moments management (Instagram Stories-like feature) for communities",
+            "Fixed critical bugs and improved core app functionality",
+            "Made significant graphical, UI, and UX improvements throughout the app",
+            "Collaborated with a team of 7 developers on a complex social media platform"
+        ],
+        keyFeatures: [
+            "Communities feature allowing users to create vibrant community spaces where they set the tone, invite members, share powerful moments, and switch seamlessly between personal and community mode to engage on every level",
+            "Post management for communities with full CRUD operations",
+            "Member management system for community creators (only the creator can manage members)",
+            "Moments feature (stories-like) for communities",
+            "Social media platform combining video content (like TikTok), text posts (like Twitter/X), and community features",
+            "User payment system for watching ads",
+            "Cross-platform Flutter app for iOS and Android",
+            "Improved UI/UX across the entire application"
+        ],
+        contribution: "Developed the Communities feature as part of a 3-developer team, a major new functionality that introduced a new user type to the platform. Implemented account creation and profile editing for communities. Built key parts of the Communities system including post management, member management (where only the community creator can manage members), and Moments (stories) functionality. Fixed numerous bugs throughout the app and made significant graphical, UI, and UX improvements to enhance user experience across the platform.",
+        approach: "Collaborative development within a team of 7 Flutter developers, with the Communities feature built by a smaller 3-developer team. Focused on building robust, scalable features while maintaining code quality and user experience. Worked closely with product and design teams to implement the Communities feature according to specifications, ensuring smooth integration with existing app architecture.",
+        featured: true,
+        links: {
+            appStore: "https://apps.apple.com/us/app/weare8-the-peoples-platform/id1391527170",
+            playStore: "https://play.google.com/store/apps/details?id=com.eight.app&hl=en_AU&gl=US"
+        }
+    },
+    {
         id: 9,
         name: "Background Generator | Web App",
         shortDescription: "Interactive Flutter Web app for generating complex geometric background graphics, created as an experiment in AI-assisted development.",
@@ -1236,8 +1275,12 @@ function extractLanguages(techStack) {
         languages.push('JavaScript');
     }
     
+    // Check for JavaScript directly
+    if (techLower.some(tech => tech.includes('javascript'))) {
+        languages.push('JavaScript');
+    }
+    
     // Add more language mappings as needed
-    // For now, we only have Flutter/Dart projects
     
     return [...new Set(languages)]; // Return unique languages
 }
