@@ -523,7 +523,7 @@ function getProjectsByCompany(companyName) {
 }
 
 // Create compact project card for horizontal list
-function createCompactProjectCard(project) {
+function createCompactProjectCard(project, navigationContext = null) {
     const card = document.createElement('div');
     card.className = 'compact-project-card';
     card.setAttribute('data-project-id', project.id);
@@ -562,7 +562,8 @@ function createCompactProjectCard(project) {
         // Find full project data by ID
         const fullProject = projectsData.find(p => p.id === project.id);
         if (fullProject) {
-            openProjectModal(fullProject);
+            // Use provided navigation context (company's projects list)
+            openProjectModal(fullProject, false, navigationContext);
         }
     });
     
@@ -575,7 +576,8 @@ function createCompactProjectCard(project) {
             e.preventDefault();
             const fullProject = projectsData.find(p => p.id === project.id);
             if (fullProject) {
-                openProjectModal(fullProject);
+                // Use provided navigation context (company's projects list)
+                openProjectModal(fullProject, false, navigationContext);
             }
         }
     });
@@ -605,9 +607,9 @@ function renderCompanyProjects(companyName, containerElement) {
     const projectsList = document.createElement('div');
     projectsList.className = 'company-projects-list';
     
-    // Add compact project cards
+    // Add compact project cards (pass company's projects list as navigation context)
     projects.forEach(project => {
-        const card = createCompactProjectCard(project);
+        const card = createCompactProjectCard(project, projects);
         projectsList.appendChild(card);
     });
     
@@ -1384,6 +1386,8 @@ let activeFilters = {
 // Track current filtered projects list and index for modal navigation
 let currentFilteredProjects = [];
 let currentProjectIndex = -1;
+// Track navigation context (the list of projects to navigate through)
+let currentNavigationContext = [];
 
 // Toggle platform filter from bookmark click (single selection)
 function togglePlatformFilter(platform) {
@@ -1608,7 +1612,7 @@ function renderProjects() {
     }
     
     filteredProjects.forEach(project => {
-        const card = createProjectCard(project);
+        const card = createProjectCard(project, filteredProjects);
         projectGrid.appendChild(card);
     });
     
@@ -1619,7 +1623,7 @@ function renderProjects() {
     initProjectAnimations();
 }
 
-function createProjectCard(project) {
+function createProjectCard(project, navigationContext = null) {
     const card = document.createElement('div');
     card.className = 'project-card';
     card.setAttribute('data-project-id', project.id);
@@ -1696,7 +1700,9 @@ function createProjectCard(project) {
     card.addEventListener('click', (e) => {
         // Don't open modal if clicking on a bookmark
         if (!e.target.closest('.platform-bookmark')) {
-            openProjectModal(project);
+            // Use provided navigation context or current filtered projects
+            const context = navigationContext !== null ? navigationContext : getFilteredProjects();
+            openProjectModal(project, false, context);
         }
     });
     
@@ -1738,7 +1744,7 @@ function createProjectCard(project) {
 }
 
 // Project Modal
-function openProjectModal(project, skipAnimation = false) {
+function openProjectModal(project, skipAnimation = false, navigationContext = null) {
     const modal = document.getElementById('project-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalBody = document.getElementById('modal-body');
@@ -1747,9 +1753,18 @@ function openProjectModal(project, skipAnimation = false) {
     // Check if modal is already open (switching projects)
     const isSwitching = modal.classList.contains('active');
     
-    // Get current filtered projects list and find current index
-    currentFilteredProjects = getFilteredProjects();
-    currentProjectIndex = currentFilteredProjects.findIndex(p => p.id === project.id);
+    // Use provided navigation context or fall back to current filtered projects
+    if (navigationContext !== null) {
+        currentNavigationContext = navigationContext;
+    } else {
+        currentNavigationContext = getFilteredProjects();
+    }
+    
+    // Store for backward compatibility (used by some functions)
+    currentFilteredProjects = currentNavigationContext;
+    
+    // Find current index in the navigation context
+    currentProjectIndex = currentNavigationContext.findIndex(p => p.id === project.id);
     
     // Update URL hash when opening project modal (only if not already set to this value)
     if (window.location.hash !== `#project-${project.id}`) {
@@ -1988,7 +2003,7 @@ function updateModalNavigationButtons() {
     
     if (!prevButton || !nextButton) return;
     
-    const totalProjects = currentFilteredProjects.length;
+    const totalProjects = currentNavigationContext.length;
     
     // Hide buttons if only one project
     if (totalProjects <= 1) {
@@ -2032,8 +2047,8 @@ function updateButtonTooltips() {
     if (!prevButton || !nextButton) return;
     
     // Previous button tooltip - show project name if available, otherwise "Older Project"
-    if (currentProjectIndex > 0 && currentFilteredProjects.length > 0) {
-        const prevProject = currentFilteredProjects[currentProjectIndex - 1];
+    if (currentProjectIndex > 0 && currentNavigationContext.length > 0) {
+        const prevProject = currentNavigationContext[currentProjectIndex - 1];
         const { cleanName } = extractPlatformType(prevProject.name);
         if (prevTooltip) {
             prevTooltip.innerHTML = '<span class="modal-nav-label-title">Previous:</span><span class="modal-nav-label-name">' + cleanName + '</span>';
@@ -2049,8 +2064,8 @@ function updateButtonTooltips() {
     }
     
     // Next button tooltip - show project name if available, otherwise "Newer Project"
-    if (currentProjectIndex < currentFilteredProjects.length - 1 && currentFilteredProjects.length > 0) {
-        const nextProject = currentFilteredProjects[currentProjectIndex + 1];
+    if (currentProjectIndex < currentNavigationContext.length - 1 && currentNavigationContext.length > 0) {
+        const nextProject = currentNavigationContext[currentProjectIndex + 1];
         const { cleanName } = extractPlatformType(nextProject.name);
         if (nextTooltip) {
             nextTooltip.innerHTML = '<span class="modal-nav-label-title">Next:</span><span class="modal-nav-label-name">' + cleanName + '</span>';
@@ -2083,27 +2098,29 @@ function updateButtonTooltips() {
 
 // Navigate to previous project
 function navigateToPreviousProject() {
-    if (currentProjectIndex <= 0 || currentFilteredProjects.length === 0) return;
+    if (currentProjectIndex <= 0 || currentNavigationContext.length === 0) return;
     
     // Restore opacity when clicked
     restoreButtonOpacity();
     
-    const previousProject = currentFilteredProjects[currentProjectIndex - 1];
+    const previousProject = currentNavigationContext[currentProjectIndex - 1];
     if (previousProject) {
-        openProjectModal(previousProject);
+        // Pass the current navigation context to maintain it
+        openProjectModal(previousProject, false, currentNavigationContext);
     }
 }
 
 // Navigate to next project
 function navigateToNextProject() {
-    if (currentProjectIndex >= currentFilteredProjects.length - 1 || currentFilteredProjects.length === 0) return;
+    if (currentProjectIndex >= currentNavigationContext.length - 1 || currentNavigationContext.length === 0) return;
     
     // Restore opacity when clicked
     restoreButtonOpacity();
     
-    const nextProject = currentFilteredProjects[currentProjectIndex + 1];
+    const nextProject = currentNavigationContext[currentProjectIndex + 1];
     if (nextProject) {
-        openProjectModal(nextProject);
+        // Pass the current navigation context to maintain it
+        openProjectModal(nextProject, false, currentNavigationContext);
     }
 }
 
@@ -2410,8 +2427,8 @@ function updateButtonProjectInfo() {
     if (!prevInfo || !nextInfo || !contentElement) return;
     
     // Get previous project info
-    if (currentProjectIndex > 0 && currentFilteredProjects.length > 0) {
-        const prevProject = currentFilteredProjects[currentProjectIndex - 1];
+    if (currentProjectIndex > 0 && currentNavigationContext.length > 0) {
+        const prevProject = currentNavigationContext[currentProjectIndex - 1];
         const { cleanName } = extractPlatformType(prevProject.name);
         prevInfo.innerHTML = '<span class="modal-nav-label-title">Previous:</span><span class="modal-nav-label-name">' + cleanName + '</span>';
         prevButton.classList.add('modal-nav-show-info');
@@ -2421,8 +2438,8 @@ function updateButtonProjectInfo() {
     }
     
     // Get next project info
-    if (currentProjectIndex < currentFilteredProjects.length - 1 && currentFilteredProjects.length > 0) {
-        const nextProject = currentFilteredProjects[currentProjectIndex + 1];
+    if (currentProjectIndex < currentNavigationContext.length - 1 && currentNavigationContext.length > 0) {
+        const nextProject = currentNavigationContext[currentProjectIndex + 1];
         const { cleanName } = extractPlatformType(nextProject.name);
         nextInfo.innerHTML = '<span class="modal-nav-label-title">Next:</span><span class="modal-nav-label-name">' + cleanName + '</span>';
         nextButton.classList.add('modal-nav-show-info');
