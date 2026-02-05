@@ -2036,13 +2036,13 @@ function updateButtonTooltips() {
         const prevProject = currentFilteredProjects[currentProjectIndex - 1];
         const { cleanName } = extractPlatformType(prevProject.name);
         if (prevTooltip) {
-            prevTooltip.textContent = cleanName;
+            prevTooltip.innerHTML = '<span class="modal-nav-label-title">Previous:</span><span class="modal-nav-label-name">' + cleanName + '</span>';
         }
         prevButton.setAttribute('title', cleanName);
         prevButton.setAttribute('aria-label', `Previous project: ${cleanName}`);
     } else {
         if (prevTooltip) {
-            prevTooltip.textContent = 'Older Project';
+            prevTooltip.innerHTML = '<span class="modal-nav-label-title">Previous:</span><span class="modal-nav-label-name">Older Project</span>';
         }
         prevButton.setAttribute('title', 'Older Project');
         prevButton.setAttribute('aria-label', 'Older Project');
@@ -2053,16 +2053,31 @@ function updateButtonTooltips() {
         const nextProject = currentFilteredProjects[currentProjectIndex + 1];
         const { cleanName } = extractPlatformType(nextProject.name);
         if (nextTooltip) {
-            nextTooltip.textContent = cleanName;
+            nextTooltip.innerHTML = '<span class="modal-nav-label-title">Next:</span><span class="modal-nav-label-name">' + cleanName + '</span>';
         }
         nextButton.setAttribute('title', cleanName);
         nextButton.setAttribute('aria-label', `Next project: ${cleanName}`);
     } else {
         if (nextTooltip) {
-            nextTooltip.textContent = 'Newer Project';
+            nextTooltip.innerHTML = '<span class="modal-nav-label-title">Next:</span><span class="modal-nav-label-name">Newer Project</span>';
         }
         nextButton.setAttribute('title', 'Newer Project');
         nextButton.setAttribute('aria-label', 'Newer Project');
+    }
+    
+    // Update padding after tooltips are set
+    const modalContentEl = document.querySelector('.modal-content');
+    if (modalContentEl) {
+        setTimeout(() => {
+            // Check both tooltips to find the tallest one
+            const prevHeight = prevTooltip?.offsetHeight || 0;
+            const nextHeight = nextTooltip?.offsetHeight || 0;
+            const maxCardHeight = Math.max(prevHeight, nextHeight);
+            if (maxCardHeight > 0) {
+                const bottomPadding = Math.max(88, maxCardHeight + 40);
+                modalContentEl.style.paddingBottom = `${bottomPadding}px`;
+            }
+        }, 10);
     }
 }
 
@@ -2130,12 +2145,19 @@ function positionModalNavigationButtons() {
     const modalRect = modalContent.getBoundingClientRect();
     const buttonOffset = 64; // Distance from modal edge
     const minSpacing = 24; // Minimum spacing from browser edge
+    const cardWidth = 240; // Max width of the label card
+    const cardSpacing = 12; // Spacing between button and card
     
     const leftSpace = modalRect.left;
     const rightSpace = window.innerWidth - modalRect.right;
     
-    // Check if buttons fit on sides
-    const buttonsFitOnSides = leftSpace >= (buttonOffset + minSpacing) && rightSpace >= (buttonOffset + minSpacing);
+    // Check if buttons AND their cards fit on sides
+    // Need space for: button offset + button width + card spacing + card width + min spacing
+    const buttonWidth = 48; // Desktop button width
+    const totalLeftSpaceNeeded = buttonOffset + buttonWidth + cardSpacing + cardWidth + minSpacing;
+    const totalRightSpaceNeeded = buttonOffset + buttonWidth + cardSpacing + cardWidth + minSpacing;
+    
+    const buttonsFitOnSides = leftSpace >= totalLeftSpaceNeeded && rightSpace >= totalRightSpaceNeeded;
     
     // Determine new position
     const newPosition = buttonsFitOnSides ? 'sides' : 'bottom';
@@ -2171,6 +2193,14 @@ function positionModalNavigationButtons() {
             nextButton.style.transition = 'opacity 0.3s ease';
             prevButton.style.opacity = targetOpacity;
             nextButton.style.opacity = targetOpacity;
+            // Update shadow state based on opacity
+            if (targetOpacity === '0.3') {
+                prevButton.classList.add('modal-nav-faded');
+                nextButton.classList.add('modal-nav-faded');
+            } else {
+                prevButton.classList.remove('modal-nav-faded');
+                nextButton.classList.remove('modal-nav-faded');
+            }
         }
         
         // Reset animation state
@@ -2193,6 +2223,14 @@ function positionModalNavigationButtons() {
             // Fade in at new position
             prevButton.style.opacity = targetOpacity;
             nextButton.style.opacity = targetOpacity;
+            // Update shadow state based on opacity
+            if (targetOpacity === '0.3') {
+                prevButton.classList.add('modal-nav-faded');
+                nextButton.classList.add('modal-nav-faded');
+            } else {
+                prevButton.classList.remove('modal-nav-faded');
+                nextButton.classList.remove('modal-nav-faded');
+            }
             
             // Remove transition override after animation completes
             const timeout2 = setTimeout(() => {
@@ -2217,6 +2255,14 @@ function positionModalNavigationButtons() {
             nextButton.style.transition = 'opacity 0.3s ease';
             prevButton.style.opacity = targetOpacity;
             nextButton.style.opacity = targetOpacity;
+            // Update shadow state based on opacity
+            if (targetOpacity === '0.3') {
+                prevButton.classList.add('modal-nav-faded');
+                nextButton.classList.add('modal-nav-faded');
+            } else {
+                prevButton.classList.remove('modal-nav-faded');
+                nextButton.classList.remove('modal-nav-faded');
+            }
         }
         
         isPositionAnimating = false;
@@ -2328,16 +2374,22 @@ function handleModalScroll() {
         // At bottom - make buttons fully opaque and show project info
         prevButton.style.opacity = '1';
         nextButton.style.opacity = '1';
+        prevButton.classList.remove('modal-nav-faded');
+        nextButton.classList.remove('modal-nav-faded');
         updateButtonProjectInfo();
     } else if (scrollDirection === 'down' && currentScrollTop > 0) {
         // Fade out when scrolling down (but keep clickable)
         prevButton.style.opacity = '0.3';
         nextButton.style.opacity = '0.3';
+        prevButton.classList.add('modal-nav-faded');
+        nextButton.classList.add('modal-nav-faded');
         hideButtonProjectInfo();
     } else if (scrollDirection === 'up' || currentScrollTop === 0) {
         // Fade in when scrolling up or at top
         prevButton.style.opacity = '1';
         nextButton.style.opacity = '1';
+        prevButton.classList.remove('modal-nav-faded');
+        nextButton.classList.remove('modal-nav-faded');
         hideButtonProjectInfo();
     }
     
@@ -2350,14 +2402,15 @@ function updateButtonProjectInfo() {
     const nextButton = document.getElementById('modal-nav-next');
     const prevInfo = prevButton?.querySelector('.modal-nav-info');
     const nextInfo = nextButton?.querySelector('.modal-nav-info');
+    const contentElement = document.querySelector('.modal-content');
     
-    if (!prevInfo || !nextInfo) return;
+    if (!prevInfo || !nextInfo || !contentElement) return;
     
     // Get previous project info
     if (currentProjectIndex > 0 && currentFilteredProjects.length > 0) {
         const prevProject = currentFilteredProjects[currentProjectIndex - 1];
         const { cleanName } = extractPlatformType(prevProject.name);
-        prevInfo.textContent = cleanName;
+        prevInfo.innerHTML = '<span class="modal-nav-label-title">Previous:</span><span class="modal-nav-label-name">' + cleanName + '</span>';
         prevButton.classList.add('modal-nav-show-info');
     } else {
         prevInfo.textContent = '';
@@ -2368,12 +2421,23 @@ function updateButtonProjectInfo() {
     if (currentProjectIndex < currentFilteredProjects.length - 1 && currentFilteredProjects.length > 0) {
         const nextProject = currentFilteredProjects[currentProjectIndex + 1];
         const { cleanName } = extractPlatformType(nextProject.name);
-        nextInfo.textContent = cleanName;
+        nextInfo.innerHTML = '<span class="modal-nav-label-title">Next:</span><span class="modal-nav-label-name">' + cleanName + '</span>';
         nextButton.classList.add('modal-nav-show-info');
     } else {
         nextInfo.textContent = '';
         nextButton.classList.remove('modal-nav-show-info');
     }
+    
+    // Update bottom padding to match card height
+    // Wait for DOM to update, then measure card height
+    setTimeout(() => {
+        const visibleInfo = prevInfo.offsetParent ? prevInfo : (nextInfo.offsetParent ? nextInfo : null);
+        if (visibleInfo && visibleInfo.offsetHeight > 0) {
+            const cardHeight = visibleInfo.offsetHeight;
+            const bottomPadding = Math.max(88, cardHeight + 40); // Minimum 88px, or card height + spacing
+            contentElement.style.paddingBottom = `${bottomPadding}px`;
+        }
+    }, 10);
 }
 
 // Hide project info from buttons
@@ -2395,9 +2459,11 @@ function restoreButtonOpacity() {
     const nextButton = document.getElementById('modal-nav-next');
     if (prevButton) {
         prevButton.style.opacity = '1';
+        prevButton.classList.remove('modal-nav-faded');
     }
     if (nextButton) {
         nextButton.style.opacity = '1';
+        nextButton.classList.remove('modal-nav-faded');
     }
     hideButtonProjectInfo();
 }
@@ -2428,6 +2494,8 @@ function resetModalScrollState() {
     if (prevButton && nextButton) {
         prevButton.style.opacity = '1';
         nextButton.style.opacity = '1';
+        prevButton.classList.remove('modal-nav-faded');
+        nextButton.classList.remove('modal-nav-faded');
     }
     hideButtonProjectInfo();
 }
@@ -2471,9 +2539,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (prevButton) {
         prevButton.addEventListener('click', navigateToPreviousProject);
+        // Make info card clickable
+        const prevInfo = prevButton.querySelector('.modal-nav-info');
+        if (prevInfo) {
+            prevInfo.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateToPreviousProject();
+            });
+        }
+        // Make hover tooltip clickable
+        const prevTooltip = prevButton.querySelector('.modal-nav-hover-tooltip');
+        if (prevTooltip) {
+            prevTooltip.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateToPreviousProject();
+            });
+        }
     }
     if (nextButton) {
         nextButton.addEventListener('click', navigateToNextProject);
+        // Make info card clickable
+        const nextInfo = nextButton.querySelector('.modal-nav-info');
+        if (nextInfo) {
+            nextInfo.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateToNextProject();
+            });
+        }
+        // Make hover tooltip clickable
+        const nextTooltip = nextButton.querySelector('.modal-nav-hover-tooltip');
+        if (nextTooltip) {
+            nextTooltip.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateToNextProject();
+            });
+        }
     }
     
     // Drag-to-dismiss for mobile bottom sheet
