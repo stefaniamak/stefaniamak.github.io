@@ -44,11 +44,10 @@ const workExperienceData = [
     },
     {
         id: 4,
-        company: "Terasology Foundation",
+        company: "Terasology Foundation · Google Summer of Code 2020",
         role: "Software Engineer & UI/UX Designer",
         location: "Remote",
         dates: "May 2020 – Sep 2020",
-        program: "Google Summer of Code",
         summary: "Designed and developed a user-friendly HUD for Light and Shadow, a game mode for the organization.",
         details: [
             "Software Engineer",
@@ -58,11 +57,10 @@ const workExperienceData = [
     },
     {
         id: 5,
-        company: "Catrobat",
+        company: "Catrobat · Google Summer of Code 2019",
         role: "Lead Software Engineer, UI/UX Designer & Artist",
         location: "Graz (Remote)",
         dates: "May 2019 – Sep 2019",
-        program: "Google Summer of Code",
         summary: "Developed an interactive mobile app to teach algorithms.",
         details: [
             "Lead Software Engineer",
@@ -76,8 +74,8 @@ const workExperienceData = [
 const teachingData = [
     {
         id: 1,
-        company: "i-Mentor, UMBRELLA Volunteering Program, International Hellenic University",
-        role: "Mentor",
+        company: "UMBRELLA Volunteering Program, International Hellenic University",
+        role: "i-Mentor",
         location: "",
         dates: "Oct 2019 — Jul 2022",
         summary: "Mentored undergraduate students to support degree completion and academic success.",
@@ -1504,8 +1502,8 @@ function renderWorkExperience() {
         item.innerHTML = `
             <button class="experience-header" aria-expanded="false" aria-controls="${contentId}">
                 <div class="experience-header-content">
-                    <div class="experience-company">${exp.company}</div>
-                    <div class="experience-role">${exp.role}${exp.program ? ` · ${exp.program}` : ''}</div>
+                    <div class="experience-company">${exp.role}${exp.program ? ` · ${exp.program}` : ''}</div>
+                    <div class="experience-role">${exp.company}</div>
                     <div class="experience-meta">
                         <span class="experience-location">${exp.location}</span>
                         <span class="experience-dates">${datesDisplay}</span>
@@ -1585,8 +1583,8 @@ function renderTeaching() {
         item.innerHTML = `
             <button class="experience-header" aria-expanded="false" aria-controls="${contentId}">
                 <div class="experience-header-content">
-                    <div class="experience-company">${teaching.company}</div>
-                    <div class="experience-role">${teaching.role}</div>
+                    <div class="experience-company">${teaching.role}</div>
+                    <div class="experience-role">${teaching.company}</div>
                     <div class="experience-meta">
                         ${teaching.location ? `<span class="experience-location">${teaching.location}</span>` : ''}
                         <span class="experience-dates">${datesDisplay}</span>
@@ -1651,8 +1649,8 @@ function renderEducation() {
         item.innerHTML = `
             <${headerTag} ${headerAttrs}>
                 <div class="experience-header-content">
-                    <div class="experience-company">${edu.company}</div>
-                    <div class="experience-role">${edu.role}</div>
+                    <div class="experience-company">${edu.role}</div>
+                    <div class="experience-role">${edu.company}</div>
                     <div class="experience-meta">
                         ${edu.location ? `<span class="experience-location">${edu.location}</span>` : ''}
                         <span class="experience-dates">${datesDisplay}</span>
