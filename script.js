@@ -114,6 +114,19 @@ const educationData = [
             "BSc Thesis Commendation: My BSc thesis, titled \"Nonogram: Development of a Puzzle Solver and Designer,\" was evaluated as one of the best theses of 2025 by the examination committee of the International Hellenic University, Department of Information and Electronic Engineering.",
             "In 2025, over 200 theses were completed. From 15 shortlisted submissions for commendation, 5 were selected, including mine."
         ]
+    },
+    {
+        id: 2,
+        company: "3rd General Upper Secondary School of Evosmos",
+        role: "High School Diploma",
+        location: "Thessaloníki",
+        dates: "Sept 2014 — Jun 2016",
+        summary: "",
+        details: [
+            "During high school, I actively participated in technology, creativity, and entrepreneurship-focused programs. I was a member of the DMLS school club, where we explored Thessaloniki through research, filming, and video editing projects, including conducting an interview with the U.S. Ambassador to Greece.",
+            "I also competed in Young Business Talents, a national business simulation competition, where my team advanced to the final round, placing among the top 75 teams out of 543 nationwide.",
+            "In parallel, I participated in the 6th Student Computer Conference (NOESIS), presenting a solo-developed desktop video game created with Scratch, marking my first public software project."
+        ]
     }
 ];
 
@@ -818,7 +831,7 @@ const projectsData = [
         startDate: new Date(2019, 4, 1),
         endDate: new Date(2019, 8, 30),
         type: ["academic", "professional"],
-        role: ["Software Engineer", "Designer", "Artist"],
+        role: ["Game Designer", "Software Engineer", "Designer", "Artist"],
         teamSize: 2,
         techStack: ["Catrobat", "Photoshop"],
         highlights: [
@@ -972,6 +985,39 @@ const projectsData = [
         featured: false,
         links: {
             github: "https://github.com/stefaniamak/Pizza-Online-Shop"
+        }
+    },
+    {
+        id: 28,
+        name: "The Adventures of Pacman: The Rescue of Pacwoman | Desktop",
+        shortDescription: "Narrative-driven desktop game created using Scratch, featuring multiple gameplay modes and a cinematic story structure.",
+        description: "\"The Adventures of Pacman: The Rescue of Pacwoman\" is a narrative-driven desktop game created using Scratch. The game opens with a cinematic introduction in which Pacwoman is kidnapped by the ghosts, establishing the central conflict. Pacman embarks on a multi-stage journey to rescue her, progressing through a series of gameplay modes that evolve in mechanics and difficulty. The experience begins with a Flappy Bird–style level focused on timing and obstacle avoidance, followed by a maze-based navigation stage. The player then advances through two consecutive Pacman-inspired arcade rounds featuring enemy encounters and classic chase mechanics. The game concludes with a final boss fight against the main villain, which uses animation assets from *Kirby and the Rainbow Curse*, requiring precise movement, timing, and collision-based interactions.",
+        companyId: "education-2", // 3rd General Upper Secondary School of Evosmos
+        period: "Nov 2013 – Jan 2014",
+        startDate: new Date(2013, 10, 1),
+        endDate: new Date(2014, 0, 31),
+        type: ["personal", "academic"],
+        role: ["Game Designer", "Software Engineer"],
+        teamSize: 1,
+        techStack: ["Scratch"],
+        highlights: [
+            "Narrative-driven structure with a clear beginning, progression, and finale",
+            "Multiple gameplay styles combined into a single project",
+            "Final boss encounter using externally sourced animation assets",
+            "Fully self-contained desktop game developed end-to-end"
+        ],
+        keyFeatures: [
+            "Cinematic opening sequence",
+            "Flappy Bird–style obstacle gameplay",
+            "Maze exploration level",
+            "Two arcade-style Pacman rounds",
+            "Final boss fight with custom behavior",
+            "Audio and visual feedback through animations and sound effects"
+        ],
+        contribution: "Designed the complete game concept, narrative structure, and level progression. Implemented all gameplay mechanics using a block-based visual programming language. Built the cinematic intro and transitions between gameplay stages. Developed multiple gameplay modes within a single cohesive experience. Implemented enemy behavior, collision logic, scoring systems, and boss fight mechanics. Integrated third-party visual assets alongside custom animations and sound effects.",
+        featured: false,
+        links: {
+            medium: "https://medium.com/@stefaniamak/a-decade-of-growth-looking-back-on-my-scratch-game-at-16-965eb5a9e592"
         }
     }
 ];
@@ -2005,9 +2051,10 @@ function extractLanguages(techStack) {
         }
     }
     
-    // Catrobat or block-based visual programming indicates Block-based
+    // Catrobat, Scratch, or block-based visual programming indicates Block-based
     if (techLower.some(tech => 
         tech.includes('catrobat') || 
+        tech.includes('scratch') ||
         tech.includes('block-based') || 
         tech.includes('visual programming'))) {
         if (!languages.includes('Block-based')) {
