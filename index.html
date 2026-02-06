@@ -41,6 +41,28 @@
             }
         }
     </script>
+    <!-- Configure IP anonymization -->
+    <script>
+        // Wait for gtag to be available and configure IP anonymization
+        (function() {
+            function configureAnonymizeIP() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('config', 'G-6JZM264GGJ', {
+                        anonymize_ip: true
+                    });
+                } else {
+                    // Retry if gtag is not yet available
+                    setTimeout(configureAnonymizeIP, 100);
+                }
+            }
+            // Start configuration when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', configureAnonymizeIP);
+            } else {
+                configureAnonymizeIP();
+            }
+        })();
+    </script>
 </head>
 <body>
     <!-- Header -->
