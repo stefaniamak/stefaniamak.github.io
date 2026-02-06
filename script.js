@@ -1909,33 +1909,108 @@ function normalizeRoles(roleString) {
 
 // Extract programming languages from tech stack
 function extractLanguages(techStack) {
+    if (!techStack || !Array.isArray(techStack)) return [];
+    
     const languages = [];
     const techLower = techStack.map(tech => tech.toLowerCase());
     
+    // Direct language matches (case-insensitive)
+    // Order matters: more specific matches should be checked first
+    const directLanguageMap = {
+        'javascript': 'JavaScript',
+        'js': 'JavaScript',
+        'typescript': 'TypeScript',
+        'ts': 'TypeScript',
+        'java': 'Java',
+        'python': 'Python',
+        'c#': 'C#',
+        'csharp': 'C#',
+        'sql': 'SQL',
+        'tsql': 'SQL',
+        'html': 'HTML',
+        'css': 'CSS',
+        'dart': 'Dart',
+        'swift': 'Swift',
+        'kotlin': 'Kotlin',
+        'objective-c': 'Objective-C',
+        'objectivec': 'Objective-C',
+        'php': 'PHP',
+        'ruby': 'Ruby',
+        'go': 'Go',
+        'rust': 'Rust',
+        'cpp': 'C++',
+        'c++': 'C++'
+        // Note: 'C' is intentionally excluded as it's not used in any projects
+    };
+    
+    // Check for direct language matches
+    techLower.forEach(tech => {
+        // Check exact matches first
+        if (directLanguageMap[tech]) {
+            languages.push(directLanguageMap[tech]);
+        } else {
+            // Check if tech contains any language keyword (but avoid false positives)
+            // Check longer/more specific keys first to avoid partial matches
+            const sortedKeys = Object.keys(directLanguageMap).sort((a, b) => b.length - a.length);
+            for (const key of sortedKeys) {
+                // Use word boundaries or exact matches to avoid false positives
+                // For example, "css" shouldn't match "c", "csharp" shouldn't match "c"
+                const regex = new RegExp(`(^|\\s|-)${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(\\s|-|$)`, 'i');
+                if (regex.test(tech) && !languages.includes(directLanguageMap[key])) {
+                    languages.push(directLanguageMap[key]);
+                    break;
+                }
+            }
+        }
+    });
+    
     // Map frameworks to languages
     if (techLower.some(tech => tech.includes('flutter'))) {
-        languages.push('Dart');
+        if (!languages.includes('Dart')) {
+            languages.push('Dart');
+        }
     }
     
     if (techLower.some(tech => tech.includes('react'))) {
-        languages.push('JavaScript');
+        if (!languages.includes('JavaScript')) {
+            languages.push('JavaScript');
+        }
     }
     
-    // Check for JavaScript directly
-    if (techLower.some(tech => tech.includes('javascript'))) {
-        languages.push('JavaScript');
+    if (techLower.some(tech => tech.includes('angular'))) {
+        if (!languages.includes('TypeScript')) {
+            languages.push('TypeScript');
+        }
     }
     
-    // Add more language mappings as needed
+    if (techLower.some(tech => tech.includes('vue'))) {
+        if (!languages.includes('JavaScript')) {
+            languages.push('JavaScript');
+        }
+    }
+    
+    // Java Swing indicates Java
+    if (techLower.some(tech => tech.includes('swing'))) {
+        if (!languages.includes('Java')) {
+            languages.push('Java');
+        }
+    }
+    
+    // p5.js indicates JavaScript
+    if (techLower.some(tech => tech.includes('p5.js') || tech.includes('p5js'))) {
+        if (!languages.includes('JavaScript')) {
+            languages.push('JavaScript');
+        }
+    }
     
     return [...new Set(languages)]; // Return unique languages
 }
 
-// Infer platforms from project links and tech stack
+// Infer platforms from project links, tech stack, and name
 function inferPlatforms(project) {
     const platforms = [];
     
-    // Check links
+    // Check links (most reliable indicator)
     if (project.links) {
         if (project.links.appStore) {
             platforms.push('iOS');
@@ -1948,13 +2023,58 @@ function inferPlatforms(project) {
         }
     }
     
-    // Check tech stack for Flutter Web
-    if (project.techStack && project.techStack.some(tech => 
-        tech.toLowerCase().includes('flutter web') || 
-        tech.toLowerCase().includes('web'))) {
-        if (!platforms.includes('Web')) {
-            platforms.push('Web');
+    // Check project name for platform indicators
+    if (project.name) {
+        const nameLower = project.name.toLowerCase();
+        if (nameLower.includes('| mobile app') || nameLower.includes('| mobile')) {
+            // Mobile app - check if we have specific platform info
+            if (!platforms.includes('iOS') && !platforms.includes('Android')) {
+                // If no specific platform detected, don't add generic "Mobile"
+                // Platforms will be inferred from links or tech stack
+            }
+        } else if (nameLower.includes('| web app') || nameLower.includes('| web')) {
+            if (!platforms.includes('Web')) {
+                platforms.push('Web');
+            }
+        } else if (nameLower.includes('| desktop')) {
+            // Desktop apps don't map to iOS/Android/Web, so we don't add anything
         }
+    }
+    
+    // Check tech stack for platform indicators
+    if (project.techStack) {
+        const techLower = project.techStack.map(tech => tech.toLowerCase());
+        
+        // Flutter Web indicates Web platform
+        if (techLower.some(tech => 
+            tech.includes('flutter web') || 
+            (tech.includes('flutter') && tech.includes('web')))) {
+            if (!platforms.includes('Web')) {
+                platforms.push('Web');
+            }
+        }
+        
+        // HTML/CSS/JavaScript typically indicates Web
+        if (techLower.some(tech => 
+            tech.includes('html') || 
+            tech.includes('css') || 
+            tech.includes('javascript'))) {
+            // Only add Web if it's clearly a web project (not a mobile app using JS)
+            if (!platforms.includes('Web') && 
+                !techLower.some(tech => tech.includes('react native') || tech.includes('react-native'))) {
+                // Check if project name suggests web
+                if (project.name && (
+                    project.name.toLowerCase().includes('web') ||
+                    project.name.toLowerCase().includes('website') ||
+                    project.name.toLowerCase().includes('portfolio')
+                )) {
+                    platforms.push('Web');
+                }
+            }
+        }
+        
+        // Java Swing, C#, TSQL typically indicate Desktop
+        // (We don't add Desktop as a platform since it's not in the iOS/Android/Web set)
     }
     
     return [...new Set(platforms)]; // Return unique platforms
@@ -2496,6 +2616,13 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
         bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Period:</span> <span class="modal-meta-value">${project.period}</span></div>`;
     }
     bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Role:</span> <span class="modal-meta-value">${project.role.join(', ')}</span></div>`;
+    
+    // Get languages from tech stack
+    const languages = extractLanguages(project.techStack);
+    if (languages.length > 0) {
+        bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Languages:</span> <span class="modal-meta-value">${languages.join(', ')}</span></div>`;
+    }
+    
     if (platforms.length > 0) {
         // Build platform links
         const platformLinks = platforms.map(platform => {
