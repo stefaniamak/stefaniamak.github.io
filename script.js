@@ -1110,7 +1110,7 @@ function getProjectsByCompany(companyName) {
 }
 
 // Create compact project card for horizontal list
-function createCompactProjectCard(project, navigationContext = null, section = 'work_experience') {
+function createCompactProjectCard(project, navigationContext = null, section = 'work_experience', companyName = null) {
     const card = document.createElement('div');
     card.className = 'compact-project-card';
     card.setAttribute('data-project-id', project.id);
@@ -1149,10 +1149,16 @@ function createCompactProjectCard(project, navigationContext = null, section = '
         // Find full project data by ID
         const fullProject = projectsData.find(p => p.id === project.id);
         if (fullProject) {
-            window.trackEvent('project_card_click', {
+            const eventParams = {
                 item_name: cleanName,
                 section: section
-            });
+            };
+            // Add company/institution name if available (for work_experience, teaching, or education sections)
+            // This identifies which specific work experience, teaching, or education entry the project was clicked from
+            if (companyName && (section === 'work_experience' || section === 'teaching' || section === 'education')) {
+                eventParams.company_name = companyName;
+            }
+            window.trackEvent('project_card_click', eventParams);
             // Use provided navigation context (company's projects list)
             openProjectModal(fullProject, false, navigationContext);
         }
@@ -1167,10 +1173,16 @@ function createCompactProjectCard(project, navigationContext = null, section = '
             e.preventDefault();
             const fullProject = projectsData.find(p => p.id === project.id);
             if (fullProject) {
-                window.trackEvent('project_card_click', {
+                const eventParams = {
                     item_name: cleanName,
                     section: section
-                });
+                };
+                // Add company/institution name if available (for work_experience, teaching, or education sections)
+                // This identifies which specific work experience, teaching, or education entry the project was clicked from
+                if (companyName && (section === 'work_experience' || section === 'teaching' || section === 'education')) {
+                    eventParams.company_name = companyName;
+                }
+                window.trackEvent('project_card_click', eventParams);
                 // Use provided navigation context (company's projects list)
                 openProjectModal(fullProject, false, navigationContext);
             }
@@ -1204,7 +1216,7 @@ function renderCompanyProjects(companyName, containerElement, section = 'work_ex
     
     // Add compact project cards (pass company's projects list as navigation context)
     projects.forEach(project => {
-        const card = createCompactProjectCard(project, projects, section);
+        const card = createCompactProjectCard(project, projects, section, companyName);
         projectsList.appendChild(card);
     });
     
