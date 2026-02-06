@@ -3227,24 +3227,32 @@ function updateButtonTooltips() {
 function navigateToPreviousProject() {
     if (currentProjectIndex <= 0 || currentNavigationContext.length === 0) return;
     
-    // Get current project name for tracking
+    // Get current project name (navigating FROM)
     const currentProject = currentNavigationContext[currentProjectIndex];
-    let projectName = '';
+    let fromProjectName = '';
     if (currentProject) {
         const { cleanName } = extractPlatformType(currentProject.name);
-        projectName = cleanName;
+        fromProjectName = cleanName;
     }
     
-    // Track navigation
+    // Get destination project name (navigating TO)
+    const previousProject = currentNavigationContext[currentProjectIndex - 1];
+    let toProjectName = '';
+    if (previousProject) {
+        const { cleanName } = extractPlatformType(previousProject.name);
+        toProjectName = cleanName;
+    }
+    
+    // Track navigation with both source and destination
     window.trackEvent('modal_navigation', {
-        item_name: projectName,
-        direction: 'prev'
+        item_name: toProjectName, // The project being opened
+        direction: 'prev',
+        from_project: fromProjectName // The project being navigated from
     });
     
     // Restore opacity when clicked
     restoreButtonOpacity();
     
-    const previousProject = currentNavigationContext[currentProjectIndex - 1];
     if (previousProject) {
         // Pass the current navigation context to maintain it
         openProjectModal(previousProject, false, currentNavigationContext);
@@ -3255,24 +3263,32 @@ function navigateToPreviousProject() {
 function navigateToNextProject() {
     if (currentProjectIndex >= currentNavigationContext.length - 1 || currentNavigationContext.length === 0) return;
     
-    // Get current project name for tracking
+    // Get current project name (navigating FROM)
     const currentProject = currentNavigationContext[currentProjectIndex];
-    let projectName = '';
+    let fromProjectName = '';
     if (currentProject) {
         const { cleanName } = extractPlatformType(currentProject.name);
-        projectName = cleanName;
+        fromProjectName = cleanName;
     }
     
-    // Track navigation
+    // Get destination project name (navigating TO)
+    const nextProject = currentNavigationContext[currentProjectIndex + 1];
+    let toProjectName = '';
+    if (nextProject) {
+        const { cleanName } = extractPlatformType(nextProject.name);
+        toProjectName = cleanName;
+    }
+    
+    // Track navigation with both source and destination
     window.trackEvent('modal_navigation', {
-        item_name: projectName,
-        direction: 'next'
+        item_name: toProjectName, // The project being opened
+        direction: 'next',
+        from_project: fromProjectName // The project being navigated from
     });
     
     // Restore opacity when clicked
     restoreButtonOpacity();
     
-    const nextProject = currentNavigationContext[currentProjectIndex + 1];
     if (nextProject) {
         // Pass the current navigation context to maintain it
         openProjectModal(nextProject, false, currentNavigationContext);
