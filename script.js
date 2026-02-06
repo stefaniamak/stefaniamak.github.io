@@ -421,7 +421,7 @@ const projectsData = [
         startDate: new Date(2022, 1, 1),
         endDate: new Date(2022, 1, 28),
         type: ["professional"],
-        role: ["Developer"],
+        role: ["Software Engineer"],
         teamSize: 3,
         techStack: ["Flutter", "Dart"],
         highlights: [
@@ -486,7 +486,7 @@ const projectsData = [
         startDate: new Date(2022, 3, 1),
         endDate: new Date(2022, 3, 30),
         type: ["professional"],
-        role: ["Developer"],
+        role: ["Software Engineer"],
         teamSize: null,
         techStack: ["Flutter", "Dart", "REST APIs"],
         highlights: [
@@ -518,7 +518,7 @@ const projectsData = [
         startDate: new Date(2022, 9, 1),
         endDate: new Date(2022, 9, 31),
         type: ["professional"],
-        role: ["Developer"],
+        role: ["Software Engineer"],
         teamSize: null,
         techStack: ["Flutter", "Dart"],
         highlights: [
@@ -545,7 +545,7 @@ const projectsData = [
         startDate: new Date(2022, 7, 1),
         endDate: new Date(2022, 7, 31),
         type: ["professional"],
-        role: ["Developer"],
+        role: ["Software Engineer"],
         teamSize: null,
         techStack: ["Flutter", "Dart", "Material UI"],
         highlights: [
@@ -619,7 +619,7 @@ const projectsData = [
         startDate: new Date(2021, 10, 1),
         endDate: new Date(2021, 10, 30),
         type: ["professional"],
-        role: ["Developer"],
+        role: ["Software Engineer"],
         teamSize: null,
         techStack: ["Flutter", "Dart", "REST APIs", "State Management", "Animations"],
         highlights: [
@@ -652,7 +652,7 @@ const projectsData = [
         startDate: new Date(2022, 8, 1),
         endDate: new Date(2022, 8, 30),
         type: ["professional"],
-        role: ["Developer"],
+        role: ["Software Engineer"],
         teamSize: 4,
         techStack: ["Flutter", "Dart", "REST APIs", "State Management"],
         highlights: [
@@ -685,7 +685,7 @@ const projectsData = [
         startDate: new Date(2021, 10, 1),
         endDate: new Date(2023, 9, 31),
         type: ["professional"],
-        role: ["Developer", "Technical Support"],
+        role: ["Software Engineer", "Technical Support"],
         teamSize: null,
         techStack: ["Flutter", "Dart"],
         highlights: [
@@ -718,7 +718,7 @@ const projectsData = [
         startDate: new Date(2021, 1, 1),
         endDate: new Date(2021, 8, 30),
         type: ["professional"],
-        role: ["Developer", "Technical Support"],
+        role: ["Software Engineer", "Technical Support"],
         teamSize: null,
         techStack: ["Flutter", "Dart"],
         highlights: [
@@ -817,7 +817,7 @@ const projectsData = [
         startDate: new Date(2019, 4, 1),
         endDate: new Date(2019, 8, 30),
         type: ["academic", "professional"],
-        role: ["Lead Software Engineer", "Designer", "Artist"],
+        role: ["Software Engineer", "Designer", "Artist"],
         teamSize: 2,
         techStack: ["Catrobat", "Photoshop"],
         highlights: [
@@ -2260,7 +2260,7 @@ function initProjectFilters() {
             roleCounts[role] = (roleCounts[role] || 0) + 1;
         });
     });
-    const roles = [...new Set(projectsData.flatMap(p => p.role))].sort((a, b) => roleCounts[b] - roleCounts[a]);
+    const roles = [...new Set(projectsData.flatMap(p => p.role))].filter(role => role !== 'Artist').sort((a, b) => roleCounts[b] - roleCounts[a]);
     
     filterContainer.innerHTML = `
         <div class="filter-group">
