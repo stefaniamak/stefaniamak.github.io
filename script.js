@@ -58,12 +58,12 @@ const workExperienceData = [
     {
         id: 5,
         company: "Catrobat · Google Summer of Code 2019",
-        role: "Lead Software Engineer, UI/UX Designer & Artist",
+        role: "Software Engineer, UI/UX Designer & Artist",
         location: "Graz (Remote)",
         dates: "May 2019 – Sep 2019",
         summary: "Developed an interactive mobile app to teach algorithms.",
         details: [
-            "Lead Software Engineer",
+            "Software Engineer",
             "UI/UX Designer and Artist (storyboards and original designs)",
             "Developed an interactive mobile app to teach algorithms. GSoC Archive"
         ]
