@@ -2005,13 +2005,13 @@ function extractLanguages(techStack) {
         }
     }
     
-    // Catrobat or block-based visual programming indicates Block-based Visual Programming Language
+    // Catrobat or block-based visual programming indicates Block-based programming
     if (techLower.some(tech => 
         tech.includes('catrobat') || 
         tech.includes('block-based') || 
         tech.includes('visual programming'))) {
-        if (!languages.includes('Block-based Visual Programming Language')) {
-            languages.push('Block-based Visual Programming Language');
+        if (!languages.includes('Block-based programming')) {
+            languages.push('Block-based programming');
         }
     }
     
