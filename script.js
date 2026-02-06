@@ -304,7 +304,8 @@ const projectsData = [
         process: "GitHub Projects, Thesis written in LaTeX (Overleaf), Clean architecture principles",
         featured: true,
         links: {
-            github: "https://github.com/stefaniamak/nonogram"
+            github: "https://github.com/stefaniamak/nonogram",
+            web: "https://nonogram-thesis.web.app/"
         }
     },
     {
@@ -2003,6 +2004,16 @@ function extractLanguages(techStack) {
         }
     }
     
+    // Catrobat or block-based visual programming indicates Block-based Visual Programming Language
+    if (techLower.some(tech => 
+        tech.includes('catrobat') || 
+        tech.includes('block-based') || 
+        tech.includes('visual programming'))) {
+        if (!languages.includes('Block-based Visual Programming Language')) {
+            languages.push('Block-based Visual Programming Language');
+        }
+    }
+    
     return [...new Set(languages)]; // Return unique languages
 }
 
@@ -2027,17 +2038,21 @@ function inferPlatforms(project) {
     if (project.name) {
         const nameLower = project.name.toLowerCase();
         if (nameLower.includes('| mobile app') || nameLower.includes('| mobile')) {
-            // Mobile app - check if we have specific platform info
+            // Mobile app - if no links, we still want to show iOS/Android platforms (disabled)
+            // Check if we have specific platform info from links
             if (!platforms.includes('iOS') && !platforms.includes('Android')) {
-                // If no specific platform detected, don't add generic "Mobile"
-                // Platforms will be inferred from links or tech stack
+                // For mobile apps without links, add both iOS and Android as disabled bookmarks
+                // This will be handled by the bookmark rendering (disabled state)
+                platforms.push('iOS', 'Android');
             }
         } else if (nameLower.includes('| web app') || nameLower.includes('| web')) {
             if (!platforms.includes('Web')) {
                 platforms.push('Web');
             }
         } else if (nameLower.includes('| desktop')) {
-            // Desktop apps don't map to iOS/Android/Web, so we don't add anything
+            if (!platforms.includes('Desktop')) {
+                platforms.push('Desktop');
+            }
         }
     }
     
@@ -2074,7 +2089,18 @@ function inferPlatforms(project) {
         }
         
         // Java Swing, C#, TSQL typically indicate Desktop
-        // (We don't add Desktop as a platform since it's not in the iOS/Android/Web set)
+        if (techLower.some(tech => 
+            tech.includes('swing') || 
+            tech.includes('c#') || 
+            tech.includes('csharp') ||
+            tech.includes('tsql'))) {
+            // Only add Desktop if project name also suggests desktop
+            if (project.name && project.name.toLowerCase().includes('| desktop')) {
+                if (!platforms.includes('Desktop')) {
+                    platforms.push('Desktop');
+                }
+            }
+        }
     }
     
     return [...new Set(platforms)]; // Return unique platforms
@@ -2096,7 +2122,8 @@ function getPlatformLabel(platform) {
     const labels = {
         'iOS': 'iOS',
         'Android': 'Android',
-        'Web': 'Web'
+        'Web': 'Web',
+        'Desktop': 'Desktop'
     };
     return labels[platform] || platform;
 }
@@ -2117,15 +2144,18 @@ function createPlatformBookmark(platform, url) {
     const platformLower = platform.toLowerCase();
     const icon = getPlatformIcon(platform);
     const titleAttr = url ? `title="${url}"` : '';
+    const disabledClass = !url ? ' disabled' : '';
+    const disabledAttr = !url ? ' aria-disabled="true"' : '';
     
     return `<div 
-        class="platform-bookmark" 
+        class="platform-bookmark${disabledClass}" 
         data-platform="${platformLower}"
         ${url ? `data-url="${url}"` : ''}
-        aria-label="${label} platform${url ? ` - ${url}` : ''}"
+        aria-label="${label} platform${url ? ` - ${url}` : ' (not available)'}"
         ${titleAttr}
         role="button"
-        tabindex="0">
+        ${disabledAttr}
+        tabindex="${url ? '0' : '-1'}">
         <span class="bookmark-fill bookmark-fill-top"></span>
         <span class="bookmark-fill bookmark-fill-left"></span>
         <span class="bookmark-fill bookmark-fill-right"></span>
@@ -2448,7 +2478,9 @@ function createProjectCard(project, navigationContext = null) {
                 }
             }
             const bookmarkHTML = createPlatformBookmark(platform, platformUrl);
-            platformBookmarksHTML += bookmarkHTML.replace('class="platform-bookmark"', `class="platform-bookmark" style="right: ${rightOffset}px;"`);
+            // Replace class attribute, handling both enabled and disabled states
+            const disabledSuffix = platformUrl ? '' : ' disabled';
+            platformBookmarksHTML += bookmarkHTML.replace(/class="platform-bookmark[^"]*"/, `class="platform-bookmark${disabledSuffix}" style="right: ${rightOffset}px;"`);
         });
     }
     
@@ -2489,12 +2521,16 @@ function createProjectCard(project, navigationContext = null) {
     bookmarkElements.forEach(bookmark => {
         bookmark.addEventListener('click', (e) => {
             e.stopPropagation();
+            // Don't handle clicks on disabled bookmarks
+            if (bookmark.classList.contains('disabled')) {
+                return;
+            }
             const url = bookmark.getAttribute('data-url');
             if (url) {
                 // Open the URL in a new tab
                 window.open(url, '_blank', 'noopener,noreferrer');
             } else {
-                // Fallback to filter if no URL
+                // Fallback to filter if no URL (shouldn't happen for enabled bookmarks)
                 const platform = bookmark.getAttribute('data-platform');
                 togglePlatformFilter(platform);
             }
@@ -2505,12 +2541,16 @@ function createProjectCard(project, navigationContext = null) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 e.stopPropagation();
+                // Don't handle keyboard events on disabled bookmarks
+                if (bookmark.classList.contains('disabled')) {
+                    return;
+                }
                 const url = bookmark.getAttribute('data-url');
                 if (url) {
                     // Open the URL in a new tab
                     window.open(url, '_blank', 'noopener,noreferrer');
                 } else {
-                    // Fallback to filter if no URL
+                    // Fallback to filter if no URL (shouldn't happen for enabled bookmarks)
                     const platform = bookmark.getAttribute('data-platform');
                     togglePlatformFilter(platform);
                 }
@@ -2635,12 +2675,14 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
                 } else if (platform === 'Web' && (project.links.web || project.links.live)) {
                     platformUrl = project.links.web || project.links.live;
                 }
+                // Desktop platforms don't have links
             }
             
             if (platformUrl) {
                 return `<a href="${platformUrl}" target="_blank" rel="noopener noreferrer" class="modal-platform-link">${platform}</a>`;
             } else {
-                return `<span class="modal-platform-text">${platform}</span>`;
+                // Show disabled style for platforms without links
+                return `<span class="modal-platform-text modal-platform-disabled">${platform}</span>`;
             }
         });
         bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Platforms:</span> <span class="modal-meta-value">${platformLinks.join(', ')}</span></div>`;

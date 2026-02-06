@@ -1448,6 +1448,21 @@ body {
 }
 
 /* Active state for filtered platforms - increase stroke thickness */
+/* Disabled bookmark state */
+.platform-bookmark.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.platform-bookmark.disabled:hover {
+    transform: none;
+}
+
+.platform-bookmark.disabled:hover .bookmark-stroke-hover {
+    opacity: 0;
+}
+
 .platform-bookmark.active .bookmark-stroke-left,
 .platform-bookmark.active .bookmark-stroke-right {
     width: 3px;
@@ -2319,6 +2334,11 @@ body {
 .modal-platform-link:hover {
     color: var(--text-secondary);
     text-decoration-color: var(--text-primary);
+}
+
+.modal-platform-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .modal-platform-text {
