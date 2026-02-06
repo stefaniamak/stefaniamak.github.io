@@ -2086,12 +2086,13 @@ function inferPlatforms(project) {
     if (project.name) {
         const nameLower = project.name.toLowerCase();
         if (nameLower.includes('| mobile app') || nameLower.includes('| mobile')) {
-            // Mobile app - always show iOS and Android platforms
-            // If links exist, they'll be enabled; otherwise they'll be disabled
-            if (!platforms.includes('iOS')) {
+            // Mobile app - only add platforms if they have corresponding links
+            // iOS is only added if appStore link exists
+            if (project.links && project.links.appStore && !platforms.includes('iOS')) {
                 platforms.push('iOS');
             }
-            if (!platforms.includes('Android')) {
+            // Android is only added if playStore or huawei link exists
+            if (project.links && (project.links.playStore || project.links.huawei) && !platforms.includes('Android')) {
                 platforms.push('Android');
             }
         } else if (nameLower.includes('| web app') || nameLower.includes('| web')) {
