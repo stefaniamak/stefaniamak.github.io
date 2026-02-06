@@ -413,7 +413,7 @@ const projectsData = [
     },
     {
         id: 25,
-        name: "Smart HR | Desktop",
+        name: "SmartHR | Desktop",
         shortDescription: "Internal corporate HR management app designed to streamline forms, submissions, and employee workflow processes.",
         description: "An internal corporate HR management app designed to streamline forms, submissions, and employee workflow processes. The app serves as a centralized tool for efficient HR operations and secure internal data handling.",
         companyId: "work-3", // Smartup
