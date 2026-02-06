@@ -678,7 +678,7 @@ const projectsData = [
     },
     {
         id: 18,
-        name: "Smart Delivery (White Label App) | Mobile App",
+        name: "Smart Delivery plus (White Label App) | Mobile App",
         shortDescription: "White-label delivery engine used to power multiple client-specific applications with a standardized ordering and delivery workflow.",
         description: "A white-label delivery engine used to power multiple client-specific applications. The platform provides a standardized ordering and delivery workflow that can be customized for individual restaurants or stores. It supports the full lifecycle from browsing and ordering to deployment and maintenance.",
         companyId: "work-3", // Smartup
