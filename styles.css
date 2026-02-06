@@ -1140,10 +1140,17 @@ body {
 }
 
 /* Project type label - positioned at top left, inside the card with matching padding */
-.project-type-label {
+.project-type-labels {
     position: absolute;
     top: 32px; /* Same as card padding */
     left: 32px; /* Same as card padding */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-width: calc(100% - 64px);
+}
+
+.project-type-label {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 11px;
@@ -1158,9 +1165,12 @@ body {
 }
 
 @media (max-width: 767px) {
-    .project-type-label {
+    .project-type-labels {
         top: 32px; /* Same as card padding */
         left: 32px; /* Same as card padding */
+    }
+    
+    .project-type-label {
         font-size: 10px;
         padding: 3px 6px;
         letter-spacing: 0.8px;
@@ -2143,10 +2153,17 @@ body {
 }
 
 /* Modal type label - positioned at top left, matching card style */
-.modal-type-label {
+.modal-type-labels {
     position: absolute;
     top: 0;
     left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-width: calc(100% - 64px);
+}
+
+.modal-type-label {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 11px;
@@ -2161,6 +2178,10 @@ body {
 }
 
 @media (max-width: 767px) {
+    .modal-type-labels {
+        max-width: calc(100% - 32px);
+    }
+    
     .modal-type-label {
         font-size: 10px;
         padding: 3px 6px;

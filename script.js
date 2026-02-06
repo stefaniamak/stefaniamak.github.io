@@ -272,7 +272,7 @@ const projectsData = [
         description: "A full-featured Flutter Web application developed for my thesis, combining advanced algorithmic problem solving, responsive UI, and puzzle design. Users can create their own Nonogram puzzles or watch them being solved step by step with full control and visualization.",
         companyId: "education-1", // International Hellenic University
         period: "Dec 2023 – Jan 2025",
-        type: ["academic"],
+        type: ["academic", "personal"],
         role: ["Software Engineer", "Designer", "Researcher"],
         teamSize: 1,
         techStack: ["Flutter", "Flutter Web", "Flutter Isolate", "Worker"],
@@ -393,12 +393,154 @@ const projectsData = [
         }
     },
     {
+        id: 25,
+        name: "Smart HR | Mobile App",
+        shortDescription: "Internal corporate HR management app designed to streamline forms, submissions, and employee workflow processes.",
+        description: "An internal corporate HR management app designed to streamline forms, submissions, and employee workflow processes. The app serves as a centralized tool for efficient HR operations and secure internal data handling.",
+        companyId: "work-3", // Smartup
+        period: "Feb 2022",
+        type: ["professional"],
+        role: ["Developer"],
+        teamSize: 3,
+        techStack: ["Flutter", "Dart"],
+        highlights: [
+            "Delivered production-ready features for complex HR workflows",
+            "Ensured secure and accurate state management for sensitive employee data",
+            "Maintained visual consistency across the app while adding new functionality"
+        ],
+        keyFeatures: [
+            "Digital workflow for streamlined corporate HR processes",
+            "Centralized internal data handling with secure state management",
+            "Corporate design system integration for consistent UI"
+        ],
+        contribution: "Implemented a fully functional form-based screen within the app. Ensured full compatibility with the corporate design system. Managed state handling for multi-step submissions and internal processes. Delivered UI components aligned with existing team and architectural standards.",
+        featured: false,
+        links: {
+            appStore: "https://apps.apple.com/us/app/smarthr/id1644858912",
+            playStore: "https://play.google.com/store/apps/details?id=com.smartupweb.smartuphr",
+            web: "https://smartup-hr.web.app/"
+        }
+    },
+    {
+        id: 21,
+        name: "Paymi - Private Lessons Payment Tracker | Mobile App",
+        shortDescription: "Mobile-focused application designed to help private tutors manage lesson payments, extra hours, and financial tracking.",
+        description: "A mobile-focused application designed to help private tutors manage lesson payments, extra hours, and financial tracking. The app replaces informal paper-based workflows with a clear, structured digital system, providing transparency for both teachers and students.",
+        companyId: "education-1", // International Hellenic University
+        period: "Apr 2023 – May 2023",
+        type: ["academic"],
+        role: ["Software Engineer", "Designer", "Researcher"],
+        teamSize: 1,
+        techStack: ["Flutter", "Dart", "Firebase Auth", "Firebase Firestore"],
+        highlights: [
+            "Solved common scheduling and payment confusion for private educators",
+            "Designed for minimal learning curve and quick adoption",
+            "Implemented real-time balance calculations",
+            "Integrated cloud-based authentication and persistence",
+            "Combined UX research with full product implementation"
+        ],
+        keyFeatures: [
+            "Client and contract management with subject and grade tracking",
+            "Automated hourly and overtime charging system",
+            "Lesson and payment history with dynamic totals",
+            "Secure authentication via Firebase",
+            "Real-time cloud data synchronization"
+        ],
+        contribution: "Conducted user research on private tutoring workflows and pain points. Analyzed existing finance tools to identify effective usability patterns. Designed the application structure and interaction flows for non-technical users. Implemented the Flutter application based on real user requirements. Developed automated charging logic based on hourly rates and overtime. Designed the full UI, branding, logo, and mascot.",
+        featured: false,
+        links: {
+            github: "https://github.com/stefaniamak/payments-tracker"
+        }
+    },
+    {
+        id: 24,
+        name: "Xenia Rooftop (Expose Yourself) | Mobile App",
+        shortDescription: "Lifestyle and events-focused mobile application designed to support a venue/brand presence through a dedicated mobile experience.",
+        description: "Xenia Rooftop, later rebranded as Expose Yourself, is a lifestyle and events-focused mobile application designed to support a venue/brand presence through a dedicated mobile experience. The app provides users with information, content, and interactions related to the brand's activities and offerings.",
+        companyId: "work-3", // Smartup
+        period: "2022",
+        type: ["professional"],
+        role: ["Developer"],
+        teamSize: null,
+        techStack: ["Flutter", "Dart", "REST APIs"],
+        highlights: [
+            "Guided a junior developer throughout the app's development lifecycle",
+            "Assisted with Flutter implementations and problem-solving",
+            "Helped ensure consistency and maintainability in the codebase",
+            "Contributed to overall app quality and delivery readiness"
+        ],
+        keyFeatures: [
+            "Brand-focused content presentation",
+            "Event or venue-related information display",
+            "Mobile-first user experience",
+            "Flutter-based UI implementation"
+        ],
+        contribution: "Focused less on core feature ownership and more on supporting the overall development process. Guided a junior developer through architectural and implementation decisions while also assisting with specific Flutter implementations where needed, ensuring the app followed good practices and remained stable.",
+        featured: false,
+        links: {
+            playStore: "https://play.google.com/store/apps/details?id=com.smartup.xeniarooftop",
+            web: "https://xenia-rooftop.web.app/"
+        }
+    },
+    {
+        id: 26,
+        name: "TLG Service App | Mobile App",
+        shortDescription: "Utility-focused application designed for professional service workflows, enabling tracking of tasks and parts for technicians.",
+        description: "A utility-focused application designed for professional service workflows, enabling tracking of tasks and parts for technicians. The app prioritizes reliability, clarity, and functional usability for professional users in the field.",
+        companyId: "work-3", // Smartup
+        period: "Oct 2022",
+        type: ["professional"],
+        role: ["Developer"],
+        teamSize: null,
+        techStack: ["Flutter", "Dart"],
+        highlights: [
+            "Delivered reliable solutions for service and parts management workflows",
+            "Maintained a consistent and usable interface for specialized professional users"
+        ],
+        keyFeatures: [
+            "Continuous bug fixing and maintenance for high reliability",
+            "Minor UI refinements to improve operational clarity"
+        ],
+        contribution: "Focused on bug fixes and minor UI improvements to enhance usability. Ensured functional stability across all existing screens. Implemented targeted adjustments to improve clarity and workflow efficiency.",
+        featured: false,
+        links: {
+            playStore: "https://play.google.com/store/apps/details?id=com.smartup.servicePartsApp"
+        }
+    },
+    {
+        id: 27,
+        name: "West AZ | Mobile App",
+        shortDescription: "Location-based application for the West SA organization, designed to facilitate engagement between users and local services within a specific geographic area.",
+        description: "A location-based application for the West SA organization, designed to facilitate engagement between users and local services within a specific geographic area. The app focuses on stability, responsive design, and clarity for a professional audience.",
+        companyId: "work-3", // Smartup
+        period: "Aug 2022",
+        type: ["professional"],
+        role: ["Developer"],
+        teamSize: null,
+        techStack: ["Flutter", "Dart", "Material UI"],
+        highlights: [
+            "Delivered a polished and professional interface within an existing codebase",
+            "Maintained high usability and stability for organization-specific use cases"
+        ],
+        keyFeatures: [
+            "Location-based engagement and service discovery module",
+            "Local services support with material UI consistency",
+            "Layout responsiveness across multiple device resolutions",
+            "Systematic bug tracking and reliability improvements"
+        ],
+        contribution: "Implemented incremental improvements and minor features to existing screens. Enhanced UI consistency and visual correctness across production screens. Applied layout corrections to ensure responsiveness across Android devices. Fixed bugs to improve overall reliability and performance.",
+        featured: false,
+        links: {
+            playStore: "https://play.google.com/store/apps/details?id=com.smartup.westAz"
+        }
+    },
+    {
         id: 7,
         name: "Influ | Mobile App",
         shortDescription: "Mobile app with premium features and polished UI for influencer management.",
         description: "A mobile application focused on influencer management and engagement. Led team planning and releases, coordinated directly with client, and implemented premium features with UI polish.",
         companyId: "work-3", // Smartup
-        period: "Dec 2021 – Jun 2023",
+        period: "Dec 2021 – Oct 2023",
         type: ["professional"],
         role: ["Team Lead", "Software Engineer"],
         teamSize: 5,
@@ -419,7 +561,7 @@ const projectsData = [
         name: "wf100 (Wellness Factor 100) | Mobile App",
         shortDescription: "Wellness app with adaptive questionnaire logic and personalized wellness program UX.",
         description: "A wellness application featuring adaptive questionnaire logic and personalized wellness program user experience. Built entire app from scratch with focus on user personalization and adaptive content delivery.",
-        period: "May 2021 – Oct 2021",
+        period: "Mar 2021 – Sep 2021",
         type: ["professional"],
         role: ["Software Engineer"],
         teamSize: 2,
@@ -432,6 +574,348 @@ const projectsData = [
         status: "Not published (development completed)",
         featured: false,
         links: {}
+    },
+    {
+        id: 22,
+        name: "skai.gr | Mobile App",
+        shortDescription: "Official app of one of Greece's largest news and media organizations, delivering real-time news content and live updates to a nationwide audience.",
+        description: "The SKAI.gr mobile application is the official app of one of Greece's largest news and media organizations. It delivers real-time news content and live updates to a nationwide audience, with performance and reliability being critical due to high traffic during breaking news events.",
+        companyId: "work-3", // Smartup
+        period: "Nov 2021",
+        type: ["professional"],
+        role: ["Developer"],
+        teamSize: null,
+        techStack: ["Flutter", "Dart", "REST APIs", "State Management", "Animations"],
+        highlights: [
+            "Delivered a mission-critical live feature for a major news platform",
+            "Enhanced user attention through motion-based urgency indicators",
+            "Managed real-time content updates without disrupting browsing flow",
+            "Worked within a high-traffic, production-critical environment"
+        ],
+        keyFeatures: [
+            "Backend-triggered \"Live Now\" home card",
+            "Live article view with automatic updates",
+            "Pulsing animated visual indicator for urgency",
+            "Seamless navigation between home and live content",
+            "Optimized news delivery for high-traffic usage"
+        ],
+        contribution: "Implemented the high-visibility \"Live Now\" feature on the home screen. Collaborated with backend developers on state-driven live content updates. Integrated streaming calls for real-time article updates. Implemented animated urgency indicators for live news. Fixed media-related issues including embedded video integrations.",
+        featured: false,
+        links: {
+            appStore: "https://apps.apple.com/us/app/skai-gr/id1076335165",
+            playStore: "https://play.google.com/store/apps/details?id=gr.skai.skai_android"
+        }
+    },
+    {
+        id: 23,
+        name: "Push2Shop (Agora) | Mobile App",
+        shortDescription: "Smart shopping application focused on connecting users with local businesses through personalized and location-based offers.",
+        description: "Push2Shop, later rebranded as Agora, is a smart shopping application focused on connecting users with local businesses through personalized and location-based offers. The product evolved significantly during its rebranding phase, introducing new features and UI refinements.",
+        companyId: "work-3", // Smartup
+        period: "Sep 2022",
+        type: ["professional"],
+        role: ["Developer"],
+        teamSize: 4,
+        techStack: ["Flutter", "Dart", "REST APIs", "State Management"],
+        highlights: [
+            "Supported the evolution of a consumer-facing shopping platform",
+            "Contributed to scalable architectural decisions",
+            "Participated in UI refinement during active product growth",
+            "Product later featured on Greek Dragons' Den (2024)"
+        ],
+        keyFeatures: [
+            "Personalized offers based on user behavior",
+            "Location-based business discovery",
+            "Scalable feature expansion architecture",
+            "Refined UI system for evolving product needs",
+            "Advanced state management for shopping flows"
+        ],
+        contribution: "Contributed to feature development and production improvements. Refined UI and UX during the rebranding phase. Provided guidance on Flutter implementation choices. Supported long-term maintainability decisions within the codebase.",
+        featured: false,
+        links: {
+            appStore: "https://apps.apple.com/ci/app/agora-ai/id1628286208",
+            playStore: "https://play.google.com/store/apps/details?id=com.push2shop.pushapp"
+        }
+    },
+    {
+        id: 18,
+        name: "Smart Delivery (White Label App) | Mobile App",
+        shortDescription: "White-label delivery engine used to power multiple client-specific applications with a standardized ordering and delivery workflow.",
+        description: "A white-label delivery engine used to power multiple client-specific applications. The platform provides a standardized ordering and delivery workflow that can be customized for individual restaurants or stores. It supports the full lifecycle from browsing and ordering to deployment and maintenance.",
+        companyId: "work-3", // Smartup
+        period: "Nov 2021 – Oct 2023",
+        type: ["professional"],
+        role: ["Developer", "Technical Support"],
+        teamSize: null,
+        techStack: ["Flutter", "Dart"],
+        highlights: [
+            "Maintained over a dozen live app flavors simultaneously",
+            "Ensured consistent versioning across multiple store deployments",
+            "Optimized the engine for long-term code reuse",
+            "Supported high-traffic delivery applications in production",
+            "Managed complex multi-account store release requirements"
+        ],
+        keyFeatures: [
+            "Flavor-based deployment system",
+            "End-to-end delivery ordering engine",
+            "Store version and update tracking",
+            "Centralized release and deployment pipeline",
+            "Internal task and maintenance coordination"
+        ],
+        contribution: "Fixed critical production bugs and implemented new features. Created and managed multiple white-label app flavors. Maintained internal tracking of live apps, versions, and store links. Managed full deployment processes for App Store and Google Play. Distributed maintenance and bug-fixing tasks within the team.",
+        featured: false,
+        links: {
+            playStore: "https://play.google.com/store/apps/details?id=com.smartup.smartdelivery"
+        }
+    },
+    {
+        id: 19,
+        name: "Surf (Smart Food) | Mobile App",
+        shortDescription: "Loyalty-focused delivery application that rewards users by returning a percentage of their purchases to a digital wallet for future use.",
+        description: "A loyalty-focused delivery application that rewards users by returning a percentage of their purchases to a digital wallet for future use. The app supports food ordering, fleet management, and digital signatures, and was designed with a business model that prioritizes customer rewards over platform commissions.",
+        companyId: "work-3", // Smartup
+        period: "Feb 2021 – Sep 2021",
+        type: ["professional"],
+        role: ["Developer", "Technical Support"],
+        teamSize: null,
+        techStack: ["Flutter", "Dart"],
+        highlights: [
+            "Implemented a loyalty system used by major companies such as IKEA and Intersport",
+            "Delivered production-grade Flutter animations during internship period",
+            "Contributed to a large-scale consumer-facing delivery platform",
+            "Supported professional delivery workflows with reliable UI behavior"
+        ],
+        keyFeatures: [
+            "Surf Wallet loyalty reward system",
+            "Delivery fleet management and digital signature support",
+            "Interactive store discovery with filtering",
+            "Reward-based games and contests",
+            "User profile customization"
+        ],
+        contribution: "Focused on UI-driven development for the production application. Implemented all in-app animations, including checkout transitions. Designed and built animated UI elements for the checkout flow. Created the sponsors section on the home screen. Assisted with production debugging and responsive UI support.",
+        featured: false,
+        links: {
+            playStore: "https://play.google.com/store/apps/details?id=com.smartup.surf",
+            appStore: "https://apps.apple.com/gr/app/surf/id1546354283"
+        }
+    },
+    {
+        id: 20,
+        name: "Terasology HUD Redesign | Desktop",
+        shortDescription: "Redesigned and improved the Heads-Up Displays (HUDs) of the open-source voxel game Terasology, focusing on clarity, information hierarchy, and player focus.",
+        description: "A project developed as part of Google Summer of Code 2020, focused on redesigning and improving the Heads-Up Displays (HUDs) of the open-source voxel game Terasology. The work spanned multiple game modules, with particular focus on the Light and Shadow (LAS) and Master of Oreon (MOO) game modes. The goal was to improve clarity, information hierarchy, and player focus through both visual and technical enhancements.",
+        companyId: "work-4", // Terasology Foundation
+        period: "May 2020 – Sep 2020",
+        type: ["professional", "academic"],
+        role: ["Software Engineer", "Designer"],
+        teamSize: null,
+        techStack: ["Java", "GitHub", "Delta and Override asset systems"],
+        highlights: [
+            "Successfully completed the Google Summer of Code 2020 program",
+            "Designed a poker-card-inspired dialogue box theme for LAS",
+            "Reworked the inventory into a vertical ring-style layout",
+            "Conducted competitive research on game UI best practices",
+            "Implemented blueprint previews for building systems in MOO"
+        ],
+        keyFeatures: [
+            "Vertical quickslot inventory with enhanced item visibility",
+            "Dynamic scoreboard with team and victory state indicators",
+            "Themed ammunition and health UI elements",
+            "Dialogue box system with improved readability",
+            "Interactive blueprint previews for construction workflows"
+        ],
+        contribution: "Redesigned HUD layout and information hierarchy for the LAS game mode. Improved the Task Selection Screen for the MOO module. Implemented code-level improvements to support new visual assets. Updated internal documentation regarding Delta and Override asset systems. Managed 51 pull requests and 9 GitHub issues during the program.",
+        featured: false,
+        links: {
+            gist: "https://gist.github.com/stefaniamak/44ae4cb491d0bec61e77ab7cb513c721"
+        }
+    },
+    {
+        id: 15,
+        name: "Virop | Mobile App",
+        shortDescription: "Native Android e-commerce application developed during the COVID-19 pandemic to support the purchase of quarantine necessities.",
+        description: "A native Android e-commerce application developed during the COVID-19 pandemic to support the purchase of quarantine necessities. The app provides a complete shopping experience, including product browsing, cart management, and order tracking, alongside a local administrator panel for managing users, inventory, and orders.",
+        companyId: "education-1", // International Hellenic University
+        period: "Apr 2020 – Jun 2020",
+        type: ["academic"],
+        role: ["Software Engineer", "Designer"],
+        teamSize: 1,
+        techStack: ["Java", "SQL"],
+        highlights: [
+            "Implemented session persistence using SharedPreferences",
+            "Designed SQL schema with cascade update and delete rules",
+            "Built a custom DrawerLayout navigation system",
+            "Added real-time product performance tracking in admin views",
+            "Ensured data persistence between local storage and UI components"
+        ],
+        keyFeatures: [
+            "User registration and login with session persistence",
+            "Shopping cart with persistent state",
+            "Admin panels for product, user, and order management",
+            "Local SQL database with multi-table schema",
+            "Bottom sheet dialogs for dynamic data editing"
+        ],
+        contribution: "Developed the entire native Android application from scratch. Implemented all UI fragments and navigation flows. Designed and integrated a local SQL database for products and orders. Built a CartMap Hashtable system to persist shopping sessions. Created a custom administrator dashboard for managing app data.",
+        featured: false,
+        links: {
+            github: "https://github.com/stefaniamak/Virop"
+        }
+    },
+    {
+        id: 12,
+        name: "The Magic Word | Mobile App",
+        shortDescription: "Educational mobile game teaching programming concepts to teenage girls through visual novel storytelling combined with interactive coding exercises.",
+        description: "An educational mobile game developed as part of Google Summer of Code 2019 for the Catrobat organization. The game teaches programming concepts to teenage girls through visual novel storytelling combined with interactive coding exercises. The project bridges pedagogy, game design, and software development, with a strong focus on inclusivity and human-centered learning.",
+        companyId: "work-5", // Catrobat
+        period: "May 2019 – Sep 2019",
+        type: ["academic", "professional"],
+        role: ["Lead Software Engineer", "Designer", "Artist"],
+        teamSize: 2,
+        techStack: ["Catrobat", "Photoshop"],
+        highlights: [
+            "Completed as part of the highly competitive Google Summer of Code program",
+            "Resulted in a peer-reviewed publication at Constructionism 2020",
+            "Combined storytelling with hands-on algorithmic learning",
+            "Contributed to a major Free and Open Source Software ecosystem",
+            "Designed for an underrepresented demographic in software education"
+        ],
+        keyFeatures: [
+            "Visual novel storytelling format",
+            "Interactive block-based coding exercises",
+            "Original 2D character and environment artwork",
+            "Structured progression for learning programming concepts",
+            "Themed UI and complete menu system"
+        ],
+        contribution: "Served as the sole developer responsible for coding, UI/UX, and graphics. Designed the narrative structure and interactive learning mechanics. Collaborated with a psychology student to apply educational design principles. Created custom character variations with new expressions and hand movements. Designed papyrus-themed UI assets and the main menu interface.",
+        featured: false,
+        links: {
+            behance: "https://www.behance.net/gallery/97406113/The-Magic-Word-Graphics-Software-Development"
+        }
+    },
+    {
+        id: 13,
+        name: "Fuzzy Logic Car Simulation | Web App",
+        shortDescription: "Intelligent systems project that simulates a car's braking behavior at traffic lights using fuzzy logic rather than binary decision-making.",
+        description: "An intelligent systems project that simulates a car's braking behavior at traffic lights using fuzzy logic rather than binary decision-making. The system calculates gradual speed reduction based on traffic light distance and color, aiming to mimic human driving behavior while complying with the Highway Code. The project explores how multi-valued logic can solve real-world uncertainty more naturally than strict rule-based systems.",
+        companyId: "education-1", // International Hellenic University
+        period: "Apr 2019 – May 2019",
+        type: ["academic"],
+        role: ["Software Engineer", "Researcher"],
+        teamSize: 3,
+        techStack: ["JavaScript", "p5.js"],
+        highlights: [
+            "Achieved smooth, human-like braking behavior",
+            "Maintained compliance with traffic regulations through logic-based rules",
+            "Visualized intelligent system decisions in real time",
+            "Demonstrated effectiveness of fuzzy logic for uncertain environments",
+            "Balanced system complexity with readable, maintainable logic"
+        ],
+        keyFeatures: [
+            "Input fuzzification for traffic light distance and color",
+            "Rule-based speed adjustment logic",
+            "Real-time speed calculation visualization",
+            "Gaussian and triangular membership functions",
+            "Centroid-based defuzzification for car physics"
+        ],
+        contribution: "Implemented fuzzy rules for speed adjustment under varying conditions. Developed real-time visual charts showing speed percentage changes. Researched and compared Mamdani and Sugeno fuzzy systems. Implemented centroid-based defuzzification logic. Programmed Gaussian membership functions for distance categorization.",
+        featured: false,
+        links: {
+            github: "https://github.com/stefaniamak/Fuzzy-Logic-Gradual-halt-of-Car-at-Traffic-Light",
+            web: "https://stefaniamak.github.io/Fuzzy-Logic-Gradual-halt-of-Car-at-Traffic-Light/"
+        }
+    },
+    {
+        id: 16,
+        name: "itHappens | Desktop",
+        shortDescription: "Social discovery and trip-planning platform designed to help users find, organize, and participate in local events.",
+        description: "A social discovery and trip-planning platform designed to help users find, organize, and participate in local events. The application allows users to track attendance, coordinate plans with friends, and manage their social calendar through a centralized interface. The project emphasizes user-centered design, collaboration, and scalable system structure.",
+        companyId: "education-1", // International Hellenic University
+        period: "Oct 2019 – Jan 2020",
+        type: ["academic"],
+        role: ["Team Lead", "Software Engineer", "Designer"],
+        teamSize: 7,
+        techStack: ["C#", "TSQL"],
+        highlights: [
+            "Selected by the lecturer as a reference project for future students",
+            "Delivered a complete prototype covering all planned features",
+            "Demonstrated effective team leadership and task coordination",
+            "Balanced design, engineering, and documentation responsibilities",
+            "Applied structured user-centered design methodologies"
+        ],
+        keyFeatures: [
+            "Event discovery with category-based filtering",
+            "Social participation via attending and interested lists",
+            "User account creation and profile management",
+            "Event creation and user-generated content support",
+            "Centralized event and trip planning interface"
+        ],
+        contribution: "Acted as primary accountable lead for research, design, and coordination. Managed a multidisciplinary team of seven members. Designed core UI flows and high-fidelity interactive prototypes. Implemented key UI components and contributed to data handling features. Authored technical documentation and the complete project README.",
+        featured: false,
+        links: {
+            github: "https://github.com/stefaniamak/itHappens"
+        }
+    },
+    {
+        id: 17,
+        name: "Woman in a Bar | Desktop",
+        shortDescription: "3D visual modeling project focused on character rigging, atmospheric lighting, and environmental storytelling.",
+        description: "A 3D visual modeling project focused on character rigging, atmospheric lighting, and environmental storytelling. The project depicts a stylized bar interior featuring a human character placed within a carefully designed lighting and fog environment. Emphasis was placed on material realism, scene composition, and mood creation.",
+        companyId: "education-1", // International Hellenic University
+        period: "Nov 2019 – Dec 2019",
+        type: ["academic"],
+        role: ["Artist", "Designer"],
+        teamSize: 1,
+        techStack: ["Blender", "Photoshop"],
+        highlights: [
+            "Built a multi-light source setup with spotlights and emission surfaces",
+            "Solved advanced hair simulation challenges",
+            "Applied realistic cloth material physics for improved motion fidelity",
+            "Created a procedural city background for environmental depth",
+            "Used Rigify to ensure correct parent-child mesh relationships"
+        ],
+        keyFeatures: [
+            "Humanoid character rigging with Meta-Rig armatures",
+            "Atmospheric lighting and fog-based depth simulation",
+            "High-detail texture unwrapping for character assets",
+            "Procedural environment generation",
+            "Character animation through keyframe control"
+        ],
+        contribution: "Modeled and rigged a humanoid 3D character including hair and clothing. Hand-painted detailed textures for skin, eyes, and facial features. Designed the bar interior with complex window shading and materials. Implemented atmospheric fog using Principled Volume nodes. Animated character movement using Dope Sheet keyframes.",
+        featured: false,
+        links: {
+            github: "https://github.com/stefaniamak/3D-graphics"
+        }
+    },
+    {
+        id: 14,
+        name: "Pizza Place Booking App | Desktop",
+        shortDescription: "Desktop application for managing restaurant logistics, table reservations, and customer food orders through a unified workflow.",
+        description: "A desktop application developed to manage restaurant logistics, table reservations, and customer food orders through a unified workflow. The application allows users to browse a digital menu, select specific tables through a spatial interface, and place pre-orders before arriving at the restaurant. The project was completed in five days during Stefania Makrygiannaki's second year at university and focuses on usability, clarity, and real-world restaurant constraints.",
+        companyId: "education-1", // International Hellenic University
+        period: "May 2018",
+        type: ["academic"],
+        role: ["Software Engineer", "Designer"],
+        teamSize: 1,
+        techStack: ["Java Swing"],
+        highlights: [
+            "Combined table reservation and food pre-ordering into a single workflow",
+            "Implemented spatial mapping for realistic restaurant logistics",
+            "Delivered a complete standalone academic project within a tight deadline",
+            "Maintained high UI clarity for non-technical users",
+            "Demonstrated early application of human-centered design principles"
+        ],
+        keyFeatures: [
+            "Interactive top-down restaurant map",
+            "Table reservation with status indicators",
+            "Categorized digital menu browsing",
+            "Integrated food pre-ordering system",
+            "Automated order confirmation logic"
+        ],
+        contribution: "Developed the full desktop application from scratch using Java Swing. Designed user-centered UI flows for spatial table selection. Implemented the digital menu browsing experience. Built backend logic for order confirmation and status tracking. Created a top-down restaurant map system for real-time table management.",
+        featured: false,
+        links: {
+            github: "https://github.com/stefaniamak/Pizza-Online-Shop"
+        }
     }
 ];
 
@@ -1643,9 +2127,13 @@ function createProjectCard(project, navigationContext = null) {
     const techStackTags = project.techStack || [];
     
     // Build HTML
-    // Project type label at top left
-    const projectTypeLabel = project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
-    const typeLabelHTML = `<div class="project-type-label">${projectTypeLabel}</div>`;
+    // Project type labels at top left (multiple labels in a flex container)
+    // Sort types alphabetically before rendering
+    const sortedTypes = [...project.type].sort();
+    const typeLabelHTML = `<div class="project-type-labels">${sortedTypes.map(t => {
+        const typeLabel = t.charAt(0).toUpperCase() + t.slice(1);
+        return `<span class="project-type-label">${typeLabel}</span>`;
+    }).join('')}</div>`;
     
     // Platform bookmarks above title
     let platformBookmarksHTML = '';
@@ -1800,12 +2288,16 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
     // Get platforms (iOS, Android, Web)
     const platforms = inferPlatforms(project);
     
-    // Build title HTML with project type label and clean name
+    // Build title HTML with project type labels and clean name
     let titleHTML = '';
     
-    // Project type label at top left
-    const projectTypeLabel = project.type.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
-    titleHTML += `<div class="modal-type-label">${projectTypeLabel}</div>`;
+    // Project type labels at top left (multiple labels in a flex container)
+    // Sort types alphabetically before rendering
+    const sortedTypes = [...project.type].sort();
+    titleHTML += `<div class="modal-type-labels">${sortedTypes.map(t => {
+        const typeLabel = t.charAt(0).toUpperCase() + t.slice(1);
+        return `<span class="modal-type-label">${typeLabel}</span>`;
+    }).join('')}</div>`;
     
     // Project name with underline animation
     titleHTML += `<div class="modal-title-wrapper"><span class="modal-title-name">${cleanName}</span></div>`;
@@ -1819,7 +2311,8 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
     if (project.companyId) {
         const companyEntry = findCompanyEntry(project.companyId);
         if (companyEntry) {
-            bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Company:</span> <span class="modal-meta-value"><a href="#" class="modal-company-link" data-company-id="${project.companyId}">${companyEntry.company}</a></span></div>`;
+            const labelText = companyEntry.section === 'education' ? 'Institution:' : 'Company:';
+            bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">${labelText}</span> <span class="modal-meta-value"><a href="#" class="modal-company-link" data-company-id="${project.companyId}">${companyEntry.company}</a></span></div>`;
         }
     } else if (project.company) {
         // Fallback for projects without companyId
@@ -1929,6 +2422,12 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
         }
         if (project.links.live) {
             bodyHTML += `<a href="${project.links.live}" target="_blank" rel="noopener noreferrer" class="modal-link">Live Demo</a>`;
+        }
+        if (project.links.behance) {
+            bodyHTML += `<a href="${project.links.behance}" target="_blank" rel="noopener noreferrer" class="modal-link">Behance</a>`;
+        }
+        if (project.links.gist) {
+            bodyHTML += `<a href="${project.links.gist}" target="_blank" rel="noopener noreferrer" class="modal-link">Final GSoC Report</a>`;
         }
         bodyHTML += '</div>';
     }
