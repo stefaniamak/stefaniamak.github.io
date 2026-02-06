@@ -125,6 +125,8 @@ const projectsData = [
         shortDescription: "A fully responsive personal portfolio website built from scratch with vanilla HTML, CSS, and JavaScript, featuring theme modes, interactive project showcase, and accessible design.",
         description: "A personal portfolio website showcasing work experience, projects, and professional background. Built entirely from scratch using vanilla web technologies with no build process or dependencies. Features a clean, minimal editorial aesthetic with three theme modes (Light, Dark, System), interactive project filtering, expandable work experience sections, and detailed project modal views. Designed with accessibility in mind, using semantic HTML, proper ARIA labels, and keyboard navigation throughout.",
         period: "Feb 2026",
+        startDate: new Date(2026, 1, 1),
+        endDate: new Date(2026, 1, 28),
         type: ["personal"],
         role: ["Software Engineer", "Designer"],
         teamSize: 1,
@@ -166,6 +168,8 @@ const projectsData = [
         description: "A social media platform that pays users for watching ads, combining video content (like TikTok), text posts (like Twitter/X), and community features. WeAre8 aims to create a more ethical social media experience by giving users control and value, rather than exploiting them through addictive algorithms. The platform allows users to create and join communities, share content, and earn money while engaging with brands.",
         companyId: "work-1", // WeAre8
         period: "Aug 2025 – Dec 2025",
+        startDate: new Date(2025, 7, 1),
+        endDate: new Date(2025, 11, 31),
         type: ["professional"],
         role: ["Software Engineer"],
         teamSize: 7,
@@ -204,6 +208,8 @@ const projectsData = [
         shortDescription: "Interactive Flutter Web app for generating complex geometric background graphics, created as an experiment in AI-assisted development.",
         description: "A Flutter Web application that recreates complex generative UI graphics through mathematical calculations. Built as an exploration of AI-assisted development, this project tested the capabilities of ChatGPT and Cursor AI in generating complex graphics code. The final implementation combines AI-generated code with manual refinement to create an interactive background generator that produces intricate geometric patterns.",
         period: "Oct 2025",
+        startDate: new Date(2025, 9, 1),
+        endDate: new Date(2025, 9, 31),
         type: ["personal"],
         role: ["Software Engineer", "Designer"],
         teamSize: 1,
@@ -238,6 +244,8 @@ const projectsData = [
         description: "An event companion app used by all Delphi Forum attendees to explore sessions, speakers, and real-time updates during the 4-day live event. Designed for performance, offline access, and intuitive interaction in a high-pressure, high-visibility setting.",
         companyId: "work-2", // ATCOM S.A.
         period: "Jan 2025 – Mar 2025",
+        startDate: new Date(2025, 0, 1),
+        endDate: new Date(2025, 2, 31),
         type: ["professional"],
         role: ["Software Engineer"],
         teamSize: 2,
@@ -272,6 +280,8 @@ const projectsData = [
         description: "A full-featured Flutter Web application developed for my thesis, combining advanced algorithmic problem solving, responsive UI, and puzzle design. Users can create their own Nonogram puzzles or watch them being solved step by step with full control and visualization.",
         companyId: "education-1", // International Hellenic University
         period: "Dec 2023 – Jan 2025",
+        startDate: new Date(2023, 11, 1),
+        endDate: new Date(2025, 0, 31),
         type: ["academic", "personal"],
         role: ["Software Engineer", "Designer", "Researcher"],
         teamSize: 1,
@@ -304,6 +314,8 @@ const projectsData = [
         description: "A comprehensive leasing companion app for Hertz customers, providing vehicle management tools, calculators, and service request capabilities. Built with a focus on user experience and seamless integration with Hertz services.",
         companyId: "work-2", // ATCOM S.A.
         period: "Apr 2024 – Aug 2024",
+        startDate: new Date(2024, 3, 1),
+        endDate: new Date(2024, 7, 31),
         type: ["professional"],
         role: ["Software Engineer"],
         teamSize: 4,
@@ -330,7 +342,9 @@ const projectsData = [
         shortDescription: "Property management app for tenants, owners, and landlords with Flutter Web adaptation.",
         description: "A comprehensive property management platform for tenants, owners, and landlords. Led the mobile-to-web adaptation using Flutter Web, creating responsive layouts and platform-aware components.",
         companyId: "work-2", // ATCOM S.A.
-        period: "Jan 2024 – Mar 2024",
+        period: "Jun 2024 – Nov 2024",
+        startDate: new Date(2024, 5, 1),
+        endDate: new Date(2024, 10, 30),
         type: ["professional"],
         role: ["Software Engineer"],
         teamSize: 5,
@@ -355,6 +369,8 @@ const projectsData = [
         description: "A comprehensive mobile application for athletes, featuring team management, performance tracking, and social features. Led a team of 3 developers, handling planning, architecture, and client communication.",
         companyId: "work-3", // Smartup
         period: "Mar 2023 – Oct 2023",
+        startDate: new Date(2023, 2, 1),
+        endDate: new Date(2023, 9, 31),
         type: ["professional"],
         role: ["Team Lead", "Project Manager"],
         teamSize: 4,
@@ -377,6 +393,8 @@ const projectsData = [
         description: "A mobile application designed for art collectors to discover, track, and manage their art collections. Built as the first end-to-end Flutter app completed solo, with direct client collaboration.",
         companyId: "work-3", // Smartup
         period: "Feb 2023 – Jun 2023",
+        startDate: new Date(2023, 1, 1),
+        endDate: new Date(2023, 5, 30),
         type: ["professional"],
         role: ["Software Engineer"],
         teamSize: 2,
@@ -399,6 +417,8 @@ const projectsData = [
         description: "An internal corporate HR management app designed to streamline forms, submissions, and employee workflow processes. The app serves as a centralized tool for efficient HR operations and secure internal data handling.",
         companyId: "work-3", // Smartup
         period: "Feb 2022",
+        startDate: new Date(2022, 1, 1),
+        endDate: new Date(2022, 1, 28),
         type: ["professional"],
         role: ["Developer"],
         teamSize: 3,
@@ -409,6 +429,7 @@ const projectsData = [
             "Maintained visual consistency across the app while adding new functionality"
         ],
         keyFeatures: [
+            "Multi-input validated HR forms for employee submissions",
             "Digital workflow for streamlined corporate HR processes",
             "Centralized internal data handling with secure state management",
             "Corporate design system integration for consistent UI"
@@ -428,6 +449,8 @@ const projectsData = [
         description: "A mobile-focused application designed to help private tutors manage lesson payments, extra hours, and financial tracking. The app replaces informal paper-based workflows with a clear, structured digital system, providing transparency for both teachers and students.",
         companyId: "education-1", // International Hellenic University
         period: "Apr 2023 – May 2023",
+        startDate: new Date(2023, 3, 1),
+        endDate: new Date(2023, 4, 31),
         type: ["academic"],
         role: ["Software Engineer", "Designer", "Researcher"],
         teamSize: 1,
@@ -458,7 +481,9 @@ const projectsData = [
         shortDescription: "Lifestyle and events-focused mobile application designed to support a venue/brand presence through a dedicated mobile experience.",
         description: "Xenia Rooftop, later rebranded as Expose Yourself, is a lifestyle and events-focused mobile application designed to support a venue/brand presence through a dedicated mobile experience. The app provides users with information, content, and interactions related to the brand's activities and offerings.",
         companyId: "work-3", // Smartup
-        period: "2022",
+        period: "Apr 2022",
+        startDate: new Date(2022, 3, 1),
+        endDate: new Date(2022, 3, 30),
         type: ["professional"],
         role: ["Developer"],
         teamSize: null,
@@ -489,6 +514,8 @@ const projectsData = [
         description: "A utility-focused application designed for professional service workflows, enabling tracking of tasks and parts for technicians. The app prioritizes reliability, clarity, and functional usability for professional users in the field.",
         companyId: "work-3", // Smartup
         period: "Oct 2022",
+        startDate: new Date(2022, 9, 1),
+        endDate: new Date(2022, 9, 31),
         type: ["professional"],
         role: ["Developer"],
         teamSize: null,
@@ -514,6 +541,8 @@ const projectsData = [
         description: "A location-based application for the West SA organization, designed to facilitate engagement between users and local services within a specific geographic area. The app focuses on stability, responsive design, and clarity for a professional audience.",
         companyId: "work-3", // Smartup
         period: "Aug 2022",
+        startDate: new Date(2022, 7, 1),
+        endDate: new Date(2022, 7, 31),
         type: ["professional"],
         role: ["Developer"],
         teamSize: null,
@@ -541,6 +570,8 @@ const projectsData = [
         description: "A mobile application focused on influencer management and engagement. Led team planning and releases, coordinated directly with client, and implemented premium features with UI polish.",
         companyId: "work-3", // Smartup
         period: "Dec 2021 – Oct 2023",
+        startDate: new Date(2021, 11, 1),
+        endDate: new Date(2023, 9, 31),
         type: ["professional"],
         role: ["Team Lead", "Software Engineer"],
         teamSize: 5,
@@ -562,6 +593,8 @@ const projectsData = [
         shortDescription: "Wellness app with adaptive questionnaire logic and personalized wellness program UX.",
         description: "A wellness application featuring adaptive questionnaire logic and personalized wellness program user experience. Built entire app from scratch with focus on user personalization and adaptive content delivery.",
         period: "Mar 2021 – Sep 2021",
+        startDate: new Date(2021, 2, 1),
+        endDate: new Date(2021, 8, 30),
         type: ["professional"],
         role: ["Software Engineer"],
         teamSize: 2,
@@ -582,6 +615,8 @@ const projectsData = [
         description: "The SKAI.gr mobile application is the official app of one of Greece's largest news and media organizations. It delivers real-time news content and live updates to a nationwide audience, with performance and reliability being critical due to high traffic during breaking news events.",
         companyId: "work-3", // Smartup
         period: "Nov 2021",
+        startDate: new Date(2021, 10, 1),
+        endDate: new Date(2021, 10, 30),
         type: ["professional"],
         role: ["Developer"],
         teamSize: null,
@@ -613,6 +648,8 @@ const projectsData = [
         description: "Push2Shop, later rebranded as Agora, is a smart shopping application focused on connecting users with local businesses through personalized and location-based offers. The product evolved significantly during its rebranding phase, introducing new features and UI refinements.",
         companyId: "work-3", // Smartup
         period: "Sep 2022",
+        startDate: new Date(2022, 8, 1),
+        endDate: new Date(2022, 8, 30),
         type: ["professional"],
         role: ["Developer"],
         teamSize: 4,
@@ -644,6 +681,8 @@ const projectsData = [
         description: "A white-label delivery engine used to power multiple client-specific applications. The platform provides a standardized ordering and delivery workflow that can be customized for individual restaurants or stores. It supports the full lifecycle from browsing and ordering to deployment and maintenance.",
         companyId: "work-3", // Smartup
         period: "Nov 2021 – Oct 2023",
+        startDate: new Date(2021, 10, 1),
+        endDate: new Date(2023, 9, 31),
         type: ["professional"],
         role: ["Developer", "Technical Support"],
         teamSize: null,
@@ -675,6 +714,8 @@ const projectsData = [
         description: "A loyalty-focused delivery application that rewards users by returning a percentage of their purchases to a digital wallet for future use. The app supports food ordering, fleet management, and digital signatures, and was designed with a business model that prioritizes customer rewards over platform commissions.",
         companyId: "work-3", // Smartup
         period: "Feb 2021 – Sep 2021",
+        startDate: new Date(2021, 1, 1),
+        endDate: new Date(2021, 8, 30),
         type: ["professional"],
         role: ["Developer", "Technical Support"],
         teamSize: null,
@@ -706,6 +747,8 @@ const projectsData = [
         description: "A project developed as part of Google Summer of Code 2020, focused on redesigning and improving the Heads-Up Displays (HUDs) of the open-source voxel game Terasology. The work spanned multiple game modules, with particular focus on the Light and Shadow (LAS) and Master of Oreon (MOO) game modes. The goal was to improve clarity, information hierarchy, and player focus through both visual and technical enhancements.",
         companyId: "work-4", // Terasology Foundation
         period: "May 2020 – Sep 2020",
+        startDate: new Date(2020, 4, 1),
+        endDate: new Date(2020, 8, 30),
         type: ["professional", "academic"],
         role: ["Software Engineer", "Designer"],
         teamSize: null,
@@ -736,7 +779,9 @@ const projectsData = [
         shortDescription: "Native Android e-commerce application developed during the COVID-19 pandemic to support the purchase of quarantine necessities.",
         description: "A native Android e-commerce application developed during the COVID-19 pandemic to support the purchase of quarantine necessities. The app provides a complete shopping experience, including product browsing, cart management, and order tracking, alongside a local administrator panel for managing users, inventory, and orders.",
         companyId: "education-1", // International Hellenic University
-        period: "Apr 2020 – Jun 2020",
+        period: "May 2020 – Jun 2020",
+        startDate: new Date(2020, 4, 18),
+        endDate: new Date(2020, 5, 11),
         type: ["academic"],
         role: ["Software Engineer", "Designer"],
         teamSize: 1,
@@ -768,6 +813,8 @@ const projectsData = [
         description: "An educational mobile game developed as part of Google Summer of Code 2019 for the Catrobat organization. The game teaches programming concepts to teenage girls through visual novel storytelling combined with interactive coding exercises. The project bridges pedagogy, game design, and software development, with a strong focus on inclusivity and human-centered learning.",
         companyId: "work-5", // Catrobat
         period: "May 2019 – Sep 2019",
+        startDate: new Date(2019, 4, 1),
+        endDate: new Date(2019, 8, 30),
         type: ["academic", "professional"],
         role: ["Lead Software Engineer", "Designer", "Artist"],
         teamSize: 2,
@@ -799,6 +846,8 @@ const projectsData = [
         description: "An intelligent systems project that simulates a car's braking behavior at traffic lights using fuzzy logic rather than binary decision-making. The system calculates gradual speed reduction based on traffic light distance and color, aiming to mimic human driving behavior while complying with the Highway Code. The project explores how multi-valued logic can solve real-world uncertainty more naturally than strict rule-based systems.",
         companyId: "education-1", // International Hellenic University
         period: "Apr 2019 – May 2019",
+        startDate: new Date(2019, 3, 8),
+        endDate: new Date(2019, 4, 21),
         type: ["academic"],
         role: ["Software Engineer", "Researcher"],
         teamSize: 3,
@@ -831,6 +880,8 @@ const projectsData = [
         description: "A social discovery and trip-planning platform designed to help users find, organize, and participate in local events. The application allows users to track attendance, coordinate plans with friends, and manage their social calendar through a centralized interface. The project emphasizes user-centered design, collaboration, and scalable system structure.",
         companyId: "education-1", // International Hellenic University
         period: "Oct 2019 – Jan 2020",
+        startDate: new Date(2019, 9, 1),
+        endDate: new Date(2020, 0, 31),
         type: ["academic"],
         role: ["Team Lead", "Software Engineer", "Designer"],
         teamSize: 7,
@@ -862,6 +913,8 @@ const projectsData = [
         description: "A 3D visual modeling project focused on character rigging, atmospheric lighting, and environmental storytelling. The project depicts a stylized bar interior featuring a human character placed within a carefully designed lighting and fog environment. Emphasis was placed on material realism, scene composition, and mood creation.",
         companyId: "education-1", // International Hellenic University
         period: "Nov 2019 – Dec 2019",
+        startDate: new Date(2019, 10, 21),
+        endDate: new Date(2019, 11, 11),
         type: ["academic"],
         role: ["Artist", "Designer"],
         teamSize: 1,
@@ -893,6 +946,8 @@ const projectsData = [
         description: "A desktop application developed to manage restaurant logistics, table reservations, and customer food orders through a unified workflow. The application allows users to browse a digital menu, select specific tables through a spatial interface, and place pre-orders before arriving at the restaurant. The project was completed in five days during Stefania Makrygiannaki's second year at university and focuses on usability, clarity, and real-world restaurant constraints.",
         companyId: "education-1", // International Hellenic University
         period: "May 2018",
+        startDate: new Date(2018, 4, 15),
+        endDate: new Date(2018, 4, 20),
         type: ["academic"],
         role: ["Software Engineer", "Designer"],
         teamSize: 1,
@@ -1692,6 +1747,111 @@ function initProjectAnimations() {
 
 // Helper Functions for Project Filtering
 
+// Date parsing and formatting functions
+const monthNames = {
+    'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+    'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+};
+
+const monthAbbreviations = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// Parse period string to startDate and endDate
+function parsePeriodToDates(periodString) {
+    if (!periodString) return { startDate: null, endDate: null };
+    
+    // Handle single month format: "May 2018"
+    const singleMonthMatch = periodString.match(/^([A-Za-z]{3})\s+(\d{4})$/);
+    if (singleMonthMatch) {
+        const month = monthNames[singleMonthMatch[1]];
+        const year = parseInt(singleMonthMatch[2]);
+        const startDate = new Date(year, month, 1);
+        const endDate = new Date(year, month + 1, 0); // Last day of the month
+        return { startDate, endDate };
+    }
+    
+    // Handle range format: "Apr 2023 – May 2023" or "Apr 2023 - May 2023"
+    const rangeMatch = periodString.match(/^([A-Za-z]{3})\s+(\d{4})\s*[–-]\s*([A-Za-z]{3})\s+(\d{4})$/);
+    if (rangeMatch) {
+        const startMonth = monthNames[rangeMatch[1]];
+        const startYear = parseInt(rangeMatch[2]);
+        const endMonth = monthNames[rangeMatch[3]];
+        const endYear = parseInt(rangeMatch[4]);
+        const startDate = new Date(startYear, startMonth, 1);
+        const endDate = new Date(endYear, endMonth + 1, 0); // Last day of the end month
+        return { startDate, endDate };
+    }
+    
+    // Handle year-only format: "2022"
+    const yearOnlyMatch = periodString.match(/^(\d{4})$/);
+    if (yearOnlyMatch) {
+        const year = parseInt(yearOnlyMatch[1]);
+        const startDate = new Date(year, 0, 1);
+        const endDate = new Date(year, 11, 31);
+        return { startDate, endDate };
+    }
+    
+    // Fallback: return null dates if parsing fails
+    return { startDate: null, endDate: null };
+}
+
+// Format Date object to "MMM YYYY" format
+function formatDate(date) {
+    if (!date) return '';
+    return `${monthAbbreviations[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+// Calculate duration in years and months between two dates (matching work experience format)
+function calculateDurationFromDates(startDate, endDate) {
+    if (!startDate || !endDate) return '';
+    
+    // Calculate difference
+    let years = endDate.getFullYear() - startDate.getFullYear();
+    let months = endDate.getMonth() - startDate.getMonth();
+    
+    // Adjust if end day is before start day (e.g., May 20 to Jun 11)
+    if (endDate.getDate() < startDate.getDate()) {
+        months--;
+    }
+    
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+    
+    // Format duration (matching work experience format: "1yr 6 mos" - no space after number before yr/yrs, space before mos)
+    const durationParts = [];
+    if (years > 0) {
+        durationParts.push(`${years}${years === 1 ? 'yr' : 'yrs'}`);
+    }
+    if (months > 0) {
+        durationParts.push(`${months} ${months === 1 ? 'mo' : 'mos'}`);
+    }
+    
+    // If less than a month, show as ">1 mos"
+    if (durationParts.length === 0) {
+        return '>1 mos';
+    }
+    
+    return durationParts.join(' ');
+}
+
+// Format period with duration: "Apr 2023 - May 2023 · 2 mos" or "May 2018 · >1 mos" for single month
+function formatPeriodWithDuration(startDate, endDate) {
+    if (!startDate || !endDate) return '';
+    
+    const startFormatted = formatDate(startDate);
+    const endFormatted = formatDate(endDate);
+    
+    // Check if same month
+    if (startDate.getMonth() === endDate.getMonth() && 
+        startDate.getFullYear() === endDate.getFullYear()) {
+        return `${startFormatted} · >1 mos`;
+    }
+    
+    const duration = calculateDurationFromDates(startDate, endDate);
+    return `${startFormatted} - ${endFormatted} · ${duration}`;
+}
+
 // Normalize role strings to standardized role arrays
 function normalizeRoles(roleString) {
     const roles = [];
@@ -2079,6 +2239,16 @@ function getFilteredProjects() {
         );
     }
     
+    // Sort by endDate descending (newest end date first), then by startDate descending as secondary sort
+    filteredProjects.sort((a, b) => {
+        if (!a.endDate || !b.endDate) return 0; // Keep projects without dates in their original position
+        const endDateDiff = b.endDate - a.endDate;
+        if (endDateDiff !== 0) return endDateDiff;
+        // If end dates are equal, sort by startDate descending
+        if (!a.startDate || !b.startDate) return 0;
+        return b.startDate - a.startDate;
+    });
+    
     return filteredProjects;
 }
 
@@ -2318,7 +2488,11 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
         // Fallback for projects without companyId
         bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Company:</span> <span class="modal-meta-value">${project.company}</span></div>`;
     }
-    if (project.period) {
+    if (project.startDate && project.endDate) {
+        const periodDisplay = formatPeriodWithDuration(project.startDate, project.endDate);
+        bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Period:</span> <span class="modal-meta-value">${periodDisplay}</span></div>`;
+    } else if (project.period) {
+        // Fallback for projects without startDate/endDate
         bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Period:</span> <span class="modal-meta-value">${project.period}</span></div>`;
     }
     bodyHTML += `<div class="modal-meta-item"><span class="modal-meta-label">Role:</span> <span class="modal-meta-value">${project.role.join(', ')}</span></div>`;
