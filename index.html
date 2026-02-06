@@ -9,6 +9,38 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jacquarda+Bastarda+9&family=Roboto+Slab:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBeG93eCK3jclF65Y2EoIklEbehn4erasc",
+            authDomain: "stefania-mak-portfolio.firebaseapp.com",
+            projectId: "stefania-mak-portfolio",
+            storageBucket: "stefania-mak-portfolio.firebasestorage.app",
+            messagingSenderId: "370121239552",
+            appId: "1:370121239552:web:eacfc9151d836a889b3ce5",
+            measurementId: "G-6JZM264GGJ"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        
+        // Initialize Analytics only in browser environment
+        let analytics = null;
+        if (typeof window !== 'undefined') {
+            try {
+                analytics = getAnalytics(app);
+                // Make analytics available globally if needed
+                window.analytics = analytics;
+            } catch (error) {
+                console.warn('Firebase Analytics initialization failed:', error);
+            }
+        }
+    </script>
 </head>
 <body>
     <!-- Header -->
