@@ -834,6 +834,14 @@ body {
     margin-bottom: 48px;
 }
 
+.project-results-count {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
 .filter-group {
     display: flex;
     gap: 12px;

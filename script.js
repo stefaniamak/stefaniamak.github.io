@@ -2005,13 +2005,13 @@ function extractLanguages(techStack) {
         }
     }
     
-    // Catrobat or block-based visual programming indicates Block-based programming
+    // Catrobat or block-based visual programming indicates Block-based
     if (techLower.some(tech => 
         tech.includes('catrobat') || 
         tech.includes('block-based') || 
         tech.includes('visual programming'))) {
-        if (!languages.includes('Block-based programming')) {
-            languages.push('Block-based programming');
+        if (!languages.includes('Block-based')) {
+            languages.push('Block-based');
         }
     }
     
@@ -2039,12 +2039,13 @@ function inferPlatforms(project) {
     if (project.name) {
         const nameLower = project.name.toLowerCase();
         if (nameLower.includes('| mobile app') || nameLower.includes('| mobile')) {
-            // Mobile app - if no links, we still want to show iOS/Android platforms (disabled)
-            // Check if we have specific platform info from links
-            if (!platforms.includes('iOS') && !platforms.includes('Android')) {
-                // For mobile apps without links, add both iOS and Android as disabled bookmarks
-                // This will be handled by the bookmark rendering (disabled state)
-                platforms.push('iOS', 'Android');
+            // Mobile app - always show iOS and Android platforms
+            // If links exist, they'll be enabled; otherwise they'll be disabled
+            if (!platforms.includes('iOS')) {
+                platforms.push('iOS');
+            }
+            if (!platforms.includes('Android')) {
+                platforms.push('Android');
             }
         } else if (nameLower.includes('| web app') || nameLower.includes('| web')) {
             if (!platforms.includes('Web')) {
@@ -2408,11 +2409,80 @@ function getFilteredProjects() {
     return filteredProjects;
 }
 
+function animateCount(element, newCount, duration = 500) {
+    const hasInitialCount = element.dataset.currentCount !== undefined;
+    const currentCount = hasInitialCount ? parseInt(element.dataset.currentCount) : newCount;
+    
+    // If count is 0, don't animate (show "No projects found")
+    if (newCount === 0) {
+        element.textContent = 'No projects found';
+        element.dataset.currentCount = '0';
+        return;
+    }
+    
+    // If count hasn't changed, don't animate
+    if (currentCount === newCount && hasInitialCount) {
+        return;
+    }
+    
+    // On first load, set immediately without animation
+    if (!hasInitialCount) {
+        if (newCount === 1) {
+            element.textContent = '1 project';
+        } else {
+            element.textContent = `${newCount} projects`;
+        }
+        element.dataset.currentCount = newCount.toString();
+        return;
+    }
+    
+    const startCount = currentCount;
+    const difference = newCount - startCount;
+    const startTime = performance.now();
+    
+    function updateCount(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation (ease-out)
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const currentValue = Math.round(startCount + (difference * easeOut));
+        
+        // Update the text
+        if (currentValue === 1) {
+            element.textContent = '1 project';
+        } else {
+            element.textContent = `${currentValue} projects`;
+        }
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateCount);
+        } else {
+            // Ensure final value is set correctly
+            if (newCount === 1) {
+                element.textContent = '1 project';
+            } else {
+                element.textContent = `${newCount} projects`;
+            }
+            element.dataset.currentCount = newCount.toString();
+        }
+    }
+    
+    requestAnimationFrame(updateCount);
+}
+
 function renderProjects() {
     const projectGrid = document.getElementById('project-grid');
+    const resultsCountElement = document.getElementById('project-results-count');
     
     // Get filtered projects
     const filteredProjects = getFilteredProjects();
+    
+    // Update results count with animation
+    const count = filteredProjects.length;
+    if (resultsCountElement) {
+        animateCount(resultsCountElement, count);
+    }
     
     projectGrid.innerHTML = '';
     
