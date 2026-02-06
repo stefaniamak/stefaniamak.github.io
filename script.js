@@ -1110,7 +1110,7 @@ function getProjectsByCompany(companyName) {
 }
 
 // Create compact project card for horizontal list
-function createCompactProjectCard(project, navigationContext = null) {
+function createCompactProjectCard(project, navigationContext = null, section = 'work_experience') {
     const card = document.createElement('div');
     card.className = 'compact-project-card';
     card.setAttribute('data-project-id', project.id);
@@ -1149,6 +1149,10 @@ function createCompactProjectCard(project, navigationContext = null) {
         // Find full project data by ID
         const fullProject = projectsData.find(p => p.id === project.id);
         if (fullProject) {
+            window.trackEvent('project_card_click', {
+                item_name: cleanName,
+                section: section
+            });
             // Use provided navigation context (company's projects list)
             openProjectModal(fullProject, false, navigationContext);
         }
@@ -1163,6 +1167,10 @@ function createCompactProjectCard(project, navigationContext = null) {
             e.preventDefault();
             const fullProject = projectsData.find(p => p.id === project.id);
             if (fullProject) {
+                window.trackEvent('project_card_click', {
+                    item_name: cleanName,
+                    section: section
+                });
                 // Use provided navigation context (company's projects list)
                 openProjectModal(fullProject, false, navigationContext);
             }
@@ -1173,7 +1181,7 @@ function createCompactProjectCard(project, navigationContext = null) {
 }
 
 // Render company projects list into a container
-function renderCompanyProjects(companyName, containerElement) {
+function renderCompanyProjects(companyName, containerElement, section = 'work_experience') {
     const projects = getProjectsByCompany(companyName);
     
     if (projects.length === 0) {
@@ -1196,7 +1204,7 @@ function renderCompanyProjects(companyName, containerElement) {
     
     // Add compact project cards (pass company's projects list as navigation context)
     projects.forEach(project => {
-        const card = createCompactProjectCard(project, projects);
+        const card = createCompactProjectCard(project, projects, section);
         projectsList.appendChild(card);
     });
     
@@ -1317,6 +1325,12 @@ function cycleTheme() {
     const currentIndex = themeOrder.indexOf(currentTheme);
     const nextIndex = (currentIndex + 1) % themeOrder.length;
     const nextTheme = themeOrder[nextIndex];
+    
+    // Track theme toggle
+    window.trackEvent('theme_toggle', {
+        theme: nextTheme
+    });
+    
     setTheme(nextTheme);
 }
 
@@ -1337,12 +1351,29 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)
     }
 });
 
+// Hero CTA Tracking
+function initHeroTracking() {
+    // Track hero CTA buttons
+    document.querySelectorAll('.btn-hero, .btn-hero-secondary').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const itemName = button.textContent.trim();
+            window.trackEvent('cta_click', {
+                item_name: itemName,
+                section: 'hero'
+            });
+        });
+    });
+}
+
 // Header Navigation
 function initHeader() {
     const headerName = document.getElementById('header-name');
     
     headerName.addEventListener('click', (e) => {
         e.preventDefault();
+        window.trackEvent('header_name_click', {
+            section: 'header'
+        });
         window.location.hash = '';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -1354,6 +1385,11 @@ function initHeader() {
     if (mobileMenuToggle) {
         mobileMenuToggle.addEventListener('click', () => {
             const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
+            const action = isExpanded ? 'close' : 'open';
+            window.trackEvent('mobile_menu_toggle', {
+                action: action,
+                section: 'header'
+            });
             mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
             headerNav.classList.toggle('active');
             mobileMenuToggle.classList.toggle('active');
@@ -1362,6 +1398,11 @@ function initHeader() {
         // Close mobile menu when clicking a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
+                const itemName = link.textContent.trim();
+                window.trackEvent('menu_click', {
+                    item_name: itemName,
+                    section: 'header'
+                });
                 headerNav.classList.remove('active');
                 mobileMenuToggle.classList.remove('active');
                 mobileMenuToggle.setAttribute('aria-expanded', 'false');
@@ -1473,7 +1514,7 @@ function renderWorkExperience() {
         // Add company projects list after the content is appended
         const contentElement = document.getElementById(contentId);
         if (contentElement) {
-            renderCompanyProjects(exp.company, contentElement);
+            renderCompanyProjects(exp.company, contentElement, 'work_experience');
         }
     });
     
@@ -1554,7 +1595,7 @@ function renderTeaching() {
         // Add company projects list after the content is appended
         const contentElement = document.getElementById(contentId);
         if (contentElement) {
-            renderCompanyProjects(teaching.company, contentElement);
+            renderCompanyProjects(teaching.company, contentElement, 'teaching');
         }
     });
     
@@ -1616,7 +1657,7 @@ function renderEducation() {
         if (hasDetails) {
             const contentElement = document.getElementById(contentId);
             if (contentElement) {
-                renderCompanyProjects(edu.company, contentElement);
+                renderCompanyProjects(edu.company, contentElement, 'education');
             }
         }
     });
@@ -1644,6 +1685,34 @@ function initAccordion() {
             const contentId = header.getAttribute('aria-controls');
             const content = document.getElementById(contentId);
             const item = header.closest('.experience-item');
+            
+            // Determine section and item name for tracking
+            let section = 'work_experience';
+            let itemName = '';
+            if (item) {
+                const itemId = item.getAttribute('data-item-id');
+                if (itemId) {
+                    if (itemId.startsWith('work-')) {
+                        section = 'work_experience';
+                    } else if (itemId.startsWith('teaching-')) {
+                        section = 'teaching';
+                    } else if (itemId.startsWith('education-')) {
+                        section = 'education';
+                    }
+                }
+                // Get company/university name from the header
+                const companyElement = header.querySelector('.experience-company');
+                if (companyElement) {
+                    itemName = companyElement.textContent.trim();
+                }
+            }
+            
+            // Track the click
+            window.trackEvent('experience_entry_click', {
+                item_name: itemName,
+                section: section,
+                action: isExpanded ? 'collapse' : 'expand'
+            });
             
             // Check if there's another open experience and if clicked item is below it
             let hasOpenExperienceAbove = false;
@@ -2368,6 +2437,13 @@ function initProjectFilters() {
             const filterType = btn.dataset.filterType;
             const filterValue = btn.dataset.filterValue;
             
+            // Track filter click
+            window.trackEvent('filter_click', {
+                item_name: filterValue,
+                filter_type: filterType,
+                section: 'projects'
+            });
+            
             // Single selection: if already selected, deselect; otherwise, select only this one
             if (activeFilters[filterType].includes(filterValue)) {
                 // Deselect
@@ -2396,6 +2472,13 @@ function initProjectFilters() {
                 e.stopPropagation(); // Prevent button click
                 const filterType = btn.dataset.filterType;
                 const filterValue = btn.dataset.filterValue;
+                
+                // Track filter removal
+                window.trackEvent('filter_remove', {
+                    item_name: filterValue,
+                    filter_type: filterType,
+                    section: 'projects'
+                });
                 
                 // Deselect this filter
                 activeFilters[filterType] = [];
@@ -2636,6 +2719,12 @@ function createProjectCard(project, navigationContext = null) {
     card.addEventListener('click', (e) => {
         // Don't open modal if clicking on a bookmark
         if (!e.target.closest('.platform-bookmark')) {
+            // Extract clean name for tracking
+            const { cleanName } = extractPlatformType(project.name);
+            window.trackEvent('project_card_click', {
+                item_name: cleanName,
+                section: 'projects'
+            });
             // Use provided navigation context or current filtered projects
             const context = navigationContext !== null ? navigationContext : getFilteredProjects();
             openProjectModal(project, false, context);
@@ -2651,13 +2740,19 @@ function createProjectCard(project, navigationContext = null) {
             if (bookmark.classList.contains('disabled')) {
                 return;
             }
+            const platform = bookmark.getAttribute('data-platform');
             const url = bookmark.getAttribute('data-url');
+            // Track the click
+            window.trackEvent('project_link_click', {
+                item_name: cleanName,
+                platform: platform.toLowerCase(),
+                section: 'projects'
+            });
             if (url) {
                 // Open the URL in a new tab
                 window.open(url, '_blank', 'noopener,noreferrer');
             } else {
                 // Fallback to filter if no URL (shouldn't happen for enabled bookmarks)
-                const platform = bookmark.getAttribute('data-platform');
                 togglePlatformFilter(platform);
             }
         });
@@ -2671,13 +2766,19 @@ function createProjectCard(project, navigationContext = null) {
                 if (bookmark.classList.contains('disabled')) {
                     return;
                 }
+                const platform = bookmark.getAttribute('data-platform');
                 const url = bookmark.getAttribute('data-url');
+                // Track the click
+                window.trackEvent('project_link_click', {
+                    item_name: cleanName,
+                    platform: platform.toLowerCase(),
+                    section: 'projects'
+                });
                 if (url) {
                     // Open the URL in a new tab
                     window.open(url, '_blank', 'noopener,noreferrer');
                 } else {
                     // Fallback to filter if no URL (shouldn't happen for enabled bookmarks)
-                    const platform = bookmark.getAttribute('data-platform');
                     togglePlatformFilter(platform);
                 }
             }
@@ -2906,14 +3007,61 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
     
     // Add click handlers for company links in modal
     const companyLinks = modalBody.querySelectorAll('.modal-company-link');
+    const { cleanName: projectCleanName } = extractPlatformType(project.name);
     companyLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             const companyId = link.getAttribute('data-company-id');
+            const companyName = link.textContent.trim();
+            window.trackEvent('company_link_click', {
+                item_name: companyName,
+                section: 'modal',
+                project_name: projectCleanName
+            });
             if (companyId) {
                 navigateToCompanyEntry(companyId);
             }
+        });
+    });
+    
+    // Add click handlers for platform links in modal
+    const platformLinks = modalBody.querySelectorAll('.modal-platform-link');
+    platformLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const platform = link.textContent.trim();
+            window.trackEvent('project_link_click', {
+                item_name: projectCleanName,
+                platform: platform.toLowerCase(),
+                section: 'modal'
+            });
+        });
+    });
+    
+    // Add click handlers for external links in modal (GitHub, App Store, etc.)
+    const externalLinks = modalBody.querySelectorAll('.modal-link');
+    externalLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const linkType = link.textContent.trim();
+            // Determine platform from link type
+            let platform = 'other';
+            if (linkType.includes('App Store') || linkType.includes('iOS')) {
+                platform = 'ios';
+            } else if (linkType.includes('Play') || linkType.includes('Android') || linkType.includes('Huawei')) {
+                platform = 'android';
+            } else if (linkType.includes('Web') || linkType.includes('Live')) {
+                platform = 'web';
+            } else if (linkType.includes('GitHub')) {
+                platform = 'github';
+            } else if (linkType.includes('Behance')) {
+                platform = 'behance';
+            }
+            window.trackEvent('project_link_click', {
+                item_name: projectCleanName,
+                platform: platform,
+                link_type: linkType.toLowerCase(),
+                section: 'modal'
+            });
         });
     });
     
@@ -3069,6 +3217,20 @@ function updateButtonTooltips() {
 function navigateToPreviousProject() {
     if (currentProjectIndex <= 0 || currentNavigationContext.length === 0) return;
     
+    // Get current project name for tracking
+    const currentProject = currentNavigationContext[currentProjectIndex];
+    let projectName = '';
+    if (currentProject) {
+        const { cleanName } = extractPlatformType(currentProject.name);
+        projectName = cleanName;
+    }
+    
+    // Track navigation
+    window.trackEvent('modal_navigation', {
+        item_name: projectName,
+        direction: 'prev'
+    });
+    
     // Restore opacity when clicked
     restoreButtonOpacity();
     
@@ -3082,6 +3244,20 @@ function navigateToPreviousProject() {
 // Navigate to next project
 function navigateToNextProject() {
     if (currentProjectIndex >= currentNavigationContext.length - 1 || currentNavigationContext.length === 0) return;
+    
+    // Get current project name for tracking
+    const currentProject = currentNavigationContext[currentProjectIndex];
+    let projectName = '';
+    if (currentProject) {
+        const { cleanName } = extractPlatformType(currentProject.name);
+        projectName = cleanName;
+    }
+    
+    // Track navigation
+    window.trackEvent('modal_navigation', {
+        item_name: projectName,
+        direction: 'next'
+    });
     
     // Restore opacity when clicked
     restoreButtonOpacity();
@@ -3490,6 +3666,23 @@ function resetModalScrollState() {
 }
 
 function closeProjectModal() {
+    // Get current project name for tracking
+    const modalTitle = document.getElementById('modal-title');
+    let projectName = '';
+    if (modalTitle) {
+        const titleNameElement = modalTitle.querySelector('.modal-title-name');
+        if (titleNameElement) {
+            projectName = titleNameElement.textContent.trim();
+        }
+    }
+    
+    // Track modal close
+    if (projectName) {
+        window.trackEvent('modal_close', {
+            item_name: projectName
+        });
+    }
+    
     const modal = document.getElementById('project-modal');
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
@@ -3812,6 +4005,52 @@ function renderContactLinks() {
             </div>
         </div>
     `;
+    
+    // Add tracking to contact links
+    setTimeout(() => {
+        const contactInlineLinks = contactLinks.querySelectorAll('.contact-inline-link');
+        contactInlineLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const itemName = link.textContent.includes('email') ? 'Email' : 'LinkedIn';
+                window.trackEvent('social_link_click', {
+                    item_name: itemName,
+                    section: 'contact'
+                });
+            });
+        });
+        
+        const contactMethodLinks = contactLinks.querySelectorAll('.contact-method-link');
+        contactMethodLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const itemName = link.textContent.includes('@') ? 'Email' : 'LinkedIn';
+                window.trackEvent('social_link_click', {
+                    item_name: itemName,
+                    section: 'contact'
+                });
+            });
+        });
+    }, 0);
+}
+
+// Footer Links Tracking
+function initFooterTracking() {
+    document.querySelectorAll('.footer-link').forEach(link => {
+        link.addEventListener('click', () => {
+            let itemName = link.textContent.trim();
+            // Distinguish between Linktree links
+            if (itemName.includes('Linktree')) {
+                if (link.href.includes('stefania.makrygiannaki')) {
+                    itemName = 'Dev & Design Linktree';
+                } else if (link.href.includes('stefaniamak')) {
+                    itemName = 'Cosplay & Photography Linktree';
+                }
+            }
+            window.trackEvent('social_link_click', {
+                item_name: itemName,
+                section: 'footer'
+            });
+        });
+    });
 }
 
 // Footer Links Rendering - No longer needed as footer is now static HTML
@@ -3903,12 +4142,14 @@ function handleHashNavigation() {
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initHeader();
+    initHeroTracking();
     initTypingAnimation();
     renderWorkExperience();
     renderTeaching();
     renderEducation();
     initProjectFilters();
     renderContactLinks();
+    initFooterTracking();
     
     // Handle hash navigation after everything is rendered
     setTimeout(() => {
