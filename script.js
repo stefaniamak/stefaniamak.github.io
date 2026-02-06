@@ -413,7 +413,7 @@ const projectsData = [
     },
     {
         id: 25,
-        name: "Smart HR | Mobile App",
+        name: "Smart HR | Desktop",
         shortDescription: "Internal corporate HR management app designed to streamline forms, submissions, and employee workflow processes.",
         description: "An internal corporate HR management app designed to streamline forms, submissions, and employee workflow processes. The app serves as a centralized tool for efficient HR operations and secure internal data handling.",
         companyId: "work-3", // Smartup
@@ -438,7 +438,8 @@ const projectsData = [
         contribution: "Implemented a fully functional form-based screen within the app. Ensured full compatibility with the corporate design system. Managed state handling for multi-step submissions and internal processes. Delivered UI components aligned with existing team and architectural standards.",
         featured: false,
         links: {
-            appStore: "https://apps.apple.com/us/app/smarthr/id1644858912",
+            appStore: "https://apps.apple.com/gr/app/smarthr/id1644858912",
+            desktop: "https://apps.apple.com/gr/app/smarthr/id1644858912",
             playStore: "https://play.google.com/store/apps/details?id=com.smartupweb.smartuphr",
             web: "https://smartup-hr.web.app/"
         }
@@ -2053,6 +2054,10 @@ function inferPlatforms(project) {
             if (!platforms.includes('Desktop')) {
                 platforms.push('Desktop');
             }
+            // If it's a desktop app but also has an appStore link, add iOS as well
+            if (project.links && project.links.appStore && !platforms.includes('iOS')) {
+                platforms.push('iOS');
+            }
         }
     }
     
@@ -2133,7 +2138,8 @@ function getPlatformIcon(platform) {
     const icons = {
         'iOS': '',
         'Android': '𖠌',
-        'Web': '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M 1.5 9 A 7.5 3.5 0 0 0 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 3.5 0 0 1 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 2 0 0 0 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 2 0 0 1 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 9 1.5 A 3.5 7.5 0 0 0 9 16.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M 9 1.5 A 3.5 7.5 0 0 1 9 16.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>'
+        'Web': '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M 1.5 9 A 7.5 3.5 0 0 0 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 3.5 0 0 1 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 2 0 0 0 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 2 0 0 1 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 9 1.5 A 3.5 7.5 0 0 0 9 16.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M 9 1.5 A 3.5 7.5 0 0 1 9 16.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
+        'Desktop': '모'
     };
     return icons[platform] || '';
 }
@@ -2475,6 +2481,8 @@ function createProjectCard(project, navigationContext = null) {
                     } else if (project.links.live) {
                         platformUrl = project.links.live;
                     }
+                } else if (platform === 'Desktop' && project.links.desktop) {
+                    platformUrl = project.links.desktop;
                 }
             }
             const bookmarkHTML = createPlatformBookmark(platform, platformUrl);
@@ -2674,8 +2682,9 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
                     platformUrl = project.links.playStore || project.links.huawei;
                 } else if (platform === 'Web' && (project.links.web || project.links.live)) {
                     platformUrl = project.links.web || project.links.live;
+                } else if (platform === 'Desktop' && project.links.desktop) {
+                    platformUrl = project.links.desktop;
                 }
-                // Desktop platforms don't have links
             }
             
             if (platformUrl) {
