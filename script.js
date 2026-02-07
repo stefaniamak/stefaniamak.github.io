@@ -484,6 +484,7 @@ const projectsData = [
         ],
         contribution: "Conducted user research on private tutoring workflows and pain points. Analyzed existing finance tools to identify effective usability patterns. Designed the application structure and interaction flows for non-technical users. Implemented the Flutter application based on real user requirements. Developed automated charging logic based on hourly rates and overtime. Designed the full UI, branding, logo, and mascot.",
         featured: false,
+        platforms: ['Android', 'iOS'],
         links: {
             github: "https://github.com/stefaniamak/payments-tracker"
         }
@@ -815,6 +816,7 @@ const projectsData = [
         ],
         contribution: "Developed the entire native Android application from scratch. Implemented all UI fragments and navigation flows. Designed and integrated a local SQL database for products and orders. Built a CartMap Hashtable system to persist shopping sessions. Created a custom administrator dashboard for managing app data.",
         featured: false,
+        platforms: ['Android'],
         links: {
             github: "https://github.com/stefaniamak/Virop"
         }
@@ -848,6 +850,7 @@ const projectsData = [
         ],
         contribution: "Served as the sole developer responsible for coding, UI/UX, and graphics. Designed the narrative structure and interactive learning mechanics. Collaborated with a psychology student to apply educational design principles. Created custom character variations with new expressions and hand movements. Designed papyrus-themed UI assets and the main menu interface.",
         featured: false,
+        platforms: ['Android', 'iOS'],
         links: {
             behance: "https://www.behance.net/gallery/97406113/The-Magic-Word-Graphics-Software-Development"
         }
@@ -2197,6 +2200,11 @@ function extractLanguages(techStack) {
 
 // Infer platforms from project links, tech stack, and name
 function inferPlatforms(project) {
+    // If project has explicit platforms property, use that first
+    if (project.platforms && Array.isArray(project.platforms)) {
+        return [...new Set(project.platforms)]; // Return unique platforms
+    }
+    
     const platforms = [];
     
     // Check links (most reliable indicator)
