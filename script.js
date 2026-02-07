@@ -721,6 +721,7 @@ const projectsData = [
         ],
         contribution: "Fixed critical production bugs and implemented new features. Created and managed multiple white-label app flavors. Maintained internal tracking of live apps, versions, and store links. Managed full deployment processes for App Store and Google Play. Distributed maintenance and bug-fixing tasks within the team.",
         featured: false,
+        platforms: ['iOS', 'Android'],
         links: {
             playStore: "https://play.google.com/store/apps/details?id=com.smartup.smartdelivery"
         }
@@ -2749,50 +2750,58 @@ function createProjectCard(project, navigationContext = null) {
         return `<span class="project-type-label">${typeLabel}</span>`;
     }).join('')}</div>`;
     
-    // Platform bookmarks above title
+    // Platform bookmarks above title - fixed order: iOS, Android, Desktop, Web, GitHub (rightmost)
     let platformBookmarksHTML = '';
-    // Count total bookmarks (platforms + GitHub if available)
+    const fixedOrder = ['iOS', 'Android', 'Desktop', 'Web', 'GitHub'];
+    
+    // Get platforms that this project actually has
+    const projectPlatforms = inferPlatforms(project);
     const hasGitHub = project.links && project.links.github;
-    const totalBookmarks = platforms.length + (hasGitHub ? 1 : 0);
     
-    if (platforms.length > 0) {
-        // Calculate right offset for each bookmark (16px base + 34px spacing per bookmark for wider size)
-        // GitHub is always first from right (rightmost), so platforms start after it
-        platforms.forEach((platform, index) => {
-            // Platforms are positioned after GitHub (if present), so add 34px for GitHub
-            const rightOffset = 16 + (hasGitHub ? 34 : 0) + index * 34; // 26px width + 8px spacing
-            // Get URL for this platform
-            let platformUrl = null;
-            if (project.links) {
-                if (platform === 'iOS' && project.links.appStore) {
-                    platformUrl = project.links.appStore;
-                } else if (platform === 'Android' && project.links.playStore) {
-                    platformUrl = project.links.playStore;
-                } else if (platform === 'Web') {
-                    // Check for web link (web or live)
-                    if (project.links.web) {
-                        platformUrl = project.links.web;
-                    } else if (project.links.live) {
-                        platformUrl = project.links.live;
-                    }
-                } else if (platform === 'Desktop' && project.links.desktop) {
-                    platformUrl = project.links.desktop;
+    // Filter fixed order to only include platforms the project has (plus GitHub if it has a link)
+    const bookmarksToShow = fixedOrder.filter(platform => {
+        if (platform === 'GitHub') {
+            return hasGitHub;
+        }
+        return projectPlatforms.includes(platform);
+    });
+    
+    // Collect bookmarks in fixed order with their URLs
+    const allBookmarks = [];
+    bookmarksToShow.forEach(platform => {
+        let platformUrl = null;
+        if (project.links) {
+            if (platform === 'iOS' && project.links.appStore) {
+                platformUrl = project.links.appStore;
+            } else if (platform === 'Android' && project.links.playStore) {
+                platformUrl = project.links.playStore;
+            } else if (platform === 'Desktop' && project.links.desktop) {
+                platformUrl = project.links.desktop;
+            } else if (platform === 'Web') {
+                // Check for web link (web or live)
+                if (project.links.web) {
+                    platformUrl = project.links.web;
+                } else if (project.links.live) {
+                    platformUrl = project.links.live;
                 }
+            } else if (platform === 'GitHub' && project.links.github) {
+                platformUrl = project.links.github;
             }
-            const bookmarkHTML = createPlatformBookmark(platform, platformUrl);
-            // Replace class attribute, handling both enabled and disabled states
-            const disabledSuffix = platformUrl ? '' : ' disabled';
-            platformBookmarksHTML += bookmarkHTML.replace(/class="platform-bookmark[^"]*"/, `class="platform-bookmark${disabledSuffix}" style="right: ${rightOffset}px;"`);
-        });
-    }
+        }
+        // Add bookmark (will be disabled if no URL)
+        allBookmarks.push({ platform, url: platformUrl });
+    });
     
-    // Add GitHub bookmark if available (inverted colors, always positioned first from right)
-    if (hasGitHub) {
-        const rightOffset = 16; // Always at the rightmost position (base offset)
-        const bookmarkHTML = createPlatformBookmark('GitHub', project.links.github);
-        // The bookmark already has the inverted class from createPlatformBookmark, just add the style
-        platformBookmarksHTML += bookmarkHTML.replace(/class="platform-bookmark[^"]*"/, `class="platform-bookmark inverted" style="right: ${rightOffset}px;"`);
-    }
+    // Render bookmarks from right to left (rightmost is index 0)
+    allBookmarks.forEach((bookmark, index) => {
+        const rightOffset = 16 + (allBookmarks.length - 1 - index) * 34; // 26px width + 8px spacing
+        const bookmarkHTML = createPlatformBookmark(bookmark.platform, bookmark.url);
+        // Replace class attribute - GitHub has inverted class, others don't
+        // Add disabled class if no URL
+        const disabledClass = !bookmark.url ? ' disabled' : '';
+        const baseClass = bookmark.platform === 'GitHub' ? `platform-bookmark inverted${disabledClass}` : `platform-bookmark${disabledClass}`;
+        platformBookmarksHTML += bookmarkHTML.replace(/class="platform-bookmark[^"]*"/, `class="${baseClass}" style="right: ${rightOffset}px;"`);
+    });
     
     // Project name on its own line (below bookmarks and type label)
     let cardHTML = `${typeLabelHTML}${platformBookmarksHTML}<div class="project-name">${cleanName}</div>`;
