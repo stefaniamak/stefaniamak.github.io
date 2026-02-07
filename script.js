@@ -1535,8 +1535,8 @@ function renderWorkExperience() {
         item.innerHTML = `
             <button class="experience-header" aria-expanded="false" aria-controls="${contentId}">
                 <div class="experience-header-content">
-                    <div class="experience-company">${exp.role}${exp.program ? ` · ${exp.program}` : ''}</div>
-                    <div class="experience-role">${exp.company}</div>
+                    <div class="experience-role">${exp.role}${exp.program ? ` · ${exp.program}` : ''}</div>
+                    <div class="experience-company">${exp.company}</div>
                     <div class="experience-meta">
                         <span class="experience-location">${exp.location}</span>
                         <span class="experience-dates">${datesDisplay}</span>
@@ -1616,8 +1616,8 @@ function renderTeaching() {
         item.innerHTML = `
             <button class="experience-header" aria-expanded="false" aria-controls="${contentId}">
                 <div class="experience-header-content">
-                    <div class="experience-company">${teaching.role}</div>
-                    <div class="experience-role">${teaching.company}</div>
+                    <div class="experience-role">${teaching.role}</div>
+                    <div class="experience-company">${teaching.company}</div>
                     <div class="experience-meta">
                         ${teaching.location ? `<span class="experience-location">${teaching.location}</span>` : ''}
                         <span class="experience-dates">${datesDisplay}</span>
@@ -1682,8 +1682,8 @@ function renderEducation() {
         item.innerHTML = `
             <${headerTag} ${headerAttrs}>
                 <div class="experience-header-content">
-                    <div class="experience-company">${edu.role}</div>
-                    <div class="experience-role">${edu.company}</div>
+                    <div class="experience-role">${edu.role}</div>
+                    <div class="experience-company">${edu.company}</div>
                     <div class="experience-meta">
                         ${edu.location ? `<span class="experience-location">${edu.location}</span>` : ''}
                         <span class="experience-dates">${datesDisplay}</span>

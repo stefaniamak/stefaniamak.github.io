@@ -646,6 +646,14 @@ body {
 
 .experience-company {
     font-family: 'Inter', sans-serif;
+    font-size: clamp(18px, 2vw, 22px);
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.experience-role {
+    font-family: 'Inter', sans-serif;
     font-size: clamp(24px, 3vw, 32px);
     font-weight: 600;
     margin-bottom: 4px;
@@ -655,7 +663,7 @@ body {
     display: inline-block;
 }
 
-.experience-company::after {
+.experience-role::after {
     content: '';
     position: absolute;
     bottom: -2px;
@@ -666,16 +674,8 @@ body {
     transition: width 0.3s ease;
 }
 
-.experience-header:hover .experience-company::after {
+.experience-header:hover .experience-role::after {
     width: 100%;
-}
-
-.experience-role {
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(18px, 2vw, 22px);
-    font-weight: 500;
-    margin-bottom: 8px;
-    color: var(--text-primary);
 }
 
 .experience-meta {
