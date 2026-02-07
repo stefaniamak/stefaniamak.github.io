@@ -1157,6 +1157,13 @@ function createCompactProjectCard(project, navigationContext = null, section = '
                 eventParams.company_name = companyName;
             }
             window.trackEvent('project_card_click', eventParams);
+            
+            // Track normalized project event
+            const normalizedProjectName = window.normalizeEventName(cleanName);
+            window.trackEvent(`Project_${normalizedProjectName}`, {
+                section: section,
+                company_name: companyName || ''
+            });
             // Use provided navigation context (company's projects list)
             openProjectModal(fullProject, false, navigationContext);
         }
@@ -1181,6 +1188,13 @@ function createCompactProjectCard(project, navigationContext = null, section = '
                     eventParams.company_name = companyName;
                 }
                 window.trackEvent('project_card_click', eventParams);
+                
+                // Track normalized project event
+                const normalizedProjectName = window.normalizeEventName(cleanName);
+                window.trackEvent(`Project_${normalizedProjectName}`, {
+                    section: section,
+                    company_name: companyName || ''
+                });
                 // Use provided navigation context (company's projects list)
                 openProjectModal(fullProject, false, navigationContext);
             }
@@ -1341,6 +1355,10 @@ function cycleTheme() {
         theme: nextTheme
     });
     
+    // Track normalized theme event
+    const normalizedTheme = window.normalizeEventName(nextTheme);
+    window.trackEvent(`Theme_${normalizedTheme}`, {});
+    
     setTheme(nextTheme);
 }
 
@@ -1371,6 +1389,10 @@ function initHeroTracking() {
                 item_name: itemName,
                 section: 'hero'
             });
+            
+            // Track normalized CTA event
+            const normalizedCTAName = window.normalizeEventName(itemName);
+            window.trackEvent(`CTA_${normalizedCTAName}`, {});
         });
     });
 }
@@ -1384,6 +1406,9 @@ function initHeader() {
         window.trackEvent('header_name_click', {
             section: 'header'
         });
+        
+        // Track normalized header name event
+        window.trackEvent('Header_Name_Click', {});
         window.location.hash = '';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -1400,6 +1425,10 @@ function initHeader() {
                 action: action,
                 section: 'header'
             });
+            
+            // Track normalized mobile menu event
+            const normalizedAction = window.normalizeEventName(action);
+            window.trackEvent(`Mobile_Menu_${normalizedAction}`, {});
             mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
             headerNav.classList.toggle('active');
             mobileMenuToggle.classList.toggle('active');
@@ -1413,6 +1442,10 @@ function initHeader() {
                     item_name: itemName,
                     section: 'header'
                 });
+                
+                // Track normalized menu event
+                const normalizedMenuName = window.normalizeEventName(itemName);
+                window.trackEvent(`Menu_${normalizedMenuName}`, {});
                 headerNav.classList.remove('active');
                 mobileMenuToggle.classList.remove('active');
                 mobileMenuToggle.setAttribute('aria-expanded', 'false');
@@ -1723,6 +1756,24 @@ function initAccordion() {
                 section: section,
                 action: isExpanded ? 'collapse' : 'expand'
             });
+            
+            // Track normalized event based on section
+            if (section === 'work_experience' && itemName) {
+                const normalizedName = window.normalizeEventName(itemName);
+                window.trackEvent(`Work_${normalizedName}`, {
+                    action: isExpanded ? 'collapse' : 'expand'
+                });
+            } else if (section === 'teaching' && itemName) {
+                const normalizedName = window.normalizeEventName(itemName);
+                window.trackEvent(`Teaching_${normalizedName}`, {
+                    action: isExpanded ? 'collapse' : 'expand'
+                });
+            } else if (section === 'education' && itemName) {
+                const normalizedName = window.normalizeEventName(itemName);
+                window.trackEvent(`Education_${normalizedName}`, {
+                    action: isExpanded ? 'collapse' : 'expand'
+                });
+            }
             
             // Check if there's another open experience and if clicked item is below it
             let hasOpenExperienceAbove = false;
@@ -2454,6 +2505,11 @@ function initProjectFilters() {
                 section: 'projects'
             });
             
+            // Track normalized filter event
+            const normalizedFilterType = window.normalizeEventName(filterType);
+            const normalizedFilterValue = window.normalizeEventName(filterValue);
+            window.trackEvent(`Filter_${normalizedFilterType}_${normalizedFilterValue}`, {});
+            
             // Single selection: if already selected, deselect; otherwise, select only this one
             if (activeFilters[filterType].includes(filterValue)) {
                 // Deselect
@@ -2489,6 +2545,11 @@ function initProjectFilters() {
                     filter_type: filterType,
                     section: 'projects'
                 });
+                
+                // Track normalized filter removal event
+                const normalizedFilterType = window.normalizeEventName(filterType);
+                const normalizedFilterValue = window.normalizeEventName(filterValue);
+                window.trackEvent(`Filter_${normalizedFilterType}_${normalizedFilterValue}_Remove`, {});
                 
                 // Deselect this filter
                 activeFilters[filterType] = [];
@@ -2735,6 +2796,12 @@ function createProjectCard(project, navigationContext = null) {
                 item_name: cleanName,
                 section: 'projects'
             });
+            
+            // Track normalized project event
+            const normalizedProjectName = window.normalizeEventName(cleanName);
+            window.trackEvent(`Project_${normalizedProjectName}`, {
+                section: 'projects'
+            });
             // Use provided navigation context or current filtered projects
             const context = navigationContext !== null ? navigationContext : getFilteredProjects();
             openProjectModal(project, false, context);
@@ -2758,6 +2825,11 @@ function createProjectCard(project, navigationContext = null) {
                 platform: platform.toLowerCase(),
                 section: 'projects'
             });
+            
+            // Track normalized project link event
+            const normalizedProjectName = window.normalizeEventName(cleanName);
+            const normalizedPlatform = window.normalizeEventName(platform);
+            window.trackEvent(`Project_Link_${normalizedPlatform}_${normalizedProjectName}`, {});
             if (url) {
                 // Open the URL in a new tab
                 window.open(url, '_blank', 'noopener,noreferrer');
@@ -2784,6 +2856,11 @@ function createProjectCard(project, navigationContext = null) {
                     platform: platform.toLowerCase(),
                     section: 'projects'
                 });
+                
+                // Track normalized project link event
+                const normalizedProjectName = window.normalizeEventName(cleanName);
+                const normalizedPlatform = window.normalizeEventName(platform);
+                window.trackEvent(`Project_Link_${normalizedPlatform}_${normalizedProjectName}`, {});
                 if (url) {
                     // Open the URL in a new tab
                     window.open(url, '_blank', 'noopener,noreferrer');
@@ -3029,6 +3106,12 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
                 section: 'modal',
                 project_name: projectCleanName
             });
+            
+            // Track normalized company link event
+            const normalizedCompanyName = window.normalizeEventName(companyName);
+            window.trackEvent(`Company_Link_${normalizedCompanyName}`, {
+                project_name: projectCleanName
+            });
             if (companyId) {
                 navigateToCompanyEntry(companyId);
             }
@@ -3043,6 +3126,13 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
             window.trackEvent('project_link_click', {
                 item_name: projectCleanName,
                 platform: platform.toLowerCase(),
+                section: 'modal'
+            });
+            
+            // Track normalized modal project link event
+            const normalizedProjectName = window.normalizeEventName(projectCleanName);
+            const normalizedPlatform = window.normalizeEventName(platform);
+            window.trackEvent(`Project_Link_${normalizedPlatform}_${normalizedProjectName}`, {
                 section: 'modal'
             });
         });
@@ -3070,6 +3160,14 @@ function updateModalContent(project, modalTitle, modalBody, modalContent) {
                 item_name: projectCleanName,
                 platform: platform,
                 link_type: linkType.toLowerCase(),
+                section: 'modal'
+            });
+            
+            // Track normalized modal external link event
+            const normalizedProjectName = window.normalizeEventName(projectCleanName);
+            const normalizedLinkType = window.normalizeEventName(linkType);
+            window.trackEvent(`Project_Link_${normalizedLinkType}_${normalizedProjectName}`, {
+                platform: platform,
                 section: 'modal'
             });
         });
@@ -3250,6 +3348,12 @@ function navigateToPreviousProject() {
         from_project: fromProjectName // The project being navigated from
     });
     
+    // Track normalized modal navigation event
+    const normalizedToProject = window.normalizeEventName(toProjectName);
+    window.trackEvent(`Modal_Nav_Prev_${normalizedToProject}`, {
+        from_project: fromProjectName
+    });
+    
     // Restore opacity when clicked
     restoreButtonOpacity();
     
@@ -3284,6 +3388,12 @@ function navigateToNextProject() {
         item_name: toProjectName, // The project being opened
         direction: 'next',
         from_project: fromProjectName // The project being navigated from
+    });
+    
+    // Track normalized modal navigation event
+    const normalizedToProject = window.normalizeEventName(toProjectName);
+    window.trackEvent(`Modal_Nav_Next_${normalizedToProject}`, {
+        from_project: fromProjectName
     });
     
     // Restore opacity when clicked
@@ -3707,6 +3817,10 @@ function closeProjectModal() {
         window.trackEvent('modal_close', {
             item_name: projectName
         });
+        
+        // Track normalized modal close event
+        const normalizedProjectName = window.normalizeEventName(projectName);
+        window.trackEvent(`Modal_Close_${normalizedProjectName}`, {});
     }
     
     const modal = document.getElementById('project-modal');
@@ -4042,6 +4156,12 @@ function renderContactLinks() {
                     item_name: itemName,
                     section: 'contact'
                 });
+                
+                // Track normalized social link event
+                const normalizedSocialName = window.normalizeEventName(itemName);
+                window.trackEvent(`Social_${normalizedSocialName}`, {
+                    section: 'contact'
+                });
             });
         });
         
@@ -4051,6 +4171,12 @@ function renderContactLinks() {
                 const itemName = link.textContent.includes('@') ? 'Email' : 'LinkedIn';
                 window.trackEvent('social_link_click', {
                     item_name: itemName,
+                    section: 'contact'
+                });
+                
+                // Track normalized social link event
+                const normalizedSocialName = window.normalizeEventName(itemName);
+                window.trackEvent(`Social_${normalizedSocialName}`, {
                     section: 'contact'
                 });
             });
@@ -4073,6 +4199,12 @@ function initFooterTracking() {
             }
             window.trackEvent('social_link_click', {
                 item_name: itemName,
+                section: 'footer'
+            });
+            
+            // Track normalized social link event
+            const normalizedSocialName = window.normalizeEventName(itemName);
+            window.trackEvent(`Social_${normalizedSocialName}`, {
                 section: 'footer'
             });
         });
