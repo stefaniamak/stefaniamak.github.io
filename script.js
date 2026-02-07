@@ -2315,7 +2315,8 @@ function getPlatformLabel(platform) {
         'iOS': 'iOS',
         'Android': 'Android',
         'Web': 'Web',
-        'Desktop': 'Desktop'
+        'Desktop': 'Desktop',
+        'GitHub': 'GitHub'
     };
     return labels[platform] || platform;
 }
@@ -2326,7 +2327,8 @@ function getPlatformIcon(platform) {
         'iOS': '',
         'Android': '𖠌',
         'Web': '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M 1.5 9 A 7.5 3.5 0 0 0 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 3.5 0 0 1 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 2 0 0 0 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 2 0 0 1 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 9 1.5 A 3.5 7.5 0 0 0 9 16.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M 9 1.5 A 3.5 7.5 0 0 1 9 16.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
-        'Desktop': '모'
+        'Desktop': '모',
+        'GitHub': 'ଳ'
     };
     return icons[platform] || '';
 }
@@ -2339,12 +2341,14 @@ function createPlatformBookmark(platform, url) {
     const titleAttr = url ? `title="${url}"` : '';
     const disabledClass = !url ? ' disabled' : '';
     const disabledAttr = !url ? ' aria-disabled="true"' : '';
+    // GitHub bookmarks use inverted colors
+    const invertedClass = platform === 'GitHub' ? ' inverted' : '';
     
     return `<div 
-        class="platform-bookmark${disabledClass}" 
+        class="platform-bookmark${disabledClass}${invertedClass}" 
         data-platform="${platformLower}"
         ${url ? `data-url="${url}"` : ''}
-        aria-label="${label} platform${url ? ` - ${url}` : ' (not available)'}"
+        aria-label="${label}${platform === 'GitHub' ? ' source code' : ' platform'}${url ? ` - ${url}` : ' (not available)'}"
         ${titleAttr}
         role="button"
         ${disabledAttr}
@@ -2743,10 +2747,16 @@ function createProjectCard(project, navigationContext = null) {
     
     // Platform bookmarks above title
     let platformBookmarksHTML = '';
+    // Count total bookmarks (platforms + GitHub if available)
+    const hasGitHub = project.links && project.links.github;
+    const totalBookmarks = platforms.length + (hasGitHub ? 1 : 0);
+    
     if (platforms.length > 0) {
         // Calculate right offset for each bookmark (16px base + 34px spacing per bookmark for wider size)
+        // GitHub is always first from right (rightmost), so platforms start after it
         platforms.forEach((platform, index) => {
-            const rightOffset = 16 + (platforms.length - 1 - index) * 34; // 26px width + 8px spacing
+            // Platforms are positioned after GitHub (if present), so add 34px for GitHub
+            const rightOffset = 16 + (hasGitHub ? 34 : 0) + index * 34; // 26px width + 8px spacing
             // Get URL for this platform
             let platformUrl = null;
             if (project.links) {
@@ -2770,6 +2780,14 @@ function createProjectCard(project, navigationContext = null) {
             const disabledSuffix = platformUrl ? '' : ' disabled';
             platformBookmarksHTML += bookmarkHTML.replace(/class="platform-bookmark[^"]*"/, `class="platform-bookmark${disabledSuffix}" style="right: ${rightOffset}px;"`);
         });
+    }
+    
+    // Add GitHub bookmark if available (inverted colors, always positioned first from right)
+    if (hasGitHub) {
+        const rightOffset = 16; // Always at the rightmost position (base offset)
+        const bookmarkHTML = createPlatformBookmark('GitHub', project.links.github);
+        // The bookmark already has the inverted class from createPlatformBookmark, just add the style
+        platformBookmarksHTML += bookmarkHTML.replace(/class="platform-bookmark[^"]*"/, `class="platform-bookmark inverted" style="right: ${rightOffset}px;"`);
     }
     
     // Project name on its own line (below bookmarks and type label)

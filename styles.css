@@ -1493,6 +1493,73 @@ body {
     }
 }
 
+/* Inverted bookmark styling for GitHub - light theme: black bookmark, white icon */
+.platform-bookmark.inverted .bookmark-fill {
+    background-color: #000000; /* Black fill */
+}
+
+.platform-bookmark.inverted .bookmark-stroke {
+    background-color: #000000; /* Black strokes */
+}
+
+.platform-bookmark.inverted .bookmark-icon {
+    color: #ffffff; /* White icon */
+}
+
+.platform-bookmark.inverted .bookmark-icon svg {
+    color: #ffffff; /* White icon */
+}
+
+/* Inverted bookmark hover state - light theme */
+.platform-bookmark.inverted:hover .bookmark-stroke-hover {
+    background-color: #000000;
+    opacity: 0.8;
+}
+
+/* Inverted bookmark active state - light theme */
+.platform-bookmark.inverted.active .bookmark-stroke-left,
+.platform-bookmark.inverted.active .bookmark-stroke-right {
+    width: 3px;
+    background-color: #000000;
+}
+
+.platform-bookmark.inverted.active .bookmark-stroke-bottom-left,
+.platform-bookmark.inverted.active .bookmark-stroke-bottom-right {
+    height: 3px;
+    background-color: #000000;
+}
+
+/* Inverted bookmark styling for GitHub - dark theme: white bookmark, black icon */
+[data-theme="dark"] .platform-bookmark.inverted .bookmark-fill {
+    background-color: #ffffff; /* White fill */
+}
+
+[data-theme="dark"] .platform-bookmark.inverted .bookmark-stroke {
+    background-color: #ffffff; /* White strokes */
+}
+
+[data-theme="dark"] .platform-bookmark.inverted .bookmark-icon {
+    color: #000000; /* Black icon */
+}
+
+[data-theme="dark"] .platform-bookmark.inverted .bookmark-icon svg {
+    color: #000000; /* Black icon */
+}
+
+[data-theme="dark"] .platform-bookmark.inverted:hover .bookmark-stroke-hover {
+    background-color: #ffffff;
+}
+
+[data-theme="dark"] .platform-bookmark.inverted.active .bookmark-stroke-left,
+[data-theme="dark"] .platform-bookmark.inverted.active .bookmark-stroke-right {
+    background-color: #ffffff;
+}
+
+[data-theme="dark"] .platform-bookmark.inverted.active .bookmark-stroke-bottom-left,
+[data-theme="dark"] .platform-bookmark.inverted.active .bookmark-stroke-bottom-right {
+    background-color: #ffffff;
+}
+
 /* Project type visual differences using patterns */
 .project-type-professional {
     border-left: 2px solid var(--text-secondary);
