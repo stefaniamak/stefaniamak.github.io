@@ -620,7 +620,11 @@ const projectsData = [
         ],
         status: "Not published (development completed)",
         featured: false,
-        links: {}
+        platforms: ["iOS", "Android"],
+        links: {
+            appStore: null,
+            playStore: null
+        }
     },
     {
         id: 22,
