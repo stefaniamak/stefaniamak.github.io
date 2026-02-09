@@ -1213,11 +1213,51 @@ body {
     width: 100%;
 }
 
-@media (max-width: 767px) {
-    .project-name {
-        padding-top: 54px; /* Space for bookmarks (same as desktop) */
-        margin-top: -20px; /* Reduce spacing from type label */
-    }
+/* Golden bookmark for "The Adventures of Pacman" - yellow gold colors */
+/* Light theme - yellow mixed with white (pale gold/cream) */
+.platform-bookmark.golden-bookmark .bookmark-fill {
+    background-color: #fff8a3; /* Yellow mixed with white - pale gold with more yellow */
+}
+
+.platform-bookmark.golden-bookmark .bookmark-stroke {
+    background-color: #c9a574; /* Match icon color - deeper yellow-gold from same family */
+}
+
+.platform-bookmark.golden-bookmark:hover .bookmark-stroke-hover {
+    background-color: #c9a574; /* Deeper yellow-gold for visible hover */
+    opacity: 1;
+}
+
+/* Icon color for light theme - deeper yellow-gold from same family for contrast */
+.platform-bookmark.golden-bookmark .bookmark-icon {
+    color: #c9a574; /* Deeper yellow-gold for good contrast on pale gold */
+}
+
+.platform-bookmark.golden-bookmark .bookmark-icon svg {
+    color: #c9a574;
+}
+
+/* Dark theme - yellow mixed with black/grey (muted bronze gold) */
+[data-theme="dark"] .platform-bookmark.golden-bookmark .bookmark-fill {
+    background-color: #957a55; /* Yellow mixed with grey - muted bronze gold with more yellow */
+}
+
+[data-theme="dark"] .platform-bookmark.golden-bookmark .bookmark-stroke {
+    background-color: #d4af6e; /* Match icon color - lighter yellow-gold from same family */
+}
+
+[data-theme="dark"] .platform-bookmark.golden-bookmark:hover .bookmark-stroke-hover {
+    background-color: #d4af6e; /* Lighter yellow-gold for visible hover */
+    opacity: 1;
+}
+
+/* Icon color for dark theme - lighter yellow-gold from same family for contrast */
+[data-theme="dark"] .platform-bookmark.golden-bookmark .bookmark-icon {
+    color: #d4af6e; /* Lighter yellow-gold for good contrast on muted bronze gold */
+}
+
+[data-theme="dark"] .platform-bookmark.golden-bookmark .bookmark-icon svg {
+    color: #d4af6e;
 }
 
 /* Platform bookmarks above title - Procedural CSS drawing (CustomPainter-style) */

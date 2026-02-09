@@ -2371,6 +2371,11 @@ function createPlatformBookmark(platform, url) {
     </div>`;
 }
 
+// Get article icon for Medium bookmark
+function getBookIcon() {
+    return '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 2.5C3 1.67 3.67 1 4.5 1H13.5C14.33 1 15 1.67 15 2.5V15.5C15 16.33 14.33 17 13.5 17H4.5C3.67 17 3 16.33 3 15.5V2.5Z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M5 5.5H13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M5 8.5H13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M5 11.5H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>';
+}
+
 // Project Filtering (Single-select per category)
 let activeFilters = {
     type: [],
@@ -2792,15 +2797,51 @@ function createProjectCard(project, navigationContext = null) {
         allBookmarks.push({ platform, url: platformUrl });
     });
     
+    // Add golden bookmark for "The Adventures of Pacman" project (rightmost position)
+    if (project.id === 28) {
+        const mediumUrl = project.links && project.links.medium ? project.links.medium : null;
+        allBookmarks.push({ platform: 'Medium', url: mediumUrl, isGolden: true });
+    }
+    
     // Render bookmarks from right to left (rightmost is index 0)
     allBookmarks.forEach((bookmark, index) => {
         const rightOffset = 16 + (allBookmarks.length - 1 - index) * 34; // 26px width + 8px spacing
-        const bookmarkHTML = createPlatformBookmark(bookmark.platform, bookmark.url);
-        // Replace class attribute - GitHub has inverted class, others don't
-        // Add disabled class if no URL
-        const disabledClass = !bookmark.url ? ' disabled' : '';
-        const baseClass = bookmark.platform === 'GitHub' ? `platform-bookmark inverted${disabledClass}` : `platform-bookmark${disabledClass}`;
-        platformBookmarksHTML += bookmarkHTML.replace(/class="platform-bookmark[^"]*"/, `class="${baseClass}" style="right: ${rightOffset}px;"`);
+        let bookmarkHTML;
+        if (bookmark.isGolden) {
+            // Create golden bookmark with book icon
+            const titleAttr = bookmark.url ? `title="${bookmark.url}"` : '';
+            const disabledClass = !bookmark.url ? ' disabled' : '';
+            const disabledAttr = !bookmark.url ? ' aria-disabled="true"' : '';
+            const bookIcon = getBookIcon();
+            bookmarkHTML = `<div 
+                class="platform-bookmark golden-bookmark${disabledClass}" 
+                data-platform="medium"
+                ${bookmark.url ? `data-url="${bookmark.url}"` : ''}
+                aria-label="Medium article${bookmark.url ? ` - ${bookmark.url}` : ' (not available)'}"
+                ${titleAttr}
+                role="button"
+                ${disabledAttr}
+                tabindex="${bookmark.url ? '0' : '-1'}">
+                <span class="bookmark-fill bookmark-fill-top"></span>
+                <span class="bookmark-fill bookmark-fill-left"></span>
+                <span class="bookmark-fill bookmark-fill-right"></span>
+                <span class="bookmark-stroke bookmark-stroke-top"></span>
+                <span class="bookmark-stroke bookmark-stroke-left"></span>
+                <span class="bookmark-stroke bookmark-stroke-right"></span>
+                <span class="bookmark-stroke bookmark-stroke-bottom-left"></span>
+                <span class="bookmark-stroke bookmark-stroke-bottom-right"></span>
+                <span class="bookmark-stroke bookmark-stroke-hover"></span>
+                <span class="bookmark-icon">${bookIcon}</span>
+            </div>`;
+            platformBookmarksHTML += bookmarkHTML.replace(/class="platform-bookmark[^"]*"/, `class="platform-bookmark golden-bookmark${disabledClass}" style="right: ${rightOffset}px;"`);
+        } else {
+            bookmarkHTML = createPlatformBookmark(bookmark.platform, bookmark.url);
+            // Replace class attribute - GitHub has inverted class, others don't
+            // Add disabled class if no URL
+            const disabledClass = !bookmark.url ? ' disabled' : '';
+            const baseClass = bookmark.platform === 'GitHub' ? `platform-bookmark inverted${disabledClass}` : `platform-bookmark${disabledClass}`;
+            platformBookmarksHTML += bookmarkHTML.replace(/class="platform-bookmark[^"]*"/, `class="${baseClass}" style="right: ${rightOffset}px;"`);
+        }
     });
     
     // Project name on its own line (below bookmarks and type label)
@@ -2847,7 +2888,7 @@ function createProjectCard(project, navigationContext = null) {
         }
     });
     
-    // Add click handlers for platform bookmarks
+    // Add click handlers for platform bookmarks (including golden bookmark)
     const bookmarkElements = card.querySelectorAll('.platform-bookmark');
     bookmarkElements.forEach(bookmark => {
         bookmark.addEventListener('click', (e) => {
@@ -4334,6 +4375,7 @@ function handleHashNavigation() {
         }
     }
 }
+
 
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
