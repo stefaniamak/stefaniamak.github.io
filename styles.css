@@ -1301,14 +1301,14 @@ body {
 .bookmark-fill-left {
     top: 0;
     left: 0;
-    width: 13px;
+    width: 13.5px; /* Slightly wider to overlap with right fill and prevent gaps */
     height: 48px;
     clip-path: polygon(1.5px 1.5px, /* Top-left inner corner (inside top and left strokes) */ 1.5px 45px, /* Down along inner edge of left vertical stroke */ 13px 36px, /* Up and right diagonal (to center bottom, following diagonal stroke) */ 13px 1.5px /* Back along inner edge of top stroke to start */);
 }
 
 @media (max-width: 767px) {
     .bookmark-fill-left {
-        width: 13px;
+        width: 13.5px; /* Slightly wider to overlap with right fill and prevent gaps */
         height: 48px;
         clip-path: polygon(1.5px 1.5px, /* Top-left inner corner (inside top and left strokes) */ 1.5px 45px, /* Down along inner edge of left vertical stroke */ 13px 36px, /* Up and right diagonal (to center bottom, following diagonal stroke) */ 13px 1.5px /* Back along inner edge of top stroke to start */);
     }
@@ -1317,22 +1317,23 @@ body {
 /* Right fill - follows path: top-right inner edge → down right vertical inner edge → up-left diagonal → top horizontal inner edge → close */
 .bookmark-fill-right {
     top: 0;
-    left: 13px; /* Start from center, extends to right edge */
-    width: 13px;
+    left: 12.5px; /* Start slightly before center to overlap with left fill and prevent gaps */
+    width: 13.5px; /* Slightly wider to ensure full coverage */
     height: 48px;
-    /* Element coordinate system: x=0 is center (x=13px of bookmark), x=13px is right edge (x=26px of bookmark) */
-    /* Inner edge of right stroke is at x=24.5px of bookmark = x=11.5px of element */
-    clip-path: polygon(11.5px 1.5px, /* Top-right inner corner (inside top and right strokes) */ 11.5px 45px, /* Down along inner edge of right vertical stroke */ 0 36px, /* Up and left diagonal (to center bottom, following diagonal stroke) */ 0 1.5px /* Back along inner edge of top stroke to start (center top) */);
+    /* Element coordinate system: x=0 is at 12.5px of bookmark, x=13.5px is right edge (x=26px of bookmark) */
+    /* Inner edge of right stroke is at x=24.5px of bookmark = x=12px of element */
+    /* Center of bookmark is at x=13px = x=0.5px of element */
+    clip-path: polygon(12px 1.5px, /* Top-right inner corner (inside top and right strokes) */ 12px 45px, /* Down along inner edge of right vertical stroke */ 0px 36px, /* Up and left diagonal (to center bottom, following diagonal stroke) - at center (0.5px) but using 0px for overlap */ 0px 1.5px /* Back along inner edge of top stroke to start (center top) - at center for overlap */);
 }
 
 @media (max-width: 767px) {
     .bookmark-fill-right {
-        left: 13px; /* Same as desktop */
-        width: 13px;
+        left: 12.5px; /* Start slightly before center to overlap with left fill and prevent gaps */
+        width: 13.5px; /* Slightly wider to ensure full coverage */
         height: 48px;
-        /* Element coordinate system: x=0 is center (x=13px of bookmark), x=13px is right edge (x=26px of bookmark) */
-        /* Inner edge of right stroke is at x=24.5px of bookmark = x=11.5px of element */
-        clip-path: polygon(11.5px 1.5px, /* Top-right inner corner (inside top and right strokes) */ 11.5px 45px, /* Down along inner edge of right vertical stroke */ 0 36px, /* Up and left diagonal (to center bottom, following diagonal stroke) */ 0 1.5px /* Back along inner edge of top stroke to start (center top) */);
+        /* Element coordinate system: x=0 is center (x=12.5px of bookmark), x=13.5px is right edge (x=26px of bookmark) */
+        /* Inner edge of right stroke is at x=24.5px of bookmark = x=12px of element */
+        clip-path: polygon(12px 1.5px, /* Top-right inner corner (inside top and right strokes) */ 12px 45px, /* Down along inner edge of right vertical stroke */ -0.5px 36px, /* Up and left diagonal (to center bottom, following diagonal stroke) - negative to account for overlap */ -0.5px 1.5px /* Back along inner edge of top stroke to start (center top) - negative to account for overlap */);
     }
 }
 
