@@ -1303,14 +1303,14 @@ body {
     left: 0;
     width: 13.5px; /* Slightly wider to overlap with right fill and prevent gaps */
     height: 48px;
-    clip-path: polygon(1.5px 1.5px, /* Top-left inner corner (inside top and left strokes) */ 1.5px 45px, /* Down along inner edge of left vertical stroke */ 13px 36px, /* Up and right diagonal (to center bottom, following diagonal stroke) */ 13px 1.5px /* Back along inner edge of top stroke to start */);
+    clip-path: polygon(0.5px 0.5px, /* Top-left inner corner - extend into stroke area to prevent gaps */ 0.5px 45.5px, /* Down along inner edge of left vertical stroke - extend slightly */ 13px 36px, /* Up and right diagonal (to center bottom, following diagonal stroke) */ 13px 0.5px /* Back along inner edge of top stroke - extend into stroke area */);
 }
 
 @media (max-width: 767px) {
     .bookmark-fill-left {
         width: 13.5px; /* Slightly wider to overlap with right fill and prevent gaps */
         height: 48px;
-        clip-path: polygon(1.5px 1.5px, /* Top-left inner corner (inside top and left strokes) */ 1.5px 45px, /* Down along inner edge of left vertical stroke */ 13px 36px, /* Up and right diagonal (to center bottom, following diagonal stroke) */ 13px 1.5px /* Back along inner edge of top stroke to start */);
+        clip-path: polygon(0.5px 0.5px, /* Top-left inner corner - extend into stroke area to prevent gaps */ 0.5px 45.5px, /* Down along inner edge of left vertical stroke - extend slightly */ 13px 36px, /* Up and right diagonal (to center bottom, following diagonal stroke) */ 13px 0.5px /* Back along inner edge of top stroke - extend into stroke area */);
     }
 }
 
@@ -1323,7 +1323,7 @@ body {
     /* Element coordinate system: x=0 is at 12.5px of bookmark, x=13.5px is right edge (x=26px of bookmark) */
     /* Inner edge of right stroke is at x=24.5px of bookmark = x=12px of element */
     /* Center of bookmark is at x=13px = x=0.5px of element */
-    clip-path: polygon(12px 1.5px, /* Top-right inner corner (inside top and right strokes) */ 12px 45px, /* Down along inner edge of right vertical stroke */ 0px 36px, /* Up and left diagonal (to center bottom, following diagonal stroke) - at center (0.5px) but using 0px for overlap */ 0px 1.5px /* Back along inner edge of top stroke to start (center top) - at center for overlap */);
+    clip-path: polygon(12.5px 0.5px, /* Top-right inner corner - extend into stroke area to prevent gaps */ 12.5px 45.5px, /* Down along inner edge of right vertical stroke - extend slightly */ 0px 36px, /* Up and left diagonal (to center bottom, following diagonal stroke) - at center for overlap */ 0px 0.5px /* Back along inner edge of top stroke - extend into stroke area */);
 }
 
 @media (max-width: 767px) {
@@ -1331,9 +1331,9 @@ body {
         left: 12.5px; /* Start slightly before center to overlap with left fill and prevent gaps */
         width: 13.5px; /* Slightly wider to ensure full coverage */
         height: 48px;
-        /* Element coordinate system: x=0 is center (x=12.5px of bookmark), x=13.5px is right edge (x=26px of bookmark) */
+        /* Element coordinate system: x=0 is at 12.5px of bookmark, x=13.5px is right edge (x=26px of bookmark) */
         /* Inner edge of right stroke is at x=24.5px of bookmark = x=12px of element */
-        clip-path: polygon(12px 1.5px, /* Top-right inner corner (inside top and right strokes) */ 12px 45px, /* Down along inner edge of right vertical stroke */ -0.5px 36px, /* Up and left diagonal (to center bottom, following diagonal stroke) - negative to account for overlap */ -0.5px 1.5px /* Back along inner edge of top stroke to start (center top) - negative to account for overlap */);
+        clip-path: polygon(12.5px 0.5px, /* Top-right inner corner - extend into stroke area to prevent gaps */ 12.5px 45.5px, /* Down along inner edge of right vertical stroke - extend slightly */ 0px 36px, /* Up and left diagonal (to center bottom, following diagonal stroke) - at center for overlap */ 0px 0.5px /* Back along inner edge of top stroke - extend into stroke area */);
     }
 }
 
