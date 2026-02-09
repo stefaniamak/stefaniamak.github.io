@@ -1290,11 +1290,130 @@ const footerLinksData = [
 
 // Theme Management
 const themeOrder = ['system', 'light', 'dark'];
-const themeIcons = {
-    'system': '☯︎',
-    'light': '☀︎',
-    'dark': '⏾'
-};
+
+// Function to create SVG icon elements
+function createThemeIcon(theme) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '100%');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.style.display = 'block';
+    
+    // Dark theme uses fill, so we'll override stroke for that icon
+    if (theme === 'dark') {
+        svg.setAttribute('fill', 'currentColor');
+        svg.setAttribute('stroke', 'none');
+    }
+    
+    if (theme === 'system') {
+        // Half sun, half moon with dividing line for system/auto theme
+        const centerX = 12;
+        const centerY = 12;
+        
+        // Left half - Sun (clipped to left side)
+        const sunGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        const sunClip = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
+        sunClip.setAttribute('id', 'sun-clip');
+        const clipRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        clipRect.setAttribute('x', '0');
+        clipRect.setAttribute('y', '0');
+        clipRect.setAttribute('width', '12');
+        clipRect.setAttribute('height', '24');
+        sunClip.appendChild(clipRect);
+        svg.appendChild(sunClip);
+        sunGroup.setAttribute('clip-path', 'url(#sun-clip)');
+        
+        // Sun circle
+        const sunCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        sunCircle.setAttribute('cx', centerX);
+        sunCircle.setAttribute('cy', centerY);
+        sunCircle.setAttribute('r', '5');
+        sunGroup.appendChild(sunCircle);
+        
+        // Sun rays (only left side will be visible)
+        for (let i = 0; i < 8; i++) {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            const angle = (i * Math.PI) / 4;
+            const x1 = centerX + Math.cos(angle) * 7;
+            const y1 = centerY + Math.sin(angle) * 7;
+            const x2 = centerX + Math.cos(angle) * 9;
+            const y2 = centerY + Math.sin(angle) * 9;
+            line.setAttribute('x1', x1);
+            line.setAttribute('y1', y1);
+            line.setAttribute('x2', x2);
+            line.setAttribute('y2', y2);
+            sunGroup.appendChild(line);
+        }
+        svg.appendChild(sunGroup);
+        
+        // Vertical dividing line
+        const divider = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        divider.setAttribute('x1', '12');
+        divider.setAttribute('y1', '2');
+        divider.setAttribute('x2', '12');
+        divider.setAttribute('y2', '22');
+        divider.setAttribute('stroke-width', '1.5');
+        svg.appendChild(divider);
+        
+        // Right half - Moon (clipped to right side)
+        const moonGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        const moonClip = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
+        moonClip.setAttribute('id', 'moon-clip');
+        const moonClipRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        moonClipRect.setAttribute('x', '12');
+        moonClipRect.setAttribute('y', '0');
+        moonClipRect.setAttribute('width', '12');
+        moonClipRect.setAttribute('height', '24');
+        moonClip.appendChild(moonClipRect);
+        svg.appendChild(moonClip);
+        moonGroup.setAttribute('clip-path', 'url(#moon-clip)');
+        
+        // Moon path (filled) - optimized for right half visibility
+        const moonPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        // Moon positioned in right half with crescent opening visible, better proportioned
+        moonPath.setAttribute('d', 'M19 12.5A6.5 6.5 0 1 1 12.5 6a5 5 0 0 0 6.5 6.5z');
+        moonPath.setAttribute('fill', 'currentColor');
+        moonPath.setAttribute('stroke', 'none');
+        moonGroup.appendChild(moonPath);
+        svg.appendChild(moonGroup);
+    } else if (theme === 'light') {
+        // Sun icon for light theme
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', '12');
+        circle.setAttribute('cy', '12');
+        circle.setAttribute('r', '5');
+        svg.appendChild(circle);
+        
+        // Sun rays
+        for (let i = 0; i < 8; i++) {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            const angle = (i * Math.PI) / 4;
+            const x1 = 12 + Math.cos(angle) * 7;
+            const y1 = 12 + Math.sin(angle) * 7;
+            const x2 = 12 + Math.cos(angle) * 9;
+            const y2 = 12 + Math.sin(angle) * 9;
+            line.setAttribute('x1', x1);
+            line.setAttribute('y1', y1);
+            line.setAttribute('x2', x2);
+            line.setAttribute('y2', y2);
+            svg.appendChild(line);
+        }
+    } else if (theme === 'dark') {
+        // Moon icon for dark theme - slimmer and filled
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M20.5 12.5A7.5 7.5 0 1 1 12 5a5.5 5.5 0 0 0 8.5 7.5z');
+        path.setAttribute('fill', 'currentColor');
+        path.setAttribute('stroke', 'none');
+        svg.appendChild(path);
+    }
+    
+    return svg;
+}
 
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'system';
@@ -1331,14 +1450,16 @@ function updateThemeIcon(theme, skipTransition = false) {
     if (themeIcon) {
         if (skipTransition) {
             // Set icon immediately without transition (for initial load)
-            themeIcon.textContent = themeIcons[theme];
+            themeIcon.innerHTML = '';
+            themeIcon.appendChild(createThemeIcon(theme));
         } else {
             // Fade out
             themeIcon.classList.add('fade-out');
             
             // Change icon after fade out
             setTimeout(() => {
-                themeIcon.textContent = themeIcons[theme];
+                themeIcon.innerHTML = '';
+                themeIcon.appendChild(createThemeIcon(theme));
                 // Fade in
                 themeIcon.classList.remove('fade-out');
             }, 150); // Half of transition duration
