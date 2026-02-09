@@ -2450,7 +2450,7 @@ function getPlatformLabel(platform) {
 // Get platform icon
 function getPlatformIcon(platform) {
     const icons = {
-        'iOS': '',
+        'iOS': '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>',
         'Android': '𖠌',
         'Web': '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M 1.5 9 A 7.5 3.5 0 0 0 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 3.5 0 0 1 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 2 0 0 0 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 1.5 9 A 7.5 2 0 0 1 16.5 9" stroke="currentColor" stroke-width="1" fill="none"/><path d="M 9 1.5 A 3.5 7.5 0 0 0 9 16.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M 9 1.5 A 3.5 7.5 0 0 1 9 16.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
         'Desktop': '모',
