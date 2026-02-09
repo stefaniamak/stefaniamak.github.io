@@ -2770,8 +2770,10 @@ body {
 /* Company Projects List */
 .company-projects-container {
     margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border-color);
+    padding: 24px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
 }
 
 .company-projects-title {
@@ -2885,7 +2887,7 @@ body {
 @media (max-width: 767px) {
     .company-projects-container {
         margin-top: 24px;
-        padding-top: 20px;
+        padding: 20px;
     }
     
     .company-projects-title {
