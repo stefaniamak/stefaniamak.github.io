@@ -771,7 +771,7 @@ const projectsData = [
         type: ["professional", "academic"],
         role: ["Software Engineer", "Designer"],
         teamSize: null,
-        techStack: ["Java", "GitHub", "Delta and Override asset systems"],
+        techStack: ["Java", "GitHub"],
         highlights: [
             "Successfully completed the Google Summer of Code 2020 program",
             "Designed a poker-card-inspired dialogue box theme for LAS",
@@ -786,7 +786,7 @@ const projectsData = [
             "Dialogue box system with improved readability",
             "Interactive blueprint previews for construction workflows"
         ],
-        contribution: "Redesigned HUD layout and information hierarchy for the LAS game mode. Improved the Task Selection Screen for the MOO module. Implemented code-level improvements to support new visual assets. Updated internal documentation regarding Delta and Override asset systems. Managed 51 pull requests and 9 GitHub issues during the program.",
+        contribution: "Redesigned HUD layout and information hierarchy for the LAS game mode. Improved the Task Selection Screen for the MOO module. Implemented code-level improvements to support new visual assets. Managed 51 pull requests and 9 GitHub issues during the program.",
         featured: false,
         links: {
             gist: "https://gist.github.com/stefaniamak/44ae4cb491d0bec61e77ab7cb513c721"
